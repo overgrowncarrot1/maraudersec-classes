@@ -102,7 +102,7 @@
 
 .terminal {
   background-color: #1b1b1b;
-  color: #33cc33;
+  color: #33cc33;  /* Green text for terminal */
   padding: 20px;
   font-family: "Courier New", monospace;
   font-size: 16px;
