@@ -1,3 +1,4 @@
+/* General Body Style */
 body {
     background-color: #0d0d0d;
     color: #33ff33;
@@ -45,7 +46,6 @@ body {
     list-style: none;
     padding-left: 15px;
     display: none;
-    transition: all 0.3s ease-in-out;
 }
 
 .submenu li {
@@ -61,8 +61,6 @@ body {
     flex-grow: 1;
     padding: 20px;
     background: #1a1a1a;
-    display: flex;
-    flex-direction: column; /* Ensure that content is stacked vertically */
 }
 
 .navigation-buttons {
@@ -82,9 +80,14 @@ button:hover {
     background: #cc0000;
 }
 
-button:disabled {
-    background: #555;
-    cursor: not-allowed;
+/* Inline terminal container for module content */
+.inline-terminal-container {
+    display: inline-block;
+    max-width: 80%; /* Adjust as needed */
+    margin-right: 10px; /* Space between inline terminal and other content */
+    background-color: #111;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 /* Terminal-style code block */
@@ -104,30 +107,9 @@ button:disabled {
     color: #33cc33; /* Green for completed checkmarks */
 }
 
-/* Inline terminal styling */
-.terminal.inline {
-    display: inline-block;
-    max-width: 80%; /* Adjust as needed */
-    margin-right: 10px; /* Space between inline terminal and other content */
-}
-
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .content {
-        padding: 15px;
-    }
-
-    .terminal {
-        font-size: 16px;
-        margin-top: 15px;
+    .inline-terminal-container {
+        width: 100%; /* Full width on smaller screens */
     }
 }
