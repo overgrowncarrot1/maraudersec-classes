@@ -83,11 +83,18 @@ button:hover {
 /* Inline terminal container for module content */
 .inline-terminal-container {
     display: inline-block;
-    max-width: 80%; /* Adjust as needed */
-    margin-right: 10px; /* Space between inline terminal and other content */
+    width: auto; /* Allow the terminal to shrink or expand based on content */
+    margin-top: 20px;
     background-color: #111;
     padding: 10px;
     border-radius: 5px;
+    color: #33ff33;
+    font-size: 14px;
+    max-width: 100%; /* Make sure it doesn't exceed the width of its parent */
+}
+
+.inline-terminal-container pre {
+    margin: 0;
 }
 
 /* Terminal-style code block */
