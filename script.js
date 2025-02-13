@@ -47,8 +47,24 @@ function nextModule() {
     } else {
         // If it's the last module in the current section, move to the next section (Tab)
         alert("You're at the last module in this section. Moving to the next section.");
-        // You can implement a mechanism to load the next section here (like switching tabs).
+        // Implement tab switch functionality here
     }
+}
+
+function completeModule() {
+    const currentModuleName = modules["Enumeration"][currentModule];
+    const moduleItem = document.querySelector(`.module-list .submenu li:contains(${currentModuleName})`);
+    
+    // Add the green checkmark (complete status) next to the module name
+    if (moduleItem) {
+        const checkmark = document.createElement("span");
+        checkmark.textContent = "✔️";
+        checkmark.style.color = "green";
+        moduleItem.appendChild(checkmark);
+    }
+
+    // Optionally, you can change the button state or behavior once the module is marked as completed
+    alert(`Module ${currentModuleName} marked as complete!`);
 }
 
 function login() {
