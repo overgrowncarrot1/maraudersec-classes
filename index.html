@@ -13,10 +13,12 @@
             display: flex;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .container {
             display: flex;
             width: 100%;
+            display: none; /* Hide content until logged in */
         }
         .sidebar {
             width: 250px;
@@ -73,9 +75,62 @@
         button:hover {
             background: #cc0000;
         }
+        /* Login screen styles */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0d0d0d;
+        }
+        .login-container, .create-container {
+            background: #222;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        .login-container input, .create-container input {
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            background: #333;
+            color: #33ff33;
+            border: 1px solid #ff3333;
+            font-family: monospace;
+        }
+        .login-container button, .create-container button {
+            width: 100%;
+            background: #ff3333;
+        }
+        .create-account-link {
+            color: #33ff33;
+            cursor: pointer;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <!-- Login screen -->
+    <div id="login-screen" class="login-screen">
+        <div id="login-container" class="login-container">
+            <h2>Login to MarauderSec</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <span class="create-account-link" onclick="showCreateAccount()">Create a new account</span></p>
+        </div>
+
+        <!-- Create new user form -->
+        <div id="create-container" class="create-container" style="display: none;">
+            <h2>Create New Account</h2>
+            <input type="text" id="new-username" placeholder="New Username" required>
+            <input type="password" id="new-password" placeholder="New Password" required>
+            <button onclick="createAccount()">Create Account</button>
+            <p>Already have an account? <span class="create-account-link" onclick="showLogin()">Login</span></p>
+        </div>
+    </div>
+
     <div class="container">
         <aside class="sidebar">
             <h2>Modules</h2>
@@ -101,19 +156,62 @@
             </div>
         </main>
     </div>
+
     <script>
         function toggleMenu(element) {
             let submenu = element.nextElementSibling;
             submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
+
         function loadModule(module) {
             document.getElementById("module-content").innerHTML = `<h2>${module} Module</h2><p>Content for ${module} goes here.</p>`;
         }
+
         function prevModule() {
             alert("Previous module functionality coming soon!");
         }
+
         function nextModule() {
             alert("Next module functionality coming soon!");
+        }
+
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Check if user exists in localStorage
+            const storedUser = localStorage.getItem(username);
+            if (storedUser && storedUser === password) {
+                // Hide the login screen and show the content
+                document.getElementById("login-screen").style.display = "none";
+                document.querySelector(".container").style.display = "flex";
+            } else {
+                alert("Invalid username or password!");
+            }
+        }
+
+        function createAccount() {
+            const newUsername = document.getElementById("new-username").value;
+            const newPassword = document.getElementById("new-password").value;
+
+            // Store new user in localStorage
+            if (newUsername && newPassword) {
+                localStorage.setItem(newUsername, newPassword);
+                alert("Account created successfully! You can now log in.");
+                showLogin();
+            } else {
+                alert("Please fill in both fields.");
+            }
+        }
+
+        function showCreateAccount() {
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("create-container").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("create-container").style.display = "none";
+            document.getElementById("login-container").style.display = "block";
         }
     </script>
 </body>
