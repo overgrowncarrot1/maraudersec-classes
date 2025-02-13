@@ -5,6 +5,11 @@ body {
     color: #00FF00; /* Green text */
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Container for aligning content */
@@ -12,21 +17,45 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Aligns items to the left */
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     max-width: 1200px; /* Adjust for larger screens */
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 /* Style for text content */
 .text {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
     color: #00FF00;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-/* Simulated Kali Linux Terminal Style */
+/* Flexbox style for module buttons and sub-modules */
+.module-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.module-button {
+    background-color: #d60000;
+    color: white;
+    padding: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.module-button:hover {
+    background-color: #ff3d3d;
+}
+
+/* Terminal Styling */
 .terminal {
     background-color: #2e2e2e; /* Dark Grey */
     color: #00FF00; /* Green Text */
@@ -60,10 +89,9 @@ body {
     padding: 5px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 16px;
-    border-radius: 3px;
 }
 
-/* Input Fields */
+/* Form Styling */
 .input-form {
     display: flex;
     flex-direction: column;
