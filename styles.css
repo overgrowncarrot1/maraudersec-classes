@@ -1,11 +1,55 @@
-@font-face {
-  font-family: "marauder-icons";
-  font-display: block;
-  src: url("marauder-icons.eot?868a651e2bef4d0ff689085fd1480378?#iefix") format("embedded-opentype"),
-       url("marauder-icons.woff2?868a651e2bef4d0ff689085fd1480378") format("woff2"),
-       url("marauder-icons.woff?868a651e2bef4d0ff689085fd1480378") format("woff");
+/* General Container Layout */
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #1b1b1b;  /* Dark background for hacker theme */
 }
 
+.modules {
+  width: 200px;
+  background-color: #333;
+  padding: 20px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.module {
+  padding: 12px;
+  background-color: #444;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.module:hover {
+  background-color: #555;
+}
+
+.module span {
+  margin-right: 10px;
+}
+
+.module-info {
+  flex: 1;
+  padding: 20px;
+  color: white;
+  background-color: #2a2a2a;
+  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
+}
+
+.module-info h2 {
+  font-family: "Courier New", monospace;
+  color: #33cc33;
+}
+
+.module-info p {
+  font-family: "Courier New", monospace;
+  color: #f3f3f3;
+  white-space: pre-wrap;
+}
+
+/* Icons Styling */
 .marauder-icon {
   display: inline-block;
   speak: none;
@@ -14,8 +58,6 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-
-  /* Improved Font Rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -27,85 +69,12 @@
   vertical-align: top;
 }
 
-/* Example Icons */
 .marauder-icon-gear:before {
-  content: "\f126";  /* Replace with Marauder's specific icon */
-}
-.marauder-icon-folder:before {
-  content: "\f144";  /* Customize to match MarauderSec */
+  content: "\f126";  /* Gear icon */
 }
 .marauder-icon-lock:before {
-  content: "\f152";  /* Replace with relevant icon for security features */
+  content: "\f152";  /* Lock icon */
 }
 .marauder-icon-shield:before {
-  content: "\f169";  /* Use for 'protection' or 'secure' actions */
-}
-
-/* Buttons & Icons */
-button {
-  background-color: #333;  /* Dark gray for buttons */
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 12px;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #444;  /* Slightly lighter gray when hovered */
-}
-
-button:active {
-  background-color: #555;  /* Even lighter when pressed */
-}
-
-/* Terminal Styling */
-.terminal {
-  font-family: "Courier New", monospace;
-  background-color: #2a2a2a;
-  color: #33cc33;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
-}
-
-.terminal-header {
-  background-color: #e50000;
-  padding: 10px;
-  text-align: left;
-  color: white;
-  font-weight: bold;
-}
-
-.terminal-footer {
-  color: #f3f3f3;
-  text-align: left;  /* Align to the left */
-  margin-top: 20px;
-}
-
-/* Align buttons properly */
-.terminal-btns {
-  display: flex;
-  justify-content: flex-end;  /* Aligns buttons to the right */
-  gap: 5px;  /* Space between buttons */
-}
-
-.terminal-btn {
-  background-color: #555;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-}
-
-.terminal-btn-close {
-  background-color: #e50000;
-}
-
-.terminal-btn-minimize {
-  background-color: #f0ad4e;
-}
-
-.terminal-btn-maximize {
-  background-color: #5bc0de;
+  content: "\f169";  /* Shield icon */
 }
