@@ -78,3 +78,36 @@ button {
 button:hover {
     background: #cc0000;
 }
+
+/* Terminal Background */
+.terminal {
+    background-color: #000;  /* Set to black */
+    color: #33FF33;          /* Green text color */
+    font-family: monospace;   /* Monospace font */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;      /* Allow scrolling if content is long */
+    white-space: pre-wrap;   /* Preserve whitespace formatting */
+    word-wrap: break-word;   /* Prevent word overflow */
+}
+
+/* Style for code block inside terminal */
+pre {
+    margin: 0;  /* Remove default margin */
+    white-space: pre-wrap; /* Ensures that long lines will wrap */
+    word-wrap: break-word; /* Break long words to fit */
+}
+
+/* Make sure the code block looks like a terminal output */
+code {
+    display: block;
+    background: #000;
+    color: #33FF33;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #33FF33;
+}
