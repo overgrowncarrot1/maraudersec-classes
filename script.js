@@ -14,45 +14,25 @@ function loadModule(module) {
     updateNavigation();
 }
 
-function prevModule() {
-    let currentModule = getCurrentModule();
-    let previousModule = getPreviousModule(currentModule);
-    if (previousModule) {
-        loadModule(previousModule);
-    } else {
-        alert("No previous module available.");
-    }
-}
-
-function nextModule() {
-    let currentModule = getCurrentModule();
-    let nextModule = getNextModule(currentModule);
-    if (nextModule) {
-        loadModule(nextModule);
-    } else {
-        alert("No next module available.");
-    }
-}
-
 function completeModule() {
     let moduleTitle = document.querySelector("#module-content h2").textContent;
     if (moduleTitle) {
         alert(`Module ${moduleTitle} marked as complete.`);
-        addCheckmark(moduleTitle);
+        addStrikethrough(moduleTitle);
 
+        // Check if all submodules are completed for the parent module
         if (allSubmodulesCompleted(moduleTitle)) {
-            addCheckmark(getParentModule(moduleTitle));
+            addStrikethrough(getParentModule(moduleTitle));
         }
     }
 }
 
-function addCheckmark(module) {
+function addStrikethrough(module) {
     const moduleList = document.querySelectorAll(".module-list .module-title");
     moduleList.forEach(item => {
         if (item.textContent === module) {
-            let checkmark = document.createElement("span");
-            checkmark.innerHTML = " &#x2714;";
-            item.appendChild(checkmark);
+            item.style.textDecoration = "line-through";
+            item.style.color = "red"; // Red color for the strikethrough
         }
     });
 }
@@ -79,22 +59,6 @@ function getParentModule(submodule) {
         "finding_users": "Enumeration"
     };
     return submodules[submodule];
-}
-
-function getCurrentModule() {
-    return document.querySelector("#module-content h2") ? document.querySelector("#module-content h2").textContent.split(" ")[0] : "";
-}
-
-function getPreviousModule(currentModule) {
-    let modules = ["nmap", "nse", "rustscan", "finding_users"];
-    let index = modules.indexOf(currentModule);
-    return index > 0 ? modules[index - 1] : null;
-}
-
-function getNextModule(currentModule) {
-    let modules = ["nmap", "nse", "rustscan", "finding_users"];
-    let index = modules.indexOf(currentModule);
-    return index < modules.length - 1 ? modules[index + 1] : null;
 }
 
 function login() {
@@ -136,24 +100,8 @@ function loadProgress() {
 
 function updateNavigation() {
     let currentModule = getCurrentModule();
-    let prevBtn = document.getElementById("prev-btn");
-    let nextBtn = document.getElementById("next-btn");
-
-    prevBtn.disabled = !getPreviousModule(currentModule);
-    nextBtn.disabled = !getNextModule(currentModule);
 }
 
-function copyToClipboard(elementId) {
-    var copyText = document.getElementById(elementId);
-    var range = document.createRange();
-    range.selectNode(copyText);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    try {
-        var successful = document.execCommand('copy');
-        console.log('Copy command was ' + (successful ? 'successful' : 'unsuccessful'));
-    } catch (err) {
-        console.error('Oops, unable to copy', err);
-    }
-    window.getSelection().removeAllRanges();
+function getCurrentModule() {
+    return document.querySelector("#module-content h2") ? document.querySelector("#module-content h2").textContent.split(" ")[0] : "";
 }
