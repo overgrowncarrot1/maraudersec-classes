@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkLogin();
     loadProgress();
+    initHamburgerMenu();
 });
 
 // Toggle the dropdown menu visibility when clicking on parent modules
@@ -122,4 +123,14 @@ function loadProgress() {
             addCheckmark(module);
         });
     }
+}
+
+// Initialize the hamburger menu to show/hide the sidebar
+function initHamburgerMenu() {
+    let hamburger = document.getElementById("hamburger-menu");
+    let sidebar = document.querySelector(".sidebar");
+
+    hamburger.addEventListener("click", function () {
+        sidebar.classList.toggle("hide");
+    });
 }
