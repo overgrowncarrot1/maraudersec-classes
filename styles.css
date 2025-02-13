@@ -71,6 +71,7 @@
   flex-grow: 1;
   background-color: #2a2a2a;
   overflow-y: auto;
+  color: #33cc33;
 }
 
 .content h1 {
@@ -113,7 +114,7 @@
 
 .navigation-buttons {
   margin-top: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 button {
@@ -157,27 +158,6 @@ button:disabled {
   display: block;
 }
 
-/* Center module content (main content area) */
-.module-info {
-  flex-grow: 1;
-  padding: 20px;
-  color: white;
-  background-color: #2a2a2a;
-  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
-}
-
-.module-info h2 {
-  font-family: "Courier New", monospace;
-  color: #33cc33;
-}
-
-.module-info p {
-  font-family: "Courier New", monospace;
-  color: #f3f3f3;
-  white-space: pre-wrap;
-  line-height: 1.6;
-}
-
 /* Ensuring the body background is black and the border issue is removed */
 body {
   margin: 0;
@@ -189,4 +169,27 @@ body {
 .completed {
   text-decoration: line-through;
   color: red !important;
+}
+
+/* Sidebar padding and spacing fix */
+.sidebar {
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.module-list li {
+  margin-bottom: 15px;
+}
+
+/* Fixing the "Complete Module" button position */
+.navigation-buttons {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Prevent the sidebar from overlapping content */
+.content {
+  margin-left: 270px;
+  padding: 20px;
+  flex-grow: 1;
 }
