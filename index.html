@@ -12,19 +12,60 @@
         <aside class="sidebar">
             <h2>Modules</h2>
             <ul class="module-list">
+                <!-- Kerberos Parent Module -->
                 <li class="dropdown">
                     <span class="module-title" onclick="toggleMenu(this)">Kerberos</span>
                     <ul class="submenu">
                         <li onclick="loadModule('AsRepRoasting')">AsRepRoasting</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('AsRepRoastingLinux')">Linux</li>
+                            <li onclick="loadModule('AsRepRoastingPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('Kerberaosting')">Kerberaosting</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('KerberaostingLinux')">Linux</li>
+                            <li onclick="loadModule('KerberaostingPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('UnconstrainedDelegation')">Unconstrained Delegation</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('UnconstrainedDelegationLinux')">Linux</li>
+                            <li onclick="loadModule('UnconstrainedDelegationPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('ConstrainedDelegation')">Constrained Delegation</li>
-                        <li onclick="loadModule('RescourceBasedConstrainedDelegation')">Rescource-Based Constrained Delegation</li>                     
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('ConstrainedDelegationLinux')">Linux</li>
+                            <li onclick="loadModule('ConstrainedDelegationPowershell')">Powershell</li>
+                        </ul>
+                        <li onclick="loadModule('RescourceBasedConstrainedDelegation')">Rescource-Based Constrained Delegation</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('RescourceBasedConstrainedDelegationLinux')">Linux</li>
+                            <li onclick="loadModule('RescourceBasedConstrainedDelegationPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('AlternateServices')">Alternate Services</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('AlternateServicesLinux')">Linux</li>
+                            <li onclick="loadModule('AlternateServicesPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('Relay')">Relay (ntlmrelayx)</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('RelayLinux')">Linux</li>
+                            <li onclick="loadModule('RelayPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('SilverTicket')">Silver Ticket</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('SilverTicketLinux')">Linux</li>
+                            <li onclick="loadModule('SilverTicketPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('GoldenTicket')">Golden Ticket</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('GoldenTicketLinux')">Linux</li>
+                            <li onclick="loadModule('GoldenTicketPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('Passtheticket')">Pass-the-ticket (PTT)</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('PasstheticketLinux')">Linux</li>
+                            <li onclick="loadModule('PasstheticketPowershell')">Powershell</li>
+                        </ul>
                     </ul>
                 </li>
                 <!-- DACL Attacks Parent Module -->
@@ -32,14 +73,50 @@
                     <span class="module-title" onclick="toggleMenu(this)">DACL Attacks</span>
                     <ul class="submenu">
                         <li onclick="loadModule('ForceChangePassword')">Force Change Password</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('ForceChangePasswordLinux')">Linux</li>
+                            <li onclick="loadModule('ForceChangePasswordPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('WriteSPNTargetedKerberoasting')">Write SPN Targeted Kerberoasting</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('WriteSPNTargetedKerberoastingLinux')">Linux</li>
+                            <li onclick="loadModule('WriteSPNTargetedKerberoastingPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('AddMembers')">Add Members</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('AddMembersLinux')">Linux</li>
+                            <li onclick="loadModule('AddMembersPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('ReadLAPSPassword')">Read LAPS Password</li>
-                        <li onclick="loadModule('ReadGMSAPassword')">Read GMSA Password</li>                     
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('ReadLAPSPasswordLinux')">Linux</li>
+                            <li onclick="loadModule('ReadLAPSPasswordPowershell')">Powershell</li>
+                        </ul>
+                        <li onclick="loadModule('ReadGMSAPassword')">Read GMSA Password</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('ReadGMSAPasswordLinux')">Linux</li>
+                            <li onclick="loadModule('ReadGMSAPasswordPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('GenericAll')">Generic All</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('GenericAllLinux')">Linux</li>
+                            <li onclick="loadModule('GenericAllPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('AddKeyCredentialLink')">Add Key Credential Link</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('AddKeyCredentialLinkLinux')">Linux</li>
+                            <li onclick="loadModule('AddKeyCredentialLinkPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('WriteSPN')">Write SPN</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('WriteSPNLinux')">Linux</li>
+                            <li onclick="loadModule('WriteSPNPowershell')">Powershell</li>
+                        </ul>
                         <li onclick="loadModule('LogonScripts')">Logon Scripts</li>
+                        <ul class="sub-submenu">
+                            <li onclick="loadModule('LogonScriptsLinux')">Linux</li>
+                            <li onclick="loadModule('LogonScriptsPowershell')">Powershell</li>
+                        </ul>
                     </ul>
                 </li>
             </ul>
