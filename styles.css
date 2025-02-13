@@ -45,6 +45,7 @@ body {
     list-style: none;
     padding-left: 15px;
     display: none;
+    transition: all 0.3s ease-in-out;
 }
 
 .submenu li {
@@ -60,6 +61,8 @@ body {
     flex-grow: 1;
     padding: 20px;
     background: #1a1a1a;
+    display: flex;
+    flex-direction: column; /* Ensure that content is stacked vertically */
 }
 
 .navigation-buttons {
@@ -79,6 +82,11 @@ button:hover {
     background: #cc0000;
 }
 
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
 /* Terminal-style code block */
 .terminal {
     background-color: #111;
@@ -88,9 +96,38 @@ button:hover {
     border-radius: 5px;
     font-size: 14px;
     overflow-x: auto;
+    width: 100%; /* Ensure it takes up the full width available in its parent */
 }
 
 /* Checkmark styling */
 .module-title span {
     color: #33cc33; /* Green for completed checkmarks */
+}
+
+/* Inline terminal styling */
+.terminal.inline {
+    display: inline-block;
+    max-width: 80%; /* Adjust as needed */
+    margin-right: 10px; /* Space between inline terminal and other content */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .terminal {
+        font-size: 16px;
+        margin-top: 15px;
+    }
 }
