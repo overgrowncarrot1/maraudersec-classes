@@ -58,6 +58,11 @@ body {
     background-color: #000; /* Black background */
 }
 
+/* Apply green to specific elements within module content */
+.module-info h2, .module-info p, .content h1, .content h2, .content p {
+    color: #33cc33; /* Green font */
+}
+
 /* Module Information */
 .module-info {
     flex: 1;
@@ -65,10 +70,6 @@ body {
     color: #33cc33; /* Green font for content */
     background-color: #000; /* Black background */
     box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
-}
-
-.module-info h2, .module-info p {
-    color: #33cc33; /* Green font for all text in module-info */
 }
 
 /* Header Styles */
