@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProgress();
 });
 
-const modules = ["Nmap", "NSE", "RustScan", "Finding Users"]; // Define the order of modules
+const modules = ["nmap", "nse", "rustscan", "finding_users"]; // Define the order of modules
 
 function toggleMenu(element) {
     let submenu = element.nextElementSibling;
@@ -11,8 +11,17 @@ function toggleMenu(element) {
 }
 
 function loadModule(module) {
-    document.getElementById("module-content").innerHTML = `<h2>${module} Module</h2><p>Content for ${module} goes here.</p>`;
-    saveProgress(module);
+    fetch(`${module}.html`) // Load the corresponding module HTML
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("module-content").innerHTML = data;
+            saveProgress(module);
+        })
+        .catch(error => {
+            console.error("Error loading module:", error);
+            document.getElementById("module-content").innerHTML = `<p>Sorry, an error occurred while loading the module.</p>`;
+        });
+    localStorage.setItem("currentModule", module); // Save the current module
 }
 
 function prevModule() {
