@@ -1,0 +1,35 @@
+/* Code block styling for Kali Linux terminal look */
+pre, code {
+    background-color: #1a1a1a; /* Dark background */
+    color: #33ff33; /* Green text */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font */
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre-wrap; /* Ensure long lines wrap */
+    word-wrap: break-word; /* Break long words if necessary */
+    overflow-x: auto; /* Make the code scrollable if it overflows */
+}
+
+code {
+    display: block;
+    padding: 15px;
+    margin: 10px 0;
+    background: #0d0d0d;
+    border: 1px solid #ff3333; /* Red border like in Kali's terminal */
+}
+
+pre {
+    background-color: #0d0d0d;
+    border: 1px solid #ff3333; /* Red border */
+    padding: 15px;
+    margin: 15px 0;
+    font-size: 1.1em;
+    overflow-x: auto; /* Horizontal scrolling if necessary */
+    border-radius: 5px;
+}
+
+pre code {
+    background: none; /* Remove background to avoid double background */
+    color: inherit; /* Inherit text color */
+    font-size: inherit; /* Inherit font size */
+}
