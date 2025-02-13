@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarauderSec Penetration Testing Course</title>
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- PrismJS CSS for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css" rel="stylesheet" />
-    
-    <style>
-        /* Same styling as before... */
-    </style>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -36,12 +30,134 @@
             <div class="navigation-buttons">
                 <button id="prev-btn" onclick="prevModule()">Previous</button>
                 <button id="next-btn" onclick="nextModule()">Next</button>
+                <button id="complete-btn" onclick="completeModule()">Complete Module</button>
             </div>
+            <div id="user-greeting"></div>
         </main>
     </div>
 
-    <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            checkLogin();
+            loadProgress();
+        });
+
+        function toggleMenu(element) {
+            let submenu = element.nextElementSibling;
+            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+        }
+
+        function loadModule(module) {
+            document.getElementById("module-content").innerHTML = `<h2>${module} Module</h2><p>Content for ${module} goes here.</p>`;
+            saveProgress(module);
+            updateNavigation();
+        }
+
+        function prevModule() {
+            let currentModule = getCurrentModule();
+            let previousModule = getPreviousModule(currentModule);
+            if (previousModule) {
+                loadModule(previousModule);
+            } else {
+                alert("No previous module available.");
+            }
+        }
+
+        function nextModule() {
+            let currentModule = getCurrentModule();
+            let nextModule = getNextModule(currentModule);
+            if (nextModule) {
+                loadModule(nextModule);
+            } else {
+                alert("No next module available.");
+            }
+        }
+
+        function completeModule() {
+            let moduleTitle = document.querySelector("#module-content h2").textContent;
+            if (moduleTitle) {
+                alert(`Module ${moduleTitle} marked as complete.`);
+                addCheckmark(moduleTitle);
+            }
+        }
+
+        function addCheckmark(module) {
+            const moduleList = document.querySelectorAll(".module-list .module-title");
+            moduleList.forEach(item => {
+                if (item.textContent === module) {
+                    let checkmark = document.createElement("span");
+                    checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
+                    item.appendChild(checkmark);
+                }
+            });
+        }
+
+        function getCurrentModule() {
+            return document.querySelector("#module-content h2") ? document.querySelector("#module-content h2").textContent.split(" ")[0] : "";
+        }
+
+        function getPreviousModule(currentModule) {
+            let modules = ["nmap", "nse", "rustscan", "finding_users"];
+            let index = modules.indexOf(currentModule);
+            return index > 0 ? modules[index - 1] : null;
+        }
+
+        function getNextModule(currentModule) {
+            let modules = ["nmap", "nse", "rustscan", "finding_users"];
+            let index = modules.indexOf(currentModule);
+            return index < modules.length - 1 ? modules[index + 1] : null;
+        }
+
+        function login() {
+            let username = document.getElementById("username").value;
+            if (username) {
+                localStorage.setItem("username", username);
+                document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("username");
+            document.getElementById("user-greeting").innerText = "";
+        }
+
+        function checkLogin() {
+            let username = localStorage.getItem("username");
+            if (username) {
+                document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
+            }
+        }
+
+        function saveProgress(module) {
+            let username = localStorage.getItem("username");
+            if (username) {
+                localStorage.setItem(`progress-${username}`, module);
+            }
+        }
+
+        function loadProgress() {
+            let username = localStorage.getItem("username");
+            if (username) {
+                let lastModule = localStorage.getItem(`progress-${username}`);
+                if (lastModule) {
+                    loadModule(lastModule);
+                }
+            }
+        }
+
+        function updateNavigation() {
+            let currentModule = getCurrentModule();
+            let prevBtn = document.getElementById("prev-btn");
+            let nextBtn = document.getElementById("next-btn");
+
+            prevBtn.disabled = !getPreviousModule(currentModule);
+            nextBtn.disabled = !getNextModule(currentModule);
+        }
+    </script>
+
+    <!-- Terminal-style code block -->
+    <div class="terminal">
+        <pre><code class="language-bash"># nmap scan command</code></pre>
+    </div>
 </body>
 </html>
