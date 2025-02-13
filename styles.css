@@ -1,35 +1,80 @@
-/* Code block styling for Kali Linux terminal look */
-pre, code {
-    background-color: #1a1a1a; /* Dark background */
-    color: #33ff33; /* Green text */
-    font-family: 'Courier New', Courier, monospace; /* Monospace font */
-    padding: 10px;
-    border-radius: 5px;
-    white-space: pre-wrap; /* Ensure long lines wrap */
-    word-wrap: break-word; /* Break long words if necessary */
-    overflow-x: auto; /* Make the code scrollable if it overflows */
-}
-
-code {
-    display: block;
-    padding: 15px;
-    margin: 10px 0;
-    background: #0d0d0d;
-    border: 1px solid #ff3333; /* Red border like in Kali's terminal */
-}
-
-pre {
+body {
     background-color: #0d0d0d;
-    border: 1px solid #ff3333; /* Red border */
-    padding: 15px;
-    margin: 15px 0;
-    font-size: 1.1em;
-    overflow-x: auto; /* Horizontal scrolling if necessary */
-    border-radius: 5px;
+    color: #33ff33;
+    font-family: monospace;
+    display: flex;
+    height: 100vh;
+    margin: 0;
 }
 
-pre code {
-    background: none; /* Remove background to avoid double background */
-    color: inherit; /* Inherit text color */
-    font-size: inherit; /* Inherit font size */
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background: #111;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    color: #ff3333;
+}
+
+.module-list {
+    list-style: none;
+    padding: 0;
+}
+
+.dropdown {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.module-title {
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+    background: #222;
+    border-left: 3px solid #ff3333;
+}
+
+.submenu {
+    list-style: none;
+    padding-left: 15px;
+    display: none;
+}
+
+.submenu li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.submenu li:hover {
+    background: #333;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background: #1a1a1a;
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+}
+
+button {
+    background: #ff3333;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+button:hover {
+    background: #cc0000;
 }
