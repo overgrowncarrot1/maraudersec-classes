@@ -73,20 +73,22 @@ button:active {
 .terminal-header {
   background-color: #e50000;
   padding: 10px;
-  text-align: center;
+  text-align: left;
   color: white;
   font-weight: bold;
 }
 
 .terminal-footer {
   color: #f3f3f3;
-  text-align: center;
+  text-align: left;  /* Align to the left */
   margin-top: 20px;
 }
 
+/* Align buttons properly */
 .terminal-btns {
-  float: right;
-  margin-right: 10px;
+  display: flex;
+  justify-content: flex-end;  /* Aligns buttons to the right */
+  gap: 5px;  /* Space between buttons */
 }
 
 .terminal-btn {
@@ -94,15 +96,16 @@ button:active {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  margin-left: 5px;
 }
 
 .terminal-btn-close {
   background-color: #e50000;
 }
+
 .terminal-btn-minimize {
   background-color: #f0ad4e;
 }
+
 .terminal-btn-maximize {
   background-color: #5bc0de;
 }
