@@ -1,116 +1,138 @@
-/* General Container Layout */
-.container {
-  display: flex;
-  height: 100vh;
-  background-color: #000;  /* Black background */
+/* General body styles for all pages */
+body {
+    font-family: "Courier New", monospace;
+    color: #33cc33; /* Green font */
+    background-color: #000; /* Black background */
+    margin: 0;
+    padding: 0;
 }
 
+/* General Container Layout */
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: #000; /* Black background */
+}
+
+/* Sidebar for Modules */
 .sidebar {
-  width: 200px;
-  background-color: #333;  /* Dark sidebar */
-  padding: 20px;
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
-  color: white;
+    width: 200px;
+    background-color: #333;
+    padding: 20px;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
+    color: white;
 }
 
 .module-list {
-  list-style: none;
-  padding: 0;
-}
-
-.module-list li {
-  margin-bottom: 10px;
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .module-list .module-title {
-  cursor: pointer;
-  font-weight: bold;
-  color: #33cc33;  /* Green text for modules */
+    cursor: pointer;
+    color: #33cc33; /* Green text for module titles */
 }
 
-.module-list .module-title:hover {
-  color: #66ff66;  /* Lighter green on hover */
+.module-list .dropdown .submenu {
+    display: none;
+    padding-left: 20px;
 }
 
-.submenu {
-  display: none;
-  list-style: none;
-  padding-left: 20px;
+.module-list .dropdown .submenu li {
+    padding: 5px 0;
 }
 
-.submenu li {
-  margin-bottom: 8px;
+.module-list .dropdown .submenu li:hover {
+    background-color: #444;
 }
 
+.module-list .dropdown:hover .submenu {
+    display: block;
+}
+
+/* Main content area */
+.content {
+    flex: 1;
+    padding: 20px;
+    color: #33cc33; /* Green font for content */
+    background-color: #000; /* Black background */
+}
+
+/* Module Information */
 .module-info {
-  flex: 1;
-  padding: 20px;
-  color: #33cc33;  /* Green text for content */
-  background-color: #000;  /* Black background for content */
-  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
+    flex: 1;
+    padding: 20px;
+    color: #33cc33; /* Green font for content */
+    background-color: #000; /* Black background */
+    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
 }
 
-.module-info h2 {
-  font-family: "Courier New", monospace;
-  color: #33cc33;  /* Green for headings */
+.module-info h2, .module-info p {
+    color: #33cc33; /* Green font for all text in module-info */
 }
 
-.module-info p {
-  font-family: "Courier New", monospace;
-  color: #33cc33;  /* Green text for paragraphs */
-  white-space: pre-wrap;
+/* Header Styles */
+h1, h2 {
+    font-family: "Courier New", monospace;
+    color: #33cc33; /* Green font for headers */
 }
 
-/* Terminal Styling */
-.terminal-container {
-  background-color: #000;
-  border: 2px solid #33cc33;
-  border-radius: 5px;
-  margin-top: 20px;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
-  overflow: hidden;
+/* Paragraph Styles */
+p {
+    font-family: "Courier New", monospace;
+    color: #33cc33; /* Green text */
 }
 
-.terminal-header {
-  background-color: #1b1b1b;
-  padding: 10px;
-  color: #33cc33;
-  font-family: "Courier New", monospace;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Navigation Buttons */
+.navigation-buttons button {
+    background-color: #333;
+    color: #33cc33; /* Green font */
+    border: 1px solid #33cc33;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
 }
 
-.terminal-title {
-  font-size: 18px;
+.navigation-buttons button:hover {
+    background-color: #444;
 }
 
-.copy-btn {
-  background-color: #33cc33;
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-family: "Courier New", monospace;
-  border-radius: 5px;
-  font-size: 14px;
+/* Terminal-style code block */
+pre {
+    background-color: #222; /* Dark background for code */
+    color: #33cc33; /* Green code font */
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
 }
 
-.copy-btn:hover {
-  background-color: #28a745;
+code {
+    color: #33cc33; /* Green font for inline code */
 }
 
-.terminal {
-  background-color: #1b1b1b;
-  color: #33cc33;  /* Green text for terminal */
-  padding: 20px;
-  font-family: "Courier New", monospace;
-  font-size: 16px;
-  overflow-x: auto;
+/* Inline terminal container */
+.inline-terminal-container {
+    background-color: #222;
+    padding: 10px;
+    margin-top: 20px;
 }
 
-.terminal pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+.inline-terminal-container pre {
+    background-color: #222; /* Dark background for terminal */
+    color: #33cc33; /* Green terminal text */
+}
+
+/* Links */
+a {
+    color: #33cc33; /* Green links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Drop shadow effect for sidebar */
+.sidebar h2, .module-list {
+    color: #33cc33; /* Green font for sidebar */
 }
