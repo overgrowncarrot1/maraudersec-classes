@@ -1,94 +1,192 @@
-/* General Layout */
+/* General layout */
 .container {
-    display: flex;
-    height: 100vh;
-    background-color: #1b1b1b;
+  display: flex;
+  height: 100vh;
+  background-color: #1b1b1b;  /* Dark background for hacker theme */
+  color: #33cc33;  /* Green font for text */
 }
 
-/* Sidebar Styles */
+/* Sidebar */
 .sidebar {
-    width: 300px;
-    background-color: #111;
-    color: #fff;
-    padding: 20px;
-    position: fixed;
-    height: 100%;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
+  width: 250px;
+  background-color: #333;
+  padding: 20px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
+  color: white;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
-/* Module Titles */
-.module-title {
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 18px;
-    color: #00ff00;
-    padding: 10px 0;
+.module-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 20px;
 }
 
-/* Child Module Titles */
-.child-module-title {
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    color: #00ff00;
-    padding-left: 15px;
+.module-title, .child-module-title {
+  font-size: 16px;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-/* Submenu (Child Modules) */
-.submenu {
-    display: none;
-    list-style-type: none;
-    padding-left: 20px;
+.module-title:hover, .child-module-title:hover {
+  color: #33cc33;
 }
 
-/* Sub-Submenu (PowerShell/Linux) */
-.sub-submenu {
-    display: none;
-    list-style-type: none;
-    padding-left: 20px;
-    font-size: 14px;
+.module-list .dropdown {
+  margin-bottom: 10px;
 }
 
-/* Opened dropdowns for Parent Modules */
-.dropdown.active .submenu {
-    display: block;
+.module-list .submenu {
+  display: none;
+  padding-left: 20px;
 }
 
-/* Opened dropdowns for Child Modules (submodules) */
-.submenu.active .sub-submenu {
-    display: block;
+.module-list .submenu.active {
+  display: block;
 }
 
-/* Completed Modules */
-.completed {
-    text-decoration: line-through;
-    color: red;
+.module-list .submenu .child-module-title {
+  font-size: 14px;
+  margin-left: 10px;
 }
 
-/* Main Content Styles */
+.module-list .module-title.completed {
+  text-decoration: line-through;
+  color: red;
+}
+
+.module-list .child-module-title.completed {
+  text-decoration: line-through;
+  color: red;
+}
+
+/* Main content */
 .content {
-    margin-left: 320px;
-    padding: 20px;
-    color: #fff;
-    background-color: #333;
+  margin-left: 270px;
+  padding: 20px;
+  flex-grow: 1;
+  background-color: #2a2a2a;
+  overflow-y: auto;
 }
 
-h1, h2 {
-    font-family: 'Courier New', monospace;
+.content h1 {
+  font-family: "Courier New", monospace;
+  font-size: 2rem;
+  color: #33cc33;
+}
+
+.content h2 {
+  font-family: "Courier New", monospace;
+  color: #33cc33;
+}
+
+.content p {
+  font-family: "Courier New", monospace;
+  color: #f3f3f3;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.inline-terminal-container {
+  background-color: #000;
+  color: #33cc33;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-family: "Courier New", monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.inline-terminal-container pre {
+  margin: 0;
+  padding: 0;
+}
+
+.inline-terminal-container code {
+  font-family: "Courier New", monospace;
+}
+
+.navigation-buttons {
+  margin-top: 20px;
+  text-align: center;
 }
 
 button {
-    background-color: #00cc00;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
+  background-color: #333;
+  color: #33cc33;
+  padding: 10px 20px;
+  border: none;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 button:hover {
-    background-color: #009900;
+  background-color: #555;
+}
+
+button:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+/* Dark background for the modules list */
+.module-list li {
+  margin: 10px 0;
+}
+
+/* Hover effect for child modules */
+.child-module-title:hover {
+  color: #33cc33;
+  text-decoration: underline;
+}
+
+/* Submodule visibility and style */
+.child-module-title.active {
+  color: #33cc33;
+}
+
+.submenu.active .child-module-title {
+  display: block;
+}
+
+/* Center module content (main content area) */
+.module-info {
+  flex-grow: 1;
+  padding: 20px;
+  color: white;
+  background-color: #2a2a2a;
+  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
+}
+
+.module-info h2 {
+  font-family: "Courier New", monospace;
+  color: #33cc33;
+}
+
+.module-info p {
+  font-family: "Courier New", monospace;
+  color: #f3f3f3;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* Ensuring the body background is black and the border issue is removed */
+body {
+  margin: 0;
+  background-color: #1b1b1b; /* Dark background */
+  font-family: "Courier New", monospace;
+}
+
+/* Styling for when a module is marked as completed */
+.completed {
+  text-decoration: line-through;
+  color: red !important;
 }
