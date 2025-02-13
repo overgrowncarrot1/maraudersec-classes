@@ -1,13 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkLogin();
     loadProgress();
-    initHamburgerMenu();
 });
 
 // Toggle the dropdown menu visibility when clicking on parent modules
 function toggleMenu(element) {
     let submenu = element.nextElementSibling;
     submenu.classList.toggle("active");
+}
+
+// Toggle the sidebar visibility when clicking the hamburger menu
+function toggleSidebar() {
+    let sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("active");
 }
 
 // Load specific module content based on user click
@@ -107,30 +112,35 @@ function checkLogin() {
 function saveProgress(module) {
     let username = localStorage.getItem("username");
     if (username) {
-        let completedModules = JSON.parse(localStorage.getItem("completedModules")) || {};
-        completedModules[username] = completedModules[username] || [];
-        completedModules[username].push(module);
-        localStorage.setItem("completedModules", JSON.stringify(completedModules));
+        let progress = JSON.parse(localStorage.getItem("progress")) || {};
+        progress[username] = progress[username] || {};
+        progress[username][module] = "completed";
+        localStorage.setItem("progress", JSON.stringify(progress));
     }
 }
 
 function loadProgress() {
     let username = localStorage.getItem("username");
     if (username) {
-        let completedModules = JSON.parse(localStorage.getItem("completedModules")) || {};
-        let modules = completedModules[username] || [];
-        modules.forEach(module => {
-            addCheckmark(module);
-        });
+        let progress = JSON.parse(localStorage.getItem("progress")) || {};
+        let userProgress = progress[username] || {};
+        for (let module in userProgress) {
+            if (userProgress[module] === "completed") {
+                addCheckmark(module);
+            }
+        }
     }
 }
 
-// Initialize the hamburger menu to show/hide the sidebar
-function initHamburgerMenu() {
-    let hamburger = document.getElementById("hamburger-menu");
-    let sidebar = document.querySelector(".sidebar");
+function getCurrentModule() {
+    let moduleTitle = document.querySelector("#module-content h2");
+    return moduleTitle ? moduleTitle.textContent.replace(" Module", "") : null;
+}
 
-    hamburger.addEventListener("click", function () {
-        sidebar.classList.toggle("hide");
-    });
+function getPreviousModule(currentModule) {
+    // Implement logic to get the previous module
+}
+
+function getNextModule(currentModule) {
+    // Implement logic to get the next module
 }
