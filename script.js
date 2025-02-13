@@ -3,68 +3,99 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProgress();
 });
 
-let currentModule = 0;
-const modules = {
-    "Enumeration": ["nmap", "nse", "rustscan", "finding_users"],
-};
-
 function toggleMenu(element) {
     let submenu = element.nextElementSibling;
     submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
 }
 
 function loadModule(module) {
-    fetch(`${module}.html`) // Load the corresponding module HTML
-        .then(response => response.text())
-        .then(data => {
-            // Insert HTML content into the #module-content div
-            document.getElementById("module-content").innerHTML = data;
-
-            // Trigger syntax highlighting for the code block
-            Prism.highlightAll(); // This applies syntax highlighting to all code blocks
-
-            saveProgress(module);
-        })
-        .catch(error => {
-            console.error("Error loading module:", error);
-            document.getElementById("module-content").innerHTML = `<p>Sorry, an error occurred while loading the module.</p>`;
-        });
+    document.getElementById("module-content").innerHTML = `<h2>${module} Module</h2><p>Content for ${module} goes here.</p>`;
+    saveProgress(module);
+    updateNavigation();
 }
 
 function prevModule() {
-    if (currentModule > 0) {
-        currentModule--;
-        loadModule(modules["Enumeration"][currentModule]);
+    let currentModule = getCurrentModule();
+    let previousModule = getPreviousModule(currentModule);
+    if (previousModule) {
+        loadModule(previousModule);
     } else {
-        alert("You are already at the first module in this section.");
+        alert("No previous module available.");
     }
 }
 
 function nextModule() {
-    if (currentModule < modules["Enumeration"].length - 1) {
-        currentModule++;
-        loadModule(modules["Enumeration"][currentModule]);
+    let currentModule = getCurrentModule();
+    let nextModule = getNextModule(currentModule);
+    if (nextModule) {
+        loadModule(nextModule);
     } else {
-        // If it's the last module in the current section, move to the next section (Tab)
-        alert("You're at the last module in this section. Moving to the next section.");
-        // Implement tab switch functionality here
+        alert("No next module available.");
     }
 }
 
 function completeModule() {
-    const currentModuleName = modules["Enumeration"][currentModule];
-    const moduleItem = document.querySelector(`.module-list .submenu li:contains(${currentModuleName})`);
-    
-    // Add the green checkmark (complete status) next to the module name
-    if (moduleItem) {
-        const checkmark = document.createElement("span");
-        checkmark.textContent = "✔️";
-        checkmark.style.color = "green";
-        moduleItem.appendChild(checkmark);
-    }
+    let moduleTitle = document.querySelector("#module-content h2").textContent;
+    if (moduleTitle) {
+        alert(`Module ${moduleTitle} marked as complete.`);
+        addCheckmark(moduleTitle);
 
-    // Optionally, you can change the button state or behavior once the module is marked as completed
-    alert(`Module ${currentModuleName} marked as complete!`);
+        // Check if all submodules are completed for the parent module
+        if (allSubmodulesCompleted(moduleTitle)) {
+            addCheckmark(getParentModule(moduleTitle));
+        }
+    }
+}
+
+function addCheckmark(module) {
+    const moduleList = document.querySelectorAll(".module-list .module-title");
+    moduleList.forEach(item => {
+        if (item.textContent === module) {
+            let checkmark = document.createElement("span");
+            checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
+            item.appendChild(checkmark);
+        }
+    });
+}
+
+function allSubmodulesCompleted(module) {
+    const submodules = {
+        "Enumeration": ["nmap", "nse", "rustscan", "finding_users"]
+    };
+
+    if (submodules[module]) {
+        let completed = submodules[module].every(submodule => {
+            return document.querySelector(`.module-title:contains('${submodule}') span`);
+        });
+        return completed;
+    }
+    return false;
+}
+
+function getParentModule(submodule) {
+    const submodules = {
+        "nmap": "Enumeration",
+        "nse": "Enumeration",
+        "rustscan": "Enumeration",
+        "finding_users": "Enumeration"
+    };
+    return submodules[submodule];
+}
+
+function getCurrentModule() {
+    return document.querySelector("#module-content h2") ? document.querySelector("#module-content h2").textContent.split(" ")[0] : "";
+}
+
+function getPreviousModule(currentModule) {
+    let modules = ["nmap", "nse", "rustscan", "finding_users"];
+    let index = modules.indexOf(currentModule);
+    return index > 0 ? modules[index - 1] : null;
+}
+
+function getNextModule(currentModule) {
+    let modules = ["nmap", "nse", "rustscan", "finding_users"];
+    let index = modules.indexOf(currentModule);
+    return index < modules.length - 1 ? modules[index + 1] : null;
 }
 
 function login() {
@@ -102,4 +133,13 @@ function loadProgress() {
             loadModule(lastModule);
         }
     }
+}
+
+function updateNavigation() {
+    let currentModule = getCurrentModule();
+    let prevBtn = document.getElementById("prev-btn");
+    let nextBtn = document.getElementById("next-btn");
+
+    prevBtn.disabled = !getPreviousModule(currentModule);
+    nextBtn.disabled = !getNextModule(currentModule);
 }
