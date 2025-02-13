@@ -57,7 +57,7 @@
 
 .module-info p {
   font-family: "Courier New", monospace;
-  color: #f3f3f3;  /* Light grey text for content */
+  color: #33cc33;  /* Green text for paragraphs */
   white-space: pre-wrap;
 }
 
