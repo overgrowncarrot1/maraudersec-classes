@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarauderSec Penetration Testing Course</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #33ff33;
+            font-family: monospace;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 250px;
+            background: #111;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            color: #ff3333;
+        }
+        .module-list {
+            list-style: none;
+            padding: 0;
+        }
+        .dropdown {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .module-title {
+            display: block;
+            font-weight: bold;
+            padding: 5px;
+            background: #222;
+            border-left: 3px solid #ff3333;
+        }
+        .submenu {
+            list-style: none;
+            padding-left: 15px;
+            display: none;
+        }
+        .submenu li {
+            cursor: pointer;
+            padding: 5px;
+        }
+        .submenu li:hover {
+            background: #333;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background: #1a1a1a;
+        }
+        .navigation-buttons {
+            margin-top: 20px;
+        }
+        button {
+            background: #ff3333;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Modules</h2>
+            <ul class="module-list">
+                <li class="dropdown">
+                    <span class="module-title" onclick="toggleMenu(this)">Enumeration</span>
+                    <ul class="submenu">
+                        <li onclick="loadModule('nmap')">Nmap</li>
+                        <li onclick="loadModule('nse')">Nmap Scripting Engine</li>
+                        <li onclick="loadModule('rustscan')">RustScan</li>
+                        <li onclick="loadModule('finding_users')">Finding Users</li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>Welcome to MarauderSec Training</h1>
+            <p>Select a module from the left to get started.</p>
+            <div id="module-content"></div>
+            <div class="navigation-buttons">
+                <button id="prev-btn" onclick="prevModule()">Previous</button>
+                <button id="next-btn" onclick="nextModule()">Next</button>
+            </div>
+        </main>
+    </div>
+    <script>
+        function toggleMenu(element) {
+            let submenu = element.nextElementSibling;
+            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+        }
+        function loadModule(module) {
+            document.getElementById("module-content").innerHTML = `<h2>${module} Module</h2><p>Content for ${module} goes here.</p>`;
+        }
+        function prevModule() {
+            alert("Previous module functionality coming soon!");
+        }
+        function nextModule() {
+            alert("Next module functionality coming soon!");
+        }
+    </script>
+</body>
+</html>
