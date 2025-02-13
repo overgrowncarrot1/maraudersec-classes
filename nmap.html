@@ -1,9 +1,48 @@
-<h2>Nmap Module</h2>
-<p>This module covers Nmap scanning techniques and usage.</p>
-<div class="inline-terminal-container">
-    <pre><code class="language-bash">
-# Example Nmap Command
-nmap -sP 192.168.1.0/24
-    </code></pre>
-</div>
-<p>More detailed information about Nmap scanning and examples will follow...</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nmap - MarauderSec Penetration Testing Course</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Modules</h2>
+            <ul class="module-list">
+                <li class="dropdown">
+                    <span class="module-title" onclick="toggleMenu(this)">Enumeration</span>
+                    <ul class="submenu">
+                        <li><a href="nmap.html" onclick="loadModule('nmap')">Nmap</a></li>
+                        <li><a href="nse.html" onclick="loadModule('nse')">Nmap Scripting Engine</a></li>
+                        <li><a href="rustscan.html" onclick="loadModule('rustscan')">RustScan</a></li>
+                        <li><a href="finding_users.html" onclick="loadModule('finding_users')">Finding Users</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main class="content">
+            <h1>Nmap Module</h1>
+            <p>Welcome to the Nmap module. Below is some introductory content.</p>
+            <div id="module-content">
+                <h2>Nmap Basics</h2>
+                <p>Nmap (Network Mapper) is an open-source tool used for network discovery and security auditing.</p>
+                <pre><code class="language-bash">nmap -sP 192.168.1.0/24</code></pre>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-btn" onclick="prevModule()">Previous</button>
+                <button id="next-btn" onclick="nextModule()">Next</button>
+                <button id="complete-btn" onclick="completeModule()">Complete Module</button>
+            </div>
+            <div id="user-greeting"></div>
+        </main>
+    </div>
+
+    <!-- Terminal-style code block -->
+    <div class="inline-terminal-container">
+        <pre><code class="language-bash"># nmap scan command</code></pre>
+    </div>
+</body>
+</html>
