@@ -140,3 +140,8 @@ button:hover {
         padding: 10px;
     }
 }
+
+/* Spacing for Kerberos submodules */
+.kerberos-submodule {
+    margin-bottom: 20px; /* Adjust space between submodules */
+}
