@@ -1,81 +1,92 @@
-// Function to toggle parent module visibility (i.e., showing child modules)
+document.addEventListener("DOMContentLoaded", function () {
+    checkLogin();
+    loadProgress();
+});
+
+// Toggle the dropdown menu visibility when clicking on parent modules
 function toggleMenu(element) {
-    element.parentElement.classList.toggle("active");
+    let submenu = element.nextElementSibling;
+    submenu.classList.toggle("active");
 }
 
-// Function to toggle child module visibility (i.e., showing submodules like Linux and PowerShell)
-function toggleSubMenu(element) {
-    element.parentElement.classList.toggle("active");
+// Load specific module content based on user click
+function loadModule(module) {
+    let moduleContent = document.getElementById("module-content");
+    let moduleTitle = document.createElement("h2");
+    moduleTitle.textContent = `${module} Module`;
+    moduleContent.innerHTML = "";
+    moduleContent.appendChild(moduleTitle);
+    moduleContent.innerHTML += `<p>Content for ${module} goes here.</p>`;
+    saveProgress(module);
+    updateNavigation();
 }
 
-// Function to load module content (Placeholder)
-function loadModule(moduleName) {
-    document.getElementById("module-content").innerHTML = `<h2>Loading ${moduleName}...</h2>`;
-}
-
-// Function to mark modules as completed
+// Mark module as completed and strike through module title
 function completeModule() {
-    // Mark the active module as completed by adding the 'completed' class
-    let activeModule = document.querySelector(".submenu .child-module-title.active");
-    if (activeModule) {
-        activeModule.classList.add("completed");
-    }
+    let moduleTitle = document.querySelector("#module-content h2");
+    if (moduleTitle) {
+        alert(`Module ${moduleTitle.textContent} marked as complete.`);
+        addCheckmark(moduleTitle.textContent);
 
-    // Check if all child modules in a parent are completed
-    document.querySelectorAll(".module-list .dropdown").forEach(parentModule => {
-        let allCompleted = Array.from(parentModule.querySelectorAll(".child-module-title"))
-            .every(module => module.classList.contains("completed"));
-
-        // If all child modules are completed, mark the parent as completed
-        if (allCompleted) {
-            parentModule.querySelector(".module-title").classList.add("completed");
+        // Check if all submodules are completed for the parent module
+        if (allSubmodulesCompleted(moduleTitle.textContent)) {
+            addCheckmark(getParentModule(moduleTitle.textContent));
         }
     }
 }
 
-// Function to handle the login process
-function login() {
-    let username = document.getElementById("username").value;
-    if (username) {
-        localStorage.setItem("username", username);
-        document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
-    }
-}
-
-// Function to handle logout
-function logout() {
-    localStorage.removeItem("username");
-    document.getElementById("user-greeting").innerText = "";
-}
-
-// Function to check if a user is logged in and greet them
-function checkLogin() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
-    }
-}
-
-// Function to save module progress
-function saveProgress(module) {
-    let username = localStorage.getItem("username");
-    if (username) {
-        localStorage.setItem(`progress-${username}`, module);
-    }
-}
-
-// Function to load module progress
-function loadProgress() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let lastModule = localStorage.getItem(`progress-${username}`);
-        if (lastModule) {
-            loadModule(lastModule);
+function addCheckmark(module) {
+    const moduleList = document.querySelectorAll(".module-list .module-title");
+    moduleList.forEach(item => {
+        if (item.textContent === module) {
+            let checkmark = document.createElement("span");
+            checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
+            item.appendChild(checkmark);
+            item.classList.add("completed");
         }
-    }
+    });
 }
 
-// Function to update the navigation buttons based on current module state
+function allSubmodulesCompleted(module) {
+    const submodules = {
+        "Kerberos": ["AsRepRoasting", "Kerberaosting", "UnconstrainedDelegation", "ConstrainedDelegation", "RescourceBasedConstrainedDelegation", "AlternateServices", "Relay", "SilverTicket", "GoldenTicket", "Passtheticket"],
+        "DACL Attacks": ["Force Change Password", "Write SPN Targeted Kerberoasting", "Add Members", "Read LAPS Password", "Read GMSA Password", "Generic All", "Add Key Credential Link", "Write SPN", "Logon Scripts"]
+    };
+
+    if (submodules[module]) {
+        let completed = submodules[module].every(submodule => {
+            return document.querySelector(`.module-title:contains('${submodule}') span`);
+        });
+        return completed;
+    }
+    return false;
+}
+
+function getParentModule(submodule) {
+    const submodules = {
+        "AsRepRoasting": "Kerberos",
+        "Kerberaosting": "Kerberos",
+        "UnconstrainedDelegation": "Kerberos",
+        "ConstrainedDelegation": "Kerberos",
+        "RescourceBasedConstrainedDelegation": "Kerberos",
+        "AlternateServices": "Kerberos",
+        "Relay": "Kerberos",
+        "SilverTicket": "Kerberos",
+        "GoldenTicket": "Kerberos",
+        "Passtheticket": "Kerberos",
+        "Force Change Password": "DACL Attacks",
+        "Write SPN Targeted Kerberoasting": "DACL Attacks",
+        "Add Members": "DACL Attacks",
+        "Read LAPS Password": "DACL Attacks",
+        "Read GMSA Password": "DACL Attacks",
+        "Generic All": "DACL Attacks",
+        "Add Key Credential Link": "DACL Attacks",
+        "Write SPN": "DACL Attacks",
+        "Logon Scripts": "DACL Attacks"
+    };
+    return submodules[submodule];
+}
+
 function updateNavigation() {
     let currentModule = getCurrentModule();
     let prevBtn = document.getElementById("prev-btn");
@@ -85,19 +96,30 @@ function updateNavigation() {
     nextBtn.disabled = !getNextModule(currentModule);
 }
 
-// Helper functions to manage module state (previous/next)
-function getCurrentModule() {
-    return document.querySelector("#module-content h2") ? document.querySelector("#module-content h2").textContent.split(" ")[0] : "";
+function checkLogin() {
+    let username = localStorage.getItem("username");
+    if (username) {
+        document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
+    }
 }
 
-function getPreviousModule(currentModule) {
-    let modules = ["nmap", "nse", "rustscan", "finding_users"];
-    let index = modules.indexOf(currentModule);
-    return index > 0 ? modules[index - 1] : null;
+function saveProgress(module) {
+    let username = localStorage.getItem("username");
+    if (username) {
+        let completedModules = JSON.parse(localStorage.getItem("completedModules")) || {};
+        completedModules[username] = completedModules[username] || [];
+        completedModules[username].push(module);
+        localStorage.setItem("completedModules", JSON.stringify(completedModules));
+    }
 }
 
-function getNextModule(currentModule) {
-    let modules = ["nmap", "nse", "rustscan", "finding_users"];
-    let index = modules.indexOf(currentModule);
-    return index < modules.length - 1 ? modules[index + 1] : null;
+function loadProgress() {
+    let username = localStorage.getItem("username");
+    if (username) {
+        let completedModules = JSON.parse(localStorage.getItem("completedModules")) || {};
+        let modules = completedModules[username] || [];
+        modules.forEach(module => {
+            addCheckmark(module);
+        });
+    }
 }
