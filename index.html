@@ -13,12 +13,29 @@
             <h2>Modules</h2>
             <ul class="module-list">
                 <li class="dropdown">
-                    <span class="module-title" onclick="toggleMenu(this)">Enumeration</span>
+                    <span class="module-title" onclick="toggleMenu(this)">Kerberos</span>
                     <ul class="submenu">
-                        <li onclick="loadModule('nmap')">Nmap</li>
-                        <li onclick="loadModule('nse')">Nmap Scripting Engine</li>
-                        <li onclick="loadModule('rustscan')">RustScan</li>
-                        <li onclick="loadModule('finding_users')">Finding Users</li>
+                        <li onclick="loadModule('nmap')">AsRepRoasting</li>
+                        <li onclick="loadModule('nse')">Kerberaosting</li>
+                        <li onclick="loadModule('rustscan')">Unconstrained Delegation</li>
+                        <li onclick="loadModule('finding_users')">Constrained Delegation</li>
+                        <li onclick="loadModule('finding_users')">Rescource-Based Constrained Delegation</li>                     
+                        <li onclick="loadModule('finding_users')">Alternate Services</li>
+                        <li onclick="loadModule('finding_users')">Relay (ntlmrelayx)</li>
+                        <li onclick="loadModule('finding_users')">Silver Ticket</li>
+                        <li onclick="loadModule('finding_users')">Golden Ticket</li>
+                        <li onclick="loadModule('finding_users')">Pass-the-ticket (PTT)</li>
+                    <span class="module-title" onclick="toggleMenu(this)">DACL Attacks</span>
+                    <ul class="submenu">
+                        <li onclick="loadModule('nmap')">Force Change Password</li>
+                        <li onclick="loadModule('nse')">Write SPN Targeted Kerberoasting</li>
+                        <li onclick="loadModule('rustscan')">Add Members</li>
+                        <li onclick="loadModule('finding_users')">Read LAPS Password</li>
+                        <li onclick="loadModule('finding_users')">Read GMSA Password</li>                     
+                        <li onclick="loadModule('finding_users')">Generic All</li>
+                        <li onclick="loadModule('finding_users')">Add Key Credential Link</li>
+                        <li onclick="loadModule('finding_users')">Write SPN</li>
+                        <li onclick="loadModule('finding_users')">Logon Scripts</li>
                     </ul>
                 </li>
             </ul>
