@@ -2,12 +2,11 @@
 .container {
   display: flex;
   height: 100vh;
-  background-color: #1b1b1b;  /* Dark background for hacker theme */
+  background-color: #1b1b1b;
 }
 
-/* Sidebar Styling */
 .sidebar {
-  width: 250px;
+  width: 200px;
   background-color: #333;
   padding: 20px;
   box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
@@ -15,42 +14,30 @@
 }
 
 .module-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
-.module-title {
-  cursor: pointer;
-  padding: 12px;
-  background-color: #444;
-  border-radius: 5px;
-  margin-bottom: 8px;
-  transition: background-color 0.3s;
+.module-list li {
+  margin-bottom: 10px;
 }
 
-.module-title:hover {
-  background-color: #555;
+.module-list .module-title {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .submenu {
   display: none;
-  list-style-type: none;
+  list-style: none;
   padding-left: 20px;
 }
 
 .submenu li {
-  padding: 8px;
-  background-color: #555;
-  cursor: pointer;
-  border-radius: 5px;
+  margin-bottom: 8px;
 }
 
-.submenu li:hover {
-  background-color: #666;
-}
-
-/* Main Content Area */
-.content {
+.module-info {
   flex: 1;
   padding: 20px;
   color: white;
@@ -58,85 +45,67 @@
   box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.7);
 }
 
-.content h1, .content p {
+.module-info h2 {
   font-family: "Courier New", monospace;
+  color: #33cc33;
 }
 
-.navigation-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-button {
-  background-color: #333;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 12px;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #444;
-}
-
-button:active {
-  background-color: #555;
+.module-info p {
+  font-family: "Courier New", monospace;
+  color: #f3f3f3;
+  white-space: pre-wrap;
 }
 
 /* Terminal Styling */
-.inline-terminal-container {
-  margin-top: 20px;
-  background-color: #2a2a2a;
-  color: #33cc33;
-  padding: 20px;
+.terminal-container {
+  background-color: #000;
+  border: 2px solid #33cc33;
   border-radius: 5px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+  overflow: hidden;
 }
 
 .terminal-header {
-  background-color: #e50000;
+  background-color: #1b1b1b;
   padding: 10px;
-  text-align: center;
-  color: white;
-  font-weight: bold;
+  color: #33cc33;
+  font-family: "Courier New", monospace;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.terminal-footer {
-  color: #f3f3f3;
-  text-align: center;
-  margin-top: 20px;
+.terminal-title {
+  font-size: 18px;
 }
 
-/* Icon Styling */
-.marauder-icon {
-  display: inline-block;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.copy-btn {
+  background-color: #33cc33;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
-.marauder-icon:before {
-  font-family: marauder-icons !important;
-  font-style: normal;
-  font-weight: normal !important;
-  vertical-align: top;
+.copy-btn:hover {
+  background-color: #28a745;
 }
 
-.marauder-icon-gear:before {
-  content: "\f126";  /* Gear icon */
+.terminal {
+  background-color: #1b1b1b;
+  color: #33cc33;
+  padding: 20px;
+  font-family: "Courier New", monospace;
+  font-size: 16px;
+  overflow-x: auto;
 }
 
-.marauder-icon-lock:before {
-  content: "\f152";  /* Lock icon */
-}
-
-.marauder-icon-shield:before {
-  content: "\f169";  /* Shield icon */
+.terminal pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
