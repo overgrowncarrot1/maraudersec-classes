@@ -40,7 +40,6 @@ function completeModule() {
         alert(`Module ${moduleTitle} marked as complete.`);
         addCheckmark(moduleTitle);
 
-        // Check if all submodules are completed for the parent module
         if (allSubmodulesCompleted(moduleTitle)) {
             addCheckmark(getParentModule(moduleTitle));
         }
@@ -52,7 +51,7 @@ function addCheckmark(module) {
     moduleList.forEach(item => {
         if (item.textContent === module) {
             let checkmark = document.createElement("span");
-            checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
+            checkmark.innerHTML = " &#x2714;";
             item.appendChild(checkmark);
         }
     });
@@ -142,4 +141,19 @@ function updateNavigation() {
 
     prevBtn.disabled = !getPreviousModule(currentModule);
     nextBtn.disabled = !getNextModule(currentModule);
+}
+
+function copyToClipboard(elementId) {
+    var copyText = document.getElementById(elementId);
+    var range = document.createRange();
+    range.selectNode(copyText);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+        var successful = document.execCommand('copy');
+        console.log('Copy command was ' + (successful ? 'successful' : 'unsuccessful'));
+    } catch (err) {
+        console.error('Oops, unable to copy', err);
+    }
+    window.getSelection().removeAllRanges();
 }
