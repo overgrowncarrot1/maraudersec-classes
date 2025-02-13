@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProgress();
 });
 
-const modules = ["Enumeration", "Nmap", "NSE", "RustScan", "Finding Users"]; // Define the order of modules
+const modules = ["Nmap", "NSE", "RustScan", "Finding Users"]; // Define the order of modules
 
 function toggleMenu(element) {
     let submenu = element.nextElementSibling;
