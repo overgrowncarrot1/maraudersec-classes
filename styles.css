@@ -1,195 +1,142 @@
-/* General layout */
-.container {
-  display: flex;
-  height: 100vh;
-  background-color: #1b1b1b;  /* Dark background for hacker theme */
-  color: #33cc33;  /* Green font for text */
+body {
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: green;
 }
 
-/* Sidebar */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
 .sidebar {
-  width: 250px;
-  background-color: #333;
-  padding: 20px;
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.7);
-  color: white;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  overflow-y: auto;
+    width: 250px;
+    background-color: #111;
+    padding: 10px;
+    box-sizing: border-box;
+    color: green;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.hide {
+    transform: translateX(-100%);
+}
+
+.sidebar h2 {
+    color: green;
+    font-size: 24px;
 }
 
 .module-list {
-  list-style-type: none;
-  padding-left: 0;
-  margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
 }
 
-.module-title, .child-module-title {
-  font-size: 16px;
-  font-family: "Courier New", monospace;
-  cursor: pointer;
-  transition: all 0.3s;
+.module-title {
+    color: green;
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
 }
 
-.module-title:hover, .child-module-title:hover {
-  color: #33cc33;
+.module-title:hover {
+    background-color: #333;
 }
 
-.module-list .dropdown {
-  margin-bottom: 10px;
+.submenu {
+    list-style-type: none;
+    padding-left: 20px;
+    display: none;
 }
 
-.module-list .submenu {
-  display: none;
-  padding-left: 20px;
+.submenu.active {
+    display: block;
 }
 
-.module-list .submenu.active {
-  display: block;
+.submenu li {
+    cursor: pointer;
+    color: green;
 }
 
-.module-list .submenu .child-module-title {
-  font-size: 14px;
-  margin-left: 10px;
+.submenu li:hover {
+    background-color: #333;
 }
 
-.module-list .module-title.completed {
-  text-decoration: line-through;
-  color: red;
-}
-
-.module-list .child-module-title.completed {
-  text-decoration: line-through;
-  color: red;
-}
-
-/* Main content */
 .content {
-  margin-left: 270px;
-  padding: 20px;
-  flex-grow: 1;
-  background-color: #2a2a2a;
-  overflow-y: auto;
-  color: #33cc33;
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: black;
+    color: green;
+    overflow-y: auto;
 }
 
-.content h1 {
-  font-family: "Courier New", monospace;
-  font-size: 2rem;
-  color: #33cc33;
-}
-
-.content h2 {
-  font-family: "Courier New", monospace;
-  color: #33cc33;
-}
-
-.content p {
-  font-family: "Courier New", monospace;
-  color: #f3f3f3;
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
-.inline-terminal-container {
-  background-color: #000;
-  color: #33cc33;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 5px;
-  font-family: "Courier New", monospace;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.inline-terminal-container pre {
-  margin: 0;
-  padding: 0;
-}
-
-.inline-terminal-container code {
-  font-family: "Courier New", monospace;
-}
-
-.navigation-buttons {
-  margin-top: 20px;
-  text-align: left;
+h1, h2 {
+    color: green;
 }
 
 button {
-  background-color: #333;
-  color: #33cc33;
-  padding: 10px 20px;
-  border: none;
-  font-family: "Courier New", monospace;
-  cursor: pointer;
-  transition: all 0.3s;
-  border-radius: 5px;
-  font-size: 1rem;
+    background-color: green;
+    color: black;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 button:hover {
-  background-color: #555;
+    background-color: darkgreen;
 }
 
-button:disabled {
-  background-color: #444;
-  cursor: not-allowed;
+.inline-terminal-container {
+    background-color: #111;
+    color: green;
+    padding: 10px;
+    border: 1px solid green;
+    font-family: monospace;
 }
 
-/* Dark background for the modules list */
-.module-list li {
-  margin: 10px 0;
+.inline-terminal-container pre {
+    margin: 0;
 }
 
-/* Hover effect for child modules */
-.child-module-title:hover {
-  color: #33cc33;
-  text-decoration: underline;
+.module-list li span {
+    margin-left: 10px;
 }
 
-/* Submodule visibility and style */
-.child-module-title.active {
-  color: #33cc33;
+/* Pointer cursor for Linux and Powershell */
+.submenu li:hover {
+    cursor: pointer;
 }
 
-.submenu.active .child-module-title {
-  display: block;
+/* Style for Hamburger Menu (three bars) */
+.hamburger {
+    display: none;
+    font-size: 30px;
+    color: green;
+    padding: 10px;
+    cursor: pointer;
 }
 
-/* Ensuring the body background is black and the border issue is removed */
-body {
-  margin: 0;
-  background-color: #1b1b1b; /* Dark background */
-  font-family: "Courier New", monospace;
-}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        position: absolute;
+        left: -100%;
+    }
 
-/* Styling for when a module is marked as completed */
-.completed {
-  text-decoration: line-through;
-  color: red !important;
-}
+    .container {
+        flex-direction: column;
+    }
 
-/* Sidebar padding and spacing fix */
-.sidebar {
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
+    .hamburger {
+        display: block;
+    }
 
-.module-list li {
-  margin-bottom: 15px;
-}
-
-/* Fixing the "Complete Module" button position */
-.navigation-buttons {
-  text-align: center;
-  margin-top: 30px;
-}
-
-/* Prevent the sidebar from overlapping content */
-.content {
-  margin-left: 270px;
-  padding: 20px;
-  flex-grow: 1;
+    .content {
+        padding: 10px;
+    }
 }
