@@ -1,171 +1,108 @@
-/* Global Styles */
-body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #1e1e1e;
-    color: #00FF00; /* Green text */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    overflow: hidden;
+@font-face {
+  font-family: "marauder-icons";
+  font-display: block;
+  src: url("marauder-icons.eot?868a651e2bef4d0ff689085fd1480378?#iefix") format("embedded-opentype"),
+       url("marauder-icons.woff2?868a651e2bef4d0ff689085fd1480378") format("woff2"),
+       url("marauder-icons.woff?868a651e2bef4d0ff689085fd1480378") format("woff");
 }
 
-/* Container for aligning content */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Aligns items to the left */
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 1200px; /* Adjust for larger screens */
-    margin: 20px auto;
+.marauder-icon {
+  display: inline-block;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Improved Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Style for text content */
-.text {
-    color: #00FF00;
-    margin-bottom: 20px;
-    width: 100%;
+.marauder-icon:before {
+  font-family: marauder-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  vertical-align: top;
 }
 
-/* Flexbox style for module buttons and sub-modules */
-.module-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+/* Example Icons */
+.marauder-icon-gear:before {
+  content: "\f126";  /* Replace with Marauder's specific icon */
+}
+.marauder-icon-folder:before {
+  content: "\f144";  /* Customize to match MarauderSec */
+}
+.marauder-icon-lock:before {
+  content: "\f152";  /* Replace with relevant icon for security features */
+}
+.marauder-icon-shield:before {
+  content: "\f169";  /* Use for 'protection' or 'secure' actions */
 }
 
-.module-button {
-    background-color: #d60000;
-    color: white;
-    padding: 15px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 400px;
+/* Buttons & Icons */
+button {
+  background-color: #333;  /* Dark gray for buttons */
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px;
+  transition: background-color 0.3s;
 }
 
-.module-button:hover {
-    background-color: #ff3d3d;
+button:hover {
+  background-color: #444;  /* Slightly lighter gray when hovered */
+}
+
+button:active {
+  background-color: #555;  /* Even lighter when pressed */
 }
 
 /* Terminal Styling */
 .terminal {
-    background-color: #2e2e2e; /* Dark Grey */
-    color: #00FF00; /* Green Text */
-    border-radius: 5px;
-    padding: 20px;
-    width: 100%;
-    max-width: 800px;
-    margin: 20px 0;
-    font-size: 16px;
-    font-family: 'Courier New', Courier, monospace;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  font-family: "Courier New", monospace;
+  background-color: #2a2a2a;
+  color: #33cc33;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
 }
 
-/* Header for terminal (simulating Kali header) */
 .terminal-header {
-    background-color: #d60000; /* Red Header */
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    border-radius: 5px 5px 0 0;
+  background-color: #e50000;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
 }
 
-/* Terminal Input Styles (for user input in simulated terminal) */
-.terminal-input {
-    background-color: #2e2e2e;
-    color: #00FF00;
-    border: none;
-    outline: none;
-    width: 100%;
-    padding: 5px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
+.terminal-footer {
+  color: #f3f3f3;
+  text-align: center;
+  margin-top: 20px;
 }
 
-/* Form Styling */
-.input-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px;
-    margin: 20px 0;
+.terminal-btns {
+  float: right;
+  margin-right: 10px;
 }
 
-.input-form label {
-    color: #00FF00;
-    margin-bottom: 5px;
+.terminal-btn {
+  background-color: #555;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-left: 5px;
 }
 
-.input-form input,
-.input-form select {
-    background-color: #2e2e2e;
-    color: #00FF00;
-    padding: 10px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    border: 1px solid #00FF00;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    width: 100%;
+.terminal-btn-close {
+  background-color: #e50000;
 }
-
-.input-form input:focus,
-.input-form select:focus {
-    outline: 2px solid #00FF00;
+.terminal-btn-minimize {
+  background-color: #f0ad4e;
 }
-
-/* Button Styling (for copy buttons, etc.) */
-.button {
-    background-color: #d60000;
-    color: white;
-    padding: 10px 20px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.button:hover {
-    background-color: #ff3d3d;
-}
-
-/* Radio Button and Dropdown Styling */
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.radio-group input[type="radio"] {
-    margin-right: 10px;
-}
-
-select {
-    background-color: #2e2e2e;
-    color: #00FF00;
-    padding: 10px;
-    border: 1px solid #00FF00;
-    border-radius: 5px;
-}
-
-/* Hacker Themed Background Animation */
-@keyframes flicker {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-body {
-    animation: flicker 1.5s infinite alternate;
+.terminal-btn-maximize {
+  background-color: #5bc0de;
 }
