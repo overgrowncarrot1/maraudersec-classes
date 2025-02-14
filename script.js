@@ -3,15 +3,27 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProgress();
 });
 
+// Function to load modules into the main content area
 function loadModule(module) {
     let moduleContent = document.getElementById("module-content");
 
+    // Special case: Load install.html in an iframe
     if (module === "Install") {
         moduleContent.innerHTML = '<iframe src="install.html" width="100%" height="600px" style="border:none;"></iframe>';
-    } else if (module === "Domain") {
-        moduleContent.innerHTML = "<h2>Building Domain Controller</h2><p>Content for Domain Controller setup...</p>";
+        saveProgress(module);
+        updateNavigation();
+        return;
     }
-    // Add more modules as needed
+
+    // Default behavior for other modules
+    let moduleTitle = document.createElement("h2");
+    moduleTitle.textContent = `${module} Module`;
+    moduleContent.innerHTML = "";
+    moduleContent.appendChild(moduleTitle);
+    moduleContent.innerHTML += `<p>Content for ${module} goes here.</p>`;
+    
+    saveProgress(module);
+    updateNavigation();
 }
 
 // Toggle the dropdown menu visibility when clicking on parent modules
@@ -24,18 +36,6 @@ function toggleMenu(element) {
 function toggleSidebar() {
     let sidebar = document.querySelector(".sidebar");
     sidebar.classList.toggle("active");
-}
-
-// Load specific module content based on user click
-function loadModule(module) {
-    let moduleContent = document.getElementById("module-content");
-    let moduleTitle = document.createElement("h2");
-    moduleTitle.textContent = `${module} Module`;
-    moduleContent.innerHTML = "";
-    moduleContent.appendChild(moduleTitle);
-    moduleContent.innerHTML += `<p>Content for ${module} goes here.</p>`;
-    saveProgress(module);
-    updateNavigation();
 }
 
 // Mark module as completed and strike through module title
