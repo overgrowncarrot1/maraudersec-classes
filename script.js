@@ -7,21 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadModule(module) {
     let moduleContent = document.getElementById("module-content");
 
-    // Special case: Load install.html in an iframe
+    // Special case: Load install.html in full screen inside iframe
     if (module === "Install") {
-        moduleContent.innerHTML = '<iframe src="install.html" width="100%" height="600px" style="border:none;"></iframe>';
-        saveProgress(module);
-        updateNavigation();
+        moduleContent.innerHTML = `
+            <iframe src="install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
+        `;
         return;
     }
 
     // Default behavior for other modules
-    let moduleTitle = document.createElement("h2");
-    moduleTitle.textContent = `${module} Module`;
-    moduleContent.innerHTML = "";
-    moduleContent.appendChild(moduleTitle);
-    moduleContent.innerHTML += `<p>Content for ${module} goes here.</p>`;
-    
+    moduleContent.innerHTML = `<p>Content for ${module} goes here.</p>`;
     saveProgress(module);
     updateNavigation();
 }
@@ -155,3 +150,4 @@ function getPreviousModule(currentModule) {
 function getNextModule(currentModule) {
     // Implement logic to get the next module
 }
+
