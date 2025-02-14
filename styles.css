@@ -159,10 +159,10 @@ button:hover {
     margin-bottom: 20px; /* Adjust space between submodules */
 }
 
-/* Ensures images are spaced and centered */
+/* Ensures images are spaced and aligned to the left */
 img {
     display: block;
-    margin: 20px auto; /* 20px space between images, auto centers them */
+    margin: 20px 0; /* 20px space between images, aligned left */
     max-width: 100%; /* Prevents images from overflowing */
     padding: 10px; /* Adds space around images */
 }
