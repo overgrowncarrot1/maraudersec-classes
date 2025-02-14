@@ -3,6 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProgress();
 });
 
+function loadModule(module) {
+    let moduleContent = document.getElementById("module-content");
+
+    if (module === "Install") {
+        moduleContent.innerHTML = '<iframe src="install.html" width="100%" height="600px" style="border:none;"></iframe>';
+    } else if (module === "Domain") {
+        moduleContent.innerHTML = "<h2>Building Domain Controller</h2><p>Content for Domain Controller setup...</p>";
+    }
+    // Add more modules as needed
+}
+
 // Toggle the dropdown menu visibility when clicking on parent modules
 function toggleMenu(element) {
     let submenu = element.nextElementSibling;
