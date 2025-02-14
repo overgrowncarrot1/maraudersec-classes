@@ -4,6 +4,8 @@ body {
     padding: 0;
     background-color: black;
     color: white; /* White text for body */
+    font-size: 18px; /* Larger base font size */
+    line-height: 1.6; /* Improved readability */
 }
 
 .container {
@@ -74,8 +76,18 @@ body {
     overflow-y: auto;
 }
 
-h1, h2 {
+h1 {
     color: green;
+    font-size: 32px; /* Larger heading */
+}
+
+h2 {
+    color: green;
+    font-size: 26px; /* Larger heading */
+}
+
+h3 {
+    font-size: 22px;
 }
 
 button {
@@ -85,6 +97,7 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 10px;
+    font-size: 16px; /* Slightly larger button text */
 }
 
 button:hover {
@@ -144,4 +157,12 @@ button:hover {
 /* Spacing for Kerberos submodules */
 .kerberos-submodule {
     margin-bottom: 20px; /* Adjust space between submodules */
+}
+
+/* Ensures images are spaced and centered */
+img {
+    display: block;
+    margin: 20px auto; /* 20px space between images, auto centers them */
+    max-width: 100%; /* Prevents images from overflowing */
+    padding: 10px; /* Adds space around images */
 }
