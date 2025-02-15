@@ -22,6 +22,7 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Ensure sidebar remains visible (no auto-hide behavior) unless explicitly triggered */
 .sidebar.hide {
     transform: translateX(-100%);
 }
@@ -159,8 +160,6 @@ button:hover {
     margin-bottom: 20px; /* Adjust space between submodules */
 }
 
-/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
-/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
 /* Ensures images are spaced and aligned to the left and maintain aspect ratio */
 img {
     display: block;
