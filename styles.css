@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 2rem; /* Adjust to be responsive but not too large */
+    font-size: 1.5vw; /* Reduced font size */
     line-height: 1.6;
 }
 
@@ -22,12 +22,12 @@ body {
     color: green;
     transition: transform 0.3s ease;
     z-index: 10;
-    font-size: 2rem; /* Sidebar text size adjusts with rem */
+    font-size: 1.5rem; /* Adjust sidebar text size */
 }
 
 .sidebar h2 {
     color: green;
-    font-size: 1.5rem; /* Adjust header size for the sidebar */
+    font-size: 1.2rem; /* Smaller sidebar header size */
 }
 
 .module-list {
@@ -41,7 +41,7 @@ body {
     padding: 10px;
     display: block;
     text-decoration: none;
-    font-size: 2rem; /* Adjust module titles to be larger */
+    font-size: 1.6rem; /* Adjust module titles to be smaller */
 }
 
 .module-title:hover {
@@ -52,8 +52,6 @@ body {
     list-style-type: none;
     padding-left: 20px;
     display: none;
-    position: relative; /* Ensure it doesn't overlap or hide incorrectly */
-    z-index: 1;
 }
 
 .submenu.active {
@@ -63,7 +61,7 @@ body {
 .submenu li {
     cursor: pointer;
     color: green;
-    font-size: 1.8rem; /* Adjust submenu items font size */
+    font-size: 1.4rem; /* Smaller submenu items font size */
 }
 
 .submenu li:hover {
@@ -79,21 +77,22 @@ body {
     overflow-y: auto;
     position: relative;
     z-index: 5;
-    font-size: 2rem; /* Adjust content text size */
+    font-size: 1.6rem; /* Smaller content text size */
+    margin-left: 250px; /* Ensure content doesn't get hidden behind the sidebar */
 }
 
 h1 {
     color: green;
-    font-size: 5vw; /* Use viewport width for dynamic header resizing */
+    font-size: 3vw; /* Dynamic resizing for main headers */
 }
 
 h2 {
     color: green;
-    font-size: 4vw; /* Dynamic resizing for h2 */
+    font-size: 2.5vw; /* Dynamic resizing for h2 */
 }
 
 h3 {
-    font-size: 3vw;
+    font-size: 2vw;
 }
 
 button {
@@ -103,7 +102,7 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 button:hover {
