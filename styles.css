@@ -111,16 +111,44 @@ button:hover {
     background-color: darkgreen;
 }
 
-.inline-terminal-container {
-    background-color: #111;
-    color: green;
-    padding: 10px;
-    border: 1px solid green;
-    font-family: monospace;
+.powershell-terminal {
+    background-color: #012456; /* PowerShell Blue */
+    color: #ffffff; /* White text */
+    padding: 15px;
+    border: 2px solid #007ACC; /* Microsoft Blue Border */
+    font-family: 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 122, 204, 0.5); /* Soft blue glow */
+    max-width: 80%;
 }
 
-.inline-terminal-container pre {
+.powershell-terminal pre {
     margin: 0;
+    white-space: pre-wrap;
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+.kali-terminal {
+    background-color: #111; /* Dark hacker-style background */
+    color: #00ff00; /* Bright green text */
+    padding: 15px;
+    border: 2px solid #00ff00; /* Green hacker border */
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Green glow effect */
+    max-width: 80%;
+}
+
+.kali-terminal pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 1.3rem;
+    line-height: 1.4;
 }
 
 .module-list li span {
