@@ -1,128 +1,142 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 2rem; /* Adjust to be responsive but not too large */
-    font-size: 1.5vw; /* Reduced font size */
+    font-size: 1.5vw; /* Reduced font size for better responsiveness */
     line-height: 1.6;
 }
 
-@@ -22,12 +22,12 @@
-    color: green;
-    transition: transform 0.3s ease;
-    z-index: 10;
-    font-size: 2rem; /* Sidebar text size adjusts with rem */
-    font-size: 1.5rem; /* Adjust sidebar text size */
-}
-
-.sidebar h2 {
-    color: green;
-    font-size: 1.5rem; /* Adjust header size for the sidebar */
-    font-size: 1.2rem; /* Smaller sidebar header size */
-}
-
-.module-list {
-@@ -41,7 +41,7 @@
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-    font-size: 2rem; /* Adjust module titles to be larger */
-    font-size: 1.6rem; /* Adjust module titles to be smaller */
-}
-
-.module-title:hover {
-@@ -52,8 +52,6 @@
-    list-style-type: none;
-    padding-left: 20px;
-    display: none;
-    position: relative; /* Ensure it doesn't overlap or hide incorrectly */
-    z-index: 1;
-}
-
-.submenu.active {
-@@ -63,7 +61,7 @@
-.submenu li {
-    cursor: pointer;
-    color: green;
-    font-size: 1.8rem; /* Adjust submenu items font size */
-    font-size: 1.4rem; /* Smaller submenu items font size */
-}
-
-.submenu li:hover {
-@@ -79,21 +77,22 @@
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    z-index: 10; /* Ensure sidebar is above the content */
     overflow-y: auto;
-    position: relative;
-    z-index: 5;
-    font-size: 2rem; /* Adjust content text size */
-    font-size: 1.6rem; /* Smaller content text size */
-    margin-left: 250px; /* Ensure content doesn't get hidden behind the sidebar */
+    padding-top: 20px;
 }
 
-h1 {
-    color: green;
-    font-size: 5vw; /* Use viewport width for dynamic header resizing */
-    font-size: 3vw; /* Dynamic resizing for main headers */
+.sidebar .module-list {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.sidebar .module-title {
+    font-size: 1.6rem; /* Sidebar text size adjusted */
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px 0;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.sidebar .module-title:hover {
+    color: #00b300;
+}
+
+.sidebar .active {
+    display: block;
+}
+
+/* Main content area */
+.main-content {
+    position: relative;
+    margin-left: 250px;
+    z-index: 5; /* Ensure content is above the sidebar */
+    padding: 20px;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+/* Module content */
+.module-content {
+    font-size: 1.6rem; /* Module content text size adjusted */
+    color: #dcdcdc;
+}
+
+/* Headers */
+h1, h2, h3 {
+    font-size: 3vw; /* Dynamic resizing based on viewport width */
+    color: #00b300;
 }
 
 h2 {
-    color: green;
-    font-size: 4vw; /* Dynamic resizing for h2 */
-    font-size: 2.5vw; /* Dynamic resizing for h2 */
+    font-size: 2.5vw;
 }
 
 h3 {
-    font-size: 3vw;
     font-size: 2vw;
 }
 
+/* Buttons */
 button {
-@@ -103,49 +102,49 @@
+    background-color: #00b300;
+    color: white;
     border: none;
+    padding: 10px 20px;
+    font-size: 1.5rem;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 2rem;
-    font-size: 1.5rem;
+    border-radius: 5px;
 }
 
 button:hover {
-    background-color: darkgreen;
+    background-color: #009900;
 }
 
-.inline-terminal-container {
-    background-color: #111;
-    color: green;
-    padding: 10px;
-    border: 1px solid green;
-    font-family: monospace;
+/* Fullscreen image styles */
+.fullscreen-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Higher z-index to be on top of all other content */
 }
 
-.inline-terminal-container pre {
-    margin: 0;
+.fullscreen-img img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.module-list li span {
-    margin-left: 10px;
+/* Active state for the dropdown menus in modules */
+.module-title.active {
+    background-color: #444;
 }
 
-/* Pointer cursor for Linux and Powershell */
-.submenu li:hover {
-    cursor: pointer;
+/* Special iframe for full screen loading */
+iframe {
+    z-index: 1000; /* Ensures iframe is above sidebar and content */
+    position: absolute;
+    border: none;
+    width: 100vw;
+    height: 100vh;
 }
 
-/* Style for Hamburger Menu (three bars) */
-.hamburger {
-    display: none;
-    font-size: 30px;
-    color: green;
-    padding: 10px;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
     .sidebar {
         width: 200px;
-        position: absolute;
-        left: -100%;
     }
 
-    .container {
-        flex-direction: column;
+    .main-content {
+        margin-left: 200px;
+    }
+
+    h1, h2, h3 {
+        font-size: 2.5vw; /* Smaller font sizes for mobile */
+    }
+
+    .sidebar .module-title {
+        font-size: 1.4rem; /* Sidebar text size smaller for mobile */
+    }
+}
