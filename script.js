@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    checkLogin();
     loadProgress();
     addImageClickListener(); // Add the listener for image clicks
 });
@@ -80,7 +79,8 @@ function toggleMenu(element) {
 // Toggle the sidebar visibility when clicking the hamburger menu
 function toggleSidebar() {
     let sidebar = document.querySelector(".sidebar");
-    sidebar.classList.toggle("active");
+    // Prevent sidebar from being hidden unless explicitly toggled
+    sidebar.classList.toggle("hide");  // Only toggle if this is intentional
 }
 
 // Mark module as completed and strike through module title
@@ -165,27 +165,13 @@ function checkLogin() {
     }
 }
 
+// Remove progress saving and login features since login is no longer needed
 function saveProgress(module) {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        progress[username] = progress[username] || {};
-        progress[username][module] = "completed";
-        localStorage.setItem("progress", JSON.stringify(progress));
-    }
+    // No need for login-related progress saving anymore
 }
 
 function loadProgress() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        let userProgress = progress[username] || {};
-        for (let module in userProgress) {
-            if (userProgress[module] === "completed") {
-                addCheckmark(module);
-            }
-        }
-    }
+    // No need to load progress from local storage anymore
 }
 
 function getCurrentModule() {
@@ -200,3 +186,4 @@ function getPreviousModule(currentModule) {
 function getNextModule(currentModule) {
     // Implement logic to get the next module
 }
+
