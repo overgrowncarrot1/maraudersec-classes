@@ -11,33 +11,42 @@ function loadModule(module) {
     // Clear any previous content in the main content area (but not the sidebar)
     moduleContent.innerHTML = '';
 
-    // Special case: Load install.html in full screen inside iframe
+    // Special case: Fullscreen iframe for "Downloading and Installing Server 2022"
     if (module.trim() === "Downloading and Installing Server 2022") {
         moduleContent.innerHTML = `
            <iframe id="module-iframe" src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:1000;"></iframe>
        `;
         let iframe = document.getElementById("module-iframe");
-
-        // Wait until the iframe is fully loaded, then apply the parent page's CSS
-        iframe.onload = function() {
+        iframe.onload = function () {
             let iframeDocument = iframe.contentWindow.document;
-
-            // Create a new link element for the parent page's CSS
             let link = iframeDocument.createElement('link');
             link.rel = 'stylesheet';
-            link.href = 'styles.css'; // Adjust the path if needed
-
-            // Append the link element to the iframe's head
+            link.href = 'styles.css'; // Ensure the correct path
             iframeDocument.head.appendChild(link);
         };
-        return;  // Return to prevent other modules from loading
+        return; // Stop further execution
+    }
+
+    // Special case: Fullscreen iframe for "Building Domain Controller"
+    if (module.trim() === "Building Domain Controller") {
+        moduleContent.innerHTML = `
+           <iframe id="module-iframe" src="modules/buildingDC.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:1000;"></iframe>
+       `;
+        let iframe = document.getElementById("module-iframe");
+        iframe.onload = function () {
+            let iframeDocument = iframe.contentWindow.document;
+            let link = iframeDocument.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'styles.css'; // Ensure the correct path
+            iframeDocument.head.appendChild(link);
+        };
+        return; // Stop further execution
     }
 
     // Default behavior for other modules
     moduleContent.innerHTML = `<p>Content for ${module} goes here.</p>`;
     updateNavigation();
 }
-
 // Event listener to handle image click for fullscreen
 function addImageClickListener() {
     const images = document.querySelectorAll(".content img");
