@@ -1,155 +1,89 @@
-document.addEventListener("DOMContentLoaded", function () {
-    checkLogin();
-    loadProgress();
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Step-by-step guide for installing Server 2022 as a virtual machine.">
+    <title>Installing Server 2022 as a Virtual Machine</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a styles.css file -->
+</head>
+<body>
 
-// Function to load modules into the main content area
-function loadModule(module) {
-    let moduleContent = document.getElementById("module-content");
+    <div class="content">
+        <h2>Installing Server 2022 as a Virtual Machine</h2>
+        <p>After downloading Server 2022, install it as a new Virtual Machine (VM). At the end of the setup, do not power on your VM yet. We need to load the ISO file downloaded from Microsoft earlier.</p>
 
-    // Clear any previous content in the main content area (but not the sidebar)
-    moduleContent.innerHTML = '';
+        <div class="image-container">
+            <img src="images/image_1.jpg" alt="Creating a new VM">
+            <img src="images/image_2.jpg" alt="Creating a new VM Cont.">
+            <img src="images/image_3.jpg" alt="Install Later">
+            <img src="images/image_4.jpg" alt="Server 2022">
+            <img src="images/image_5.jpg" alt="Name">
+            <img src="images/image_6.jpg" alt="Capacity">
+            <img src="images/image_10.jpg" alt="Creating a new VM">
+            <img src="images/image_8.jpg" alt="Creating a new VM">
+            <img src="images/image_4.jpg" alt="Creating a new VM Cont.">
+            <img src="images/image_1.jpg" alt="Install Later">
+            <img src="images/image_14.jpg" alt="Server 2022">
+            <img src="images/image_12.jpg" alt="Name">
+        </div>
 
-    // Special case: Load install.html in full screen inside iframe
-    if (module === "Install Server 2022") {
-        moduleContent.innerHTML = `
-            <iframe src="install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
-        `;
-        return;
-    }
+        <p>At the end, click finish. Do not power on your VM yet, we need to load the ISO file that was downloaded from Microsoft earlier. If you have not unzipped it yet, now is the time to do that.</p>
 
-    // Default behavior for other modules
-    moduleContent.innerHTML = `<p>Content for ${module} goes here.</p>`;
-    saveProgress(module);
-    updateNavigation();
-}
+        <h2>Loading the ISO File</h2>
+        <div class="image-container">
+            <img src="images/image_7.jpg" alt="Booting from ISO">
+            <img src="images/image_8.jpg" alt="ISO Image">
+            <img src="images/image_9.jpg" alt="Booting from ISO">
+            <img src="images/image_5.jpg" alt="ISO Image">
+        </div>
 
-// Toggle the dropdown menu visibility when clicking on parent modules
-function toggleMenu(element) {
-    let submenu = element.nextElementSibling;
-    submenu.classList.toggle("active");
-}
+        <p>Notice above that I picked the Server Eval ISO file, and told the system to use that image file. This will boot much like when you load an ISO into a desktop and then boot from USB.</p>
 
-// Toggle the sidebar visibility when clicking the hamburger menu
-function toggleSidebar() {
-    let sidebar = document.querySelector(".sidebar");
-    sidebar.classList.toggle("active");
-}
+        <h2>Powering On and Installation</h2>
+        <p>Now, power on the machine and start pressing the spacebar to ensure it boots from USB or disc. If you miss this step, wait for the blue screen, power off, and retry.</p>
+        <p>Once booted, click <strong>Next</strong>, then <strong>Install Now</strong>.</p>
 
-// Mark module as completed and strike through module title
-function completeModule() {
-    let moduleTitle = document.querySelector("#module-content h2");
-    if (moduleTitle) {
-        alert(`Module ${moduleTitle.textContent} marked as complete.`);
-        addCheckmark(moduleTitle.textContent);
+        <div class="image-container">
+            <img src="images/image_2.jpg" alt="ISO Image">
+        </div>
 
-        // Check if all submodules are completed for the parent module
-        if (allSubmodulesCompleted(moduleTitle.textContent)) {
-            addCheckmark(getParentModule(moduleTitle.textContent));
-        }
-    }
-}
+        <h2>Custom Installation</h2>
+        <p>Select <strong>Custom Install</strong> and click <strong>Next</strong> to start the installation.</p>
 
-function addCheckmark(module) {
-    const moduleList = document.querySelectorAll(".module-list .module-title");
-    moduleList.forEach(item => {
-        if (item.textContent === module) {
-            let checkmark = document.createElement("span");
-            checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
-            item.appendChild(checkmark);
-            item.classList.add("completed");
-        }
-    });
-}
+        <div class="image-container">
+            <img src="images/image_15.jpg" alt="Custom Install">
+        </div>
 
-function allSubmodulesCompleted(module) {
-    const submodules = {
-        "Kerberos": ["AsRepRoasting", "Kerberaosting", "UnconstrainedDelegation", "ConstrainedDelegation", "RescourceBasedConstrainedDelegation", "AlternateServices", "Relay", "SilverTicket", "GoldenTicket", "Passtheticket"],
-        "DACL Attacks": ["Force Change Password", "Write SPN Targeted Kerberoasting", "Add Members", "Read LAPS Password", "Read GMSA Password", "Generic All", "Add Key Credential Link", "Write SPN", "Logon Scripts"]
-    };
+        <h2>Administrator Password</h2>
+        <p>Choose an administrator password and make sure to remember it. Click <strong>Finish</strong>.</p>
 
-    if (submodules[module]) {
-        let completed = submodules[module].every(submodule => {
-            return document.querySelector(`.module-title:contains('${submodule}') span`);
-        });
-        return completed;
-    }
-    return false;
-}
+        <div class="image-container">
+            <img src="images/image_11.jpg" alt="Administrator Password Setup">
+        </div>
 
-function getParentModule(submodule) {
-    const submodules = {
-        "AsRepRoasting": "Kerberos",
-        "Kerberaosting": "Kerberos",
-        "UnconstrainedDelegation": "Kerberos",
-        "ConstrainedDelegation": "Kerberos",
-        "RescourceBasedConstrainedDelegation": "Kerberos",
-        "AlternateServices": "Kerberos",
-        "Relay": "Kerberos",
-        "SilverTicket": "Kerberos",
-        "GoldenTicket": "Kerberos",
-        "Passtheticket": "Kerberos",
-        "Force Change Password": "DACL Attacks",
-        "Write SPN Targeted Kerberoasting": "DACL Attacks",
-        "Add Members": "DACL Attacks",
-        "Read LAPS Password": "DACL Attacks",
-        "Read GMSA Password": "DACL Attacks",
-        "Generic All": "DACL Attacks",
-        "Add Key Credential Link": "DACL Attacks",
-        "Write SPN": "DACL Attacks",
-        "Logon Scripts": "DACL Attacks"
-    };
-    return submodules[submodule];
-}
+        <h2>Installing VMWare Tools</h2>
+        <p>Click on <strong>Install Tools</strong> at the bottom of the page. If you miss this step, navigate to the <code>D:/</code> drive to install VMWare tools.</p>
 
-function updateNavigation() {
-    let currentModule = getCurrentModule();
-    let prevBtn = document.getElementById("prev-btn");
-    let nextBtn = document.getElementById("next-btn");
+        <div class="image-container">
+            <img src="images/image_7.jpg" alt="Installing VMWare Tools">
+        </div>
 
-    prevBtn.disabled = !getPreviousModule(currentModule);
-    nextBtn.disabled = !getNextModule(currentModule);
-}
+        <h2>Final Steps</h2>
+        <p>After installing tools, change the server name. Congratulations! You have successfully set up a Windows Server.</p>
 
-function checkLogin() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
-    }
-}
+        <div class="image-container">
+            <img src="images/image_9.jpg" alt="Renaming the server">
+            <img src="images/image_6.jpg" alt="Renaming the server">
+            <img src="images/image_3.jpg" alt="ISO Image">
+            <img src="images/image_13.jpg" alt="Renaming the server">
+        </div>
 
-function saveProgress(module) {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        progress[username] = progress[username] || {};
-        progress[username][module] = "completed";
-        localStorage.setItem("progress", JSON.stringify(progress));
-    }
-}
+        <h2>Next Module</h2>
+        <p>In the next module, we will create a Domain Controller using this installed server.</p>
 
-function loadProgress() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        let userProgress = progress[username] || {};
-        for (let module in userProgress) {
-            if (userProgress[module] === "completed") {
-                addCheckmark(module);
-            }
-        }
-    }
-}
+    </div>
 
-function getCurrentModule() {
-    let moduleTitle = document.querySelector("#module-content h2");
-    return moduleTitle ? moduleTitle.textContent.replace(" Module", "") : null;
-}
-
-function getPreviousModule(currentModule) {
-    // Implement logic to get the previous module
-}
-
-function getNextModule(currentModule) {
-    // Implement logic to get the next module
-}
+    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
