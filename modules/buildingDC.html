@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Domain Controller</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
+
+    <div class="content">
+        <h2>PowerShell Script</h2>
+        <p>We can build the DC by hand, or with a simple powershell script. For this we will be using a PowerShell script</p>
+
+        <div class="powershell-terminal">
+            <pre>
+                install-windowsfeature -name ad-domain-services -includemanagementtools
+                Import-Module ADDSDeployment
+                Install-ADDSForest `
+                -CreateDnsDelegation:$false `
+                -DatabasePath "C:\Windows\NTDS" `
+                -DomainMode "WinThreshold" `
+                -DomainName "maraudersec.local" `
+                -DomainNetbiosName "DC1" `
+                -ForestMode "WinThreshold" `
+                -InstallDns:$true `
+                -LogPath "C:\Windows\NTDS" `
+                -NoRebootOnCompletion:$false `
+                -SysvolPath "C:\Windows\SYSVOL" `
+                -Force:$true
+            </pre>
+        </div>
+
+        <p>Once finished the DC will reboot and you will have a domain controller setup</p>
+     <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
