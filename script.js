@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkLogin();
     loadProgress();
+    retainSidebarState(); // Ensure sidebar state is preserved
 });
 
 // Function to load modules into the main content area
@@ -48,6 +49,10 @@ function toggleMenu(element) {
 function toggleSidebar() {
     let sidebar = document.querySelector(".sidebar");
     sidebar.classList.toggle("active");
+    // Prevent sidebar from disappearing when content is shown
+    if (!sidebar.classList.contains("active")) {
+        sidebar.classList.add("active");
+    }
 }
 
 // Mark module as completed and strike through module title
@@ -166,4 +171,12 @@ function getPreviousModule(currentModule) {
 
 function getNextModule(currentModule) {
     // Implement logic to get the next module
+}
+
+// Ensure the sidebar remains visible when content is shown
+function retainSidebarState() {
+    let sidebar = document.querySelector(".sidebar");
+    if (!sidebar.classList.contains("active")) {
+        sidebar.classList.add("active");
+    }
 }
