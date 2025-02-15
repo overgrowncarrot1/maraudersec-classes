@@ -167,7 +167,7 @@ img {
     max-width: 100%; /* Prevents images from overflowing */
     height: auto; /* Maintains aspect ratio */
     max-height: 400px; /* Limits the height of images */
-    border: 4px solid #4CAF50; /* Adds a green border */
+    border: 4px solid #555; /* Adds a drak grey border */
     border-radius: 8px; /* Slightly rounds the corners */
     padding: 10px; /* Adds space inside the border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for effect */
