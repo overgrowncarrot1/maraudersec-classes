@@ -19,11 +19,12 @@ body {
     padding: 10px;
     box-sizing: border-box;
     color: green; /* Green text in the sidebar */
-    transition: transform 0.3s ease;
-}
-
-.sidebar.hide {
-    transform: translateX(-100%);
+    transition: none; /* Remove any transition for sliding */
+    position: fixed; /* Fix the sidebar on the left */
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 .sidebar h2 {
@@ -74,7 +75,7 @@ body {
     background-color: black; /* Black background for content */
     color: white; /* White text for content */
     overflow-y: auto;
-    font-size: 22px; /* Larger font size for content */
+    margin-left: 250px; /* Offset the content from the sidebar */
 }
 
 /* Increase font size for headers within content */
