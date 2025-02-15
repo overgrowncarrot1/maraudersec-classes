@@ -79,14 +79,18 @@ img {
     height: auto;
     display: block;
     margin-bottom: 20px; /* Space between images */
+    border: 2px solid #ccc; /* Grey border around images */
+    margin-bottom: 20px; /* Space between the bottom of images and the next element */
 }
 
 /* Gallery/Content Images in Line */
 .content img {
-    width: 60%; /* Make images smaller, 60% of their container width */
+    width: 45%; /* Make images smaller, 45% of their container width */
     max-width: 100%; /* Prevent images from overflowing */
-    display: block;
-    margin: 0 auto; /* Center images */
+    display: inline-block;
+    margin-right: 10px; /* Space between images */
+    margin-bottom: 20px; /* Add some space below images */
+    border: 2px solid #ccc; /* Grey border around images */
 }
 
 /* Buttons */
