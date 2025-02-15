@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 1.5vw; /* Reduced font size */
+    font-size: 1.5vw;
     line-height: 1.6;
 }
 
@@ -22,12 +22,12 @@ body {
     color: green;
     transition: transform 0.3s ease;
     z-index: 10;
-    font-size: 1.5rem; /* Adjust sidebar text size */
+    font-size: 1.5rem;
 }
 
 .sidebar h2 {
     color: green;
-    font-size: 1.2rem; /* Smaller sidebar header size */
+    font-size: 1.2rem;
 }
 
 .module-list {
@@ -41,8 +41,7 @@ body {
     padding: 10px;
     display: block;
     text-decoration: none;
-    font-size: 1.6rem; /* Adjust module titles to be smaller */
-    font-size: 1.6rem; /* Adjusted for smaller font size */
+    font-size: 1.6rem;
 }
 
 .module-title:hover {
@@ -62,7 +61,7 @@ body {
 .submenu li {
     cursor: pointer;
     color: green;
-    font-size: 1.4rem; /* Smaller submenu items font size */
+    font-size: 1.4rem;
 }
 
 .submenu li:hover {
@@ -78,23 +77,22 @@ body {
     overflow-y: auto;
     position: relative;
     z-index: 5;
-    font-size: 1.6rem; /* Smaller content text size */
-    margin-left: 250px; /* Ensure content doesn't get hidden behind the sidebar */
+    font-size: 1.6rem;
+    margin-left: 250px;
 }
 
 h1 {
     color: green;
-    font-size: 3vw; /* Dynamic resizing for main headers */
+    font-size: 3vw;
 }
 
 h2 {
     color: green;
-    font-size: 2.5vw; /* Dynamic resizing for h2 */
+    font-size: 2.5vw;
 }
 
 h3 {
-    font-size: 2vw;
-    font-size: 2.5vw; /* Smaller h3 size */
+    font-size: 2.5vw;
 }
 
 button {
@@ -112,15 +110,15 @@ button:hover {
 }
 
 .powershell-terminal {
-    background-color: #012456; /* PowerShell Blue */
-    color: #ffffff; /* White text */
+    background-color: #012456; 
+    color: #ffffff;
     padding: 15px;
-    border: 2px solid #007ACC; /* Microsoft Blue Border */
+    border: 2px solid #007ACC;
     font-family: 'Consolas', 'Courier New', monospace;
     white-space: pre-wrap;
     border-radius: 5px;
     margin: 20px 0;
-    box-shadow: 0 0 10px rgba(0, 122, 204, 0.5); /* Soft blue glow */
+    box-shadow: 0 0 10px rgba(0, 122, 204, 0.5);
     max-width: 80%;
 }
 
@@ -132,15 +130,15 @@ button:hover {
 }
 
 .kali-terminal {
-    background-color: #111; /* Dark hacker-style background */
-    color: #00ff00; /* Bright green text */
+    background-color: #111;
+    color: #00ff00;
     padding: 15px;
-    border: 2px solid #00ff00; /* Green hacker border */
+    border: 2px solid #00ff00;
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
     border-radius: 5px;
     margin: 20px 0;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Green glow effect */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
     max-width: 80%;
 }
 
@@ -155,12 +153,10 @@ button:hover {
     margin-left: 10px;
 }
 
-/* Pointer cursor for Linux and Powershell */
 .submenu li:hover {
     cursor: pointer;
 }
 
-/* Style for Hamburger Menu (three bars) */
 .hamburger {
     display: none;
     font-size: 30px;
@@ -189,12 +185,10 @@ button:hover {
     }
 }
 
-/* Spacing for Kerberos submodules */
 .kerberos-submodule {
     margin-bottom: 20px;
 }
 
-/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
 img {
     display: block;
     margin: 20px 0;
@@ -207,7 +201,6 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Fullscreen image styles */
 .fullscreen-img {
     position: fixed;
     top: 0;
