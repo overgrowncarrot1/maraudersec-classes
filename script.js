@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadModule(module) {
     let moduleContent = document.getElementById("module-content");
 
+    // Clear any previous content
+    moduleContent.innerHTML = '';
+
     // Special case: Load install.html in full screen inside iframe
     if (module === "Install") {
         moduleContent.innerHTML = `
@@ -150,4 +153,3 @@ function getPreviousModule(currentModule) {
 function getNextModule(currentModule) {
     // Implement logic to get the next module
 }
-
