@@ -11,10 +11,24 @@ function loadModule(module) {
     moduleContent.innerHTML = '';
 
     // Special case: Load install.html in full screen inside iframe
-    if (module === "Downloading and Installing Server 2022") {
+    if (module.trim() === "Downloading and Installing Server 2022") {
         moduleContent.innerHTML = `
-            <iframe src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
+            <iframe id="module-iframe" src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
         `;
+        let iframe = document.getElementById("module-iframe");
+
+        // Wait until the iframe is fully loaded, then apply the parent page's CSS
+        iframe.onload = function() {
+            let iframeDocument = iframe.contentWindow.document;
+
+            // Create a new link element for the parent page's CSS
+            let link = iframeDocument.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'styles.css'; // Adjust the path if needed
+
+            // Append the link element to the iframe's head
+            iframeDocument.head.appendChild(link);
+        };
         return;
     }
 
