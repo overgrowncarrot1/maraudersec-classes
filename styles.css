@@ -8,7 +8,12 @@ body {
     line-height: 1.6; /* Improved readability */
 }
 
-/* Ensure the sidebar stays fixed when content is loaded */
+.container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+}
+
 .sidebar {
     width: 250px;
     background-color: #333; /* Dark grey background for the sidebar */
@@ -16,17 +21,11 @@ body {
     box-sizing: border-box;
     color: green; /* Green text in the sidebar */
     transition: transform 0.3s ease;
-    position: relative; /* Make sure it stays fixed in place */
+    z-index: 10;  /* Ensure sidebar stays on top of content */
 }
 
 .sidebar.hide {
     transform: translateX(-100%);
-}
-
-.container {
-    display: flex;
-    height: 100vh;
-    justify-content: flex-start; /* Ensure the sidebar and content are aligned */
 }
 
 .sidebar h2 {
@@ -71,13 +70,14 @@ body {
 }
 
 .content {
+    flex-grow: 1;
     padding: 20px;
     box-sizing: border-box;
     background-color: black; /* Black background for content */
     color: white; /* White text for content */
     overflow-y: auto;
-    flex-grow: 1;
-    min-width: 0; /* Prevents the content area from causing overflow */
+    position: relative;
+    z-index: 5;  /* Make sure content is behind the sidebar */
 }
 
 h1 {
@@ -163,6 +163,8 @@ button:hover {
     margin-bottom: 20px; /* Adjust space between submodules */
 }
 
+/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
+/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
 /* Ensures images are spaced and aligned to the left and maintain aspect ratio */
 img {
     display: block;
