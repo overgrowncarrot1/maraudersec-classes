@@ -1,197 +1,47 @@
-body {
-    font-family: 'Courier New', monospace;
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    color: white;
-    font-size: 3vw; /* Use vw for body font size to resize with the window */
-    line-height: 1.6;
+document.addEventListener("DOMContentLoaded", function () {
+    addImageClickListener(); // Add the listener for image clicks
+});
+
+// Event listener to handle image click for fullscreen
+function addImageClickListener() {
+    const images = document.querySelectorAll(".content img");
+    images.forEach(image => {
+        image.addEventListener("click", function() {
+            openFullscreenImage(image.src);
+        });
+    });
 }
 
-.container {
-    display: flex;
-    height: 100vh;
-    position: relative;
+// Function to open the clicked image in fullscreen mode
+function openFullscreenImage(imageSrc) {
+    // Create the fullscreen image container
+    const fullscreenContainer = document.createElement("div");
+    fullscreenContainer.classList.add("fullscreen-img");
+
+    // Create the image element for fullscreen
+    const fullscreenImage = document.createElement("img");
+    fullscreenImage.src = imageSrc;
+
+    // Add the image to the container
+    fullscreenContainer.appendChild(fullscreenImage);
+
+    // Append the container to the body
+    document.body.appendChild(fullscreenContainer);
+
+    // Add a click event to close the fullscreen image
+    fullscreenContainer.addEventListener("click", function() {
+        document.body.removeChild(fullscreenContainer);
+    });
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #333;
-    padding: 10px;
-    box-sizing: border-box;
-    color: green;
-    transition: transform 0.3s ease;
-    z-index: 10;
-    font-size: 2rem; /* Sidebar text size adjusts with rem */
+// Toggle the dropdown menu visibility when clicking on parent modules
+function toggleMenu(element) {
+    let submenu = element.nextElementSibling;
+    submenu.classList.toggle("active");
 }
 
-.sidebar h2 {
-    color: green;
-    font-size: 1.5rem; /* Adjust header size for the sidebar */
-}
-
-.module-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.module-title {
-    color: green;
-    cursor: pointer;
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-    font-size: 2rem; /* Adjust module titles to be larger */
-}
-
-.module-title:hover {
-    background-color: #444;
-}
-
-.submenu {
-    list-style-type: none;
-    padding-left: 20px;
-    display: none;
-}
-
-.submenu.active {
-    display: block;
-}
-
-.submenu li {
-    cursor: pointer;
-    color: green;
-    font-size: 1.8rem; /* Adjust submenu items font size */
-}
-
-.submenu li:hover {
-    background-color: #444;
-}
-
-.content {
-    flex-grow: 1;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: black;
-    color: white;
-    overflow-y: auto;
-    font-size: 20px; /* Increased font size for content */
-    line-height: 1.8; /* Adjusted line-height for better readability */
-}
-
-h1 {
-    color: green;
-    font-size: 5vw; /* Use viewport width for dynamic header resizing */
-}
-
-h2 {
-    color: green;
-    font-size: 4vw; /* Dynamic resizing for h2 */
-}
-
-h3 {
-    font-size: 3vw;
-}
-
-button {
-    background-color: green;
-    color: black;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 2rem;
-}
-
-button:hover {
-    background-color: darkgreen;
-}
-
-.inline-terminal-container {
-    background-color: #111;
-    color: green;
-    padding: 10px;
-    border: 1px solid green;
-    font-family: monospace;
-}
-
-.inline-terminal-container pre {
-    margin: 0;
-}
-
-.module-list li span {
-    margin-left: 10px;
-}
-
-/* Pointer cursor for Linux and Powershell */
-.submenu li:hover {
-    cursor: pointer;
-}
-
-/* Style for Hamburger Menu (three bars) */
-.hamburger {
-    display: none;
-    font-size: 30px;
-    color: green;
-    padding: 10px;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-        position: absolute;
-        left: -100%;
-    }
-
-    .container {
-        flex-direction: column;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .content {
-        padding: 10px;
-    }
-}
-
-/* Spacing for Kerberos submodules */
-.kerberos-submodule {
-    margin-bottom: 20px;
-}
-
-/* Ensures images are spaced and aligned to the left and maintain aspect ratio */
-img {
-    display: block;
-    margin: 20px 0;
-    max-width: 100%;
-    height: auto;
-    max-height: 400px;
-    border: 4px solid #555;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Fullscreen image styles */
-.fullscreen-img {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.fullscreen-img img {
-    max-width: 90%;
-    max-height: 90%;
-    border: none;
-    border-radius: 0;
+// Toggle the sidebar visibility when clicking the hamburger menu
+function toggleSidebar() {
+    let sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("active");
 }
