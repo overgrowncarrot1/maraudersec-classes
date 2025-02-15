@@ -15,7 +15,7 @@ body {
     width: 250px;
     height: 100vh;
     background-color: #333;
-    z-index: 5;
+    z-index: 10;  /* Adjusted to ensure the sidebar is above content but below iframe or images */
     overflow: auto;
     padding-top: 20px;
 }
@@ -45,11 +45,12 @@ body {
 .main-content {
     position: relative;
     margin-left: 250px;
-    z-index: 10;
+    z-index: 5; /* Ensuring content is above the sidebar */
     padding: 20px;
+    overflow: hidden; /* Prevents content from overflowing */
 }
 
-/* Module area */
+/* Module content */
 .module-content {
     font-size: 14px;
     color: #dcdcdc;
@@ -57,18 +58,18 @@ body {
 
 /* Headers */
 h1, h2, h3 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     color: #00b300;
     margin-bottom: 10px;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Text content */
@@ -105,7 +106,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 10000; /* Higher z-index to be on top of all other content */
 }
 
 .fullscreen-img img {
@@ -113,18 +114,18 @@ button:hover {
     max-height: 100%;
 }
 
+/* Active state for the dropdown menus in modules */
+.module-title.active {
+    background-color: #444;
+}
+
 /* Special iframe for full screen loading */
 iframe {
-    z-index: 1000;
+    z-index: 1000; /* Ensures iframe is above sidebar and content */
     position: absolute;
     border: none;
     width: 100vw;
     height: 100vh;
-}
-
-/* Active state for the dropdown menus in modules */
-.module-title.active {
-    background-color: #444;
 }
 
 /* Mobile adjustments */
