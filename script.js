@@ -47,6 +47,7 @@ function loadModule(module) {
     moduleContent.innerHTML = `<p>Content for ${module} goes here.</p>`;
     updateNavigation();
 }
+
 // Event listener to handle image click for fullscreen
 function addImageClickListener() {
     const images = document.querySelectorAll(".content img");
@@ -150,51 +151,7 @@ function getPreviousModule(currentModule) {
     return prevModule;
 }
 
-// Function to check login (optional)
-function checkLogin() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        document.getElementById("user-greeting").innerText = `Welcome, ${username}!`;
-    }
-}
-
 // Remove progress saving and login features since login is no longer needed
-function saveProgress(module) {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        progress[username] = progress[username] || {};
-        progress[username][module] = "completed";
-        localStorage.setItem("progress", JSON.stringify(progress));
-    }
-}
-
-function loadProgress() {
-    let username = localStorage.getItem("username");
-    if (username) {
-        let progress = JSON.parse(localStorage.getItem("progress")) || {};
-        let userProgress = progress[username] || {};
-        for (let module in userProgress) {
-            if (userProgress[module] === "completed") {
-                addCheckmark(module);
-            }
-        }
-    }
-}
-
-// Function to add a checkmark when a module is completed
-function addCheckmark(module) {
-    const moduleList = document.querySelectorAll(".module-list .module-title");
-    moduleList.forEach(item => {
-        if (item.textContent === module) {
-            let checkmark = document.createElement("span");
-            checkmark.innerHTML = " &#x2714;"; // Unicode checkmark
-            item.appendChild(checkmark);
-            item.classList.add("completed");
-        }
-    });
-}
-
 // Function to handle module completion check
 function allSubmodulesCompleted(module) {
     const submodules = {
@@ -235,4 +192,29 @@ function getParentModule(submodule) {
         "Logon Scripts": "DACL Attacks"
     };
     return submodules[submodule];
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    addCopyButtons(); // Add copy buttons to terminal windows
+});
+
+function addCopyButtons() {
+    document.querySelectorAll(".powershell-terminal, .kali-terminal").forEach(terminal => {
+        let copyButton = document.createElement("button");
+        copyButton.innerText = "Copy";
+        copyButton.classList.add("copy-code-btn");
+        terminal.appendChild(copyButton);
+
+        copyButton.addEventListener("click", function () {
+            let codeText = terminal.querySelector("pre").innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                copyButton.innerText = "Copied!";
+                setTimeout(() => {
+                    copyButton.innerText = "Copy";
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        });
+    });
 }
