@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    checkLogin();
     loadProgress();
     addImageClickListener(); // Add the listener for image clicks
 });
@@ -6,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to load modules into the main content area
 function loadModule(module) {
     let moduleContent = document.getElementById("module-content");
+    let container = document.querySelector(".container");
 
     // Clear any previous content in the main content area (but not the sidebar)
     moduleContent.innerHTML = '';
@@ -13,8 +15,10 @@ function loadModule(module) {
     // Special case: Load install.html in full screen inside iframe
     if (module.trim() === "Downloading and Installing Server 2022") {
         moduleContent.innerHTML = `
-            <iframe id="module-iframe" src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:1000;"></iframe>
+            <iframe id="module-iframe" src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:250px; z-index:1000;"></iframe>
         `;
+        container.style.overflow = "hidden";  // Prevent scrolling of the container
+
         let iframe = document.getElementById("module-iframe");
 
         // Wait until the iframe is fully loaded, then apply the parent page's CSS
@@ -36,6 +40,9 @@ function loadModule(module) {
     moduleContent.innerHTML = `<p>Content for ${module} goes here.</p>`;
     saveProgress(module);
     updateNavigation();
+
+    // Reset overflow style if needed
+    container.style.overflow = "auto";
 }
 
 // Event listener to handle image click for fullscreen
@@ -79,8 +86,7 @@ function toggleMenu(element) {
 // Toggle the sidebar visibility when clicking the hamburger menu
 function toggleSidebar() {
     let sidebar = document.querySelector(".sidebar");
-    // Prevent sidebar from being hidden unless explicitly toggled
-    sidebar.classList.toggle("hide");  // Only toggle if this is intentional
+    sidebar.classList.toggle("active");
 }
 
 // Mark module as completed and strike through module title
@@ -165,13 +171,27 @@ function checkLogin() {
     }
 }
 
-// Remove progress saving and login features since login is no longer needed
 function saveProgress(module) {
-    // No need for login-related progress saving anymore
+    let username = localStorage.getItem("username");
+    if (username) {
+        let progress = JSON.parse(localStorage.getItem("progress")) || {};
+        progress[username] = progress[username] || {};
+        progress[username][module] = "completed";
+        localStorage.setItem("progress", JSON.stringify(progress));
+    }
 }
 
 function loadProgress() {
-    // No need to load progress from local storage anymore
+    let username = localStorage.getItem("username");
+    if (username) {
+        let progress = JSON.parse(localStorage.getItem("progress")) || {};
+        let userProgress = progress[username] || {};
+        for (let module in userProgress) {
+            if (userProgress[module] === "completed") {
+                addCheckmark(module);
+            }
+        }
+    }
 }
 
 function getCurrentModule() {
@@ -186,4 +206,5 @@ function getPreviousModule(currentModule) {
 function getNextModule(currentModule) {
     // Implement logic to get the next module
 }
+
 
