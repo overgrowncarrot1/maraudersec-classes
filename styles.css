@@ -5,7 +5,7 @@ body {
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 1.5vw; /* Reduced font size for better responsiveness */
+    font-size: 1.4rem; /* Adjust font size for content and modules */
     line-height: 1.6;
 }
 
@@ -28,7 +28,7 @@ body {
 }
 
 .sidebar .module-title {
-    font-size: 1.6rem; /* Sidebar text size adjusted */
+    font-size: 1.4rem; /* Smaller font size for modules */
     font-weight: bold;
     cursor: pointer;
     margin: 10px 0;
@@ -47,15 +47,15 @@ body {
 /* Main content area */
 .main-content {
     position: relative;
-    margin-left: 250px;
-    z-index: 5; /* Ensure content is above the sidebar */
+    margin-left: 250px; /* Ensure content is not behind the sidebar */
     padding: 20px;
-    overflow: hidden; /* Prevent content from overflowing */
+    overflow: hidden;
+    z-index: 5; /* Ensure content appears above the sidebar */
 }
 
 /* Module content */
 .module-content {
-    font-size: 1.6rem; /* Module content text size adjusted */
+    font-size: 1.4rem; /* Adjust font size for module content */
     color: #dcdcdc;
 }
 
@@ -66,11 +66,27 @@ h1, h2, h3 {
 }
 
 h2 {
-    font-size: 2.5vw;
+    font-size: 2.3vw; /* Adjusted font size */
 }
 
 h3 {
     font-size: 2vw;
+}
+
+/* Image handling */
+img {
+    max-width: 100%; /* Ensure images don't overflow */
+    height: auto;
+    display: block;
+    margin-bottom: 20px; /* Space between images */
+}
+
+/* Gallery/Content Images in Line */
+.content img {
+    width: 100%; /* Make each image take the full width of its container */
+    max-width: 100%; /* Prevent images from overflowing */
+    display: block;
+    margin: 0 auto; /* Center images */
 }
 
 /* Buttons */
@@ -138,5 +154,11 @@ iframe {
 
     .sidebar .module-title {
         font-size: 1.4rem; /* Sidebar text size smaller for mobile */
+    }
+
+    /* Image gallery/grid layout */
+    .content img {
+        width: 100%;
+        max-width: 100%;
     }
 }
