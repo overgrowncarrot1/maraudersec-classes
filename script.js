@@ -7,13 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadModule(module) {
     let moduleContent = document.getElementById("module-content");
 
-    // Clear any previous content
+    // Clear any previous content in the main content area (but not the sidebar)
     moduleContent.innerHTML = '';
 
     // Special case: Load install.html in full screen inside iframe
-    if (module === "Install") {
+    if (module === "Install Server 2022") {
         moduleContent.innerHTML = `
-            <iframe src="install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
+            <iframe src="install_server_2022.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
         `;
         return;
     }
