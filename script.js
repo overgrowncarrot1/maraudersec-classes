@@ -11,7 +11,7 @@ function loadModule(module) {
     moduleContent.innerHTML = '';
 
     // Special case: Load install.html in full screen inside iframe
-    if (module === "Install Server 2022") {
+    if (module === "Downloading and Installing Server 2022") {
         moduleContent.innerHTML = `
             <iframe src="modules/install.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0;"></iframe>
         `;
