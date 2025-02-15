@@ -10,7 +10,8 @@
 
     <div class="content">
         <h2>PowerShell Script</h2>
-        <p>We can build the DC by hand, or with a simple powershell script. For this we will be using a PowerShell script</p>
+        <p>We can build the DC by hand, or with a simple powershell script. For this we will be using a PowerShell script.</p>
+        <p>We can also made more into the script, such as if you did not set the PC Name we could set that with a Rename-Computer, or even set a static IP address.</p>
 
         <div class="powershell-terminal-wrapper">
             <div class="powershell-terminal">
@@ -23,19 +24,45 @@
                     </div>
                 </div>
                 <pre>
-install-windowsfeature -name ad-domain-services -includemanagementtools
+# Set execution policy to unrestricted (if needed)
+Set-ExecutionPolicy Unrestricted -Force
+
+# Define Domain Variables
+$DomainName = "maraudersec.local"
+$NetBIOSName = "MARAUDERSEC"
+$SafeModeAdminPassword = ConvertTo-SecureString "1qaz2wsx!QAZ@WSX" -AsPlainText -Force
+$DNSServer = "127.0.0.1"  # This will be the local DC
+$LogPath = "C:\Windows\NTDS"
+$SysvolPath = "C:\Windows\SYSVOL"
+
+# Set a Static IP Address (Ensure the correct InterfaceIndex)
+$InterfaceIndex = (Get-NetAdapter | Where-Object { $_.Status -eq "Up" }).InterfaceIndex
+Set-DnsClientServerAddress -InterfaceIndex $InterfaceIndex -ServerAddresses ($DNSServer, "8.8.8.8")
+
+# Install Active Directory Domain Services
+Write-Host "Installing Active Directory Domain Services..."
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+# Import ADDSDeployment Module
 Import-Module ADDSDeployment
+
+# Promote to a Domain Controller
+Write-Host "Promoting Server to Domain Controller..."
 Install-ADDSForest `
--CreatesDnsDelegation:$false `
--DomainMode "WinThreshold" `
--DomainName "maraudersec.local" `
--DomainNetbiosName "DC1" `
--ForestMode "WinThreshold" `
--InstallDns:$true `
--LogPath "C:\Windows\NTDS" `
--NoRebootOnCompletion:$false `
--SysvolPath "C:\Windows\SYSVOL" `
--Force:$true
+    -DomainName $DomainName `
+    -DomainNetbiosName $NetBIOSName `
+    -ForestMode "WinThreshold" `
+    -DomainMode "WinThreshold" `
+    -InstallDns:$true `
+    -NoRebootOnCompletion:$false `
+    -LogPath $LogPath `
+    -SysvolPath $SysvolPath `
+    -SafeModeAdministratorPassword $SafeModeAdminPassword `
+    -CreateDnsDelegation:$false `
+    -Force:$true
+
+Write-Host "Domain Controller setup complete! Rebooting now..."
+Restart-Computer -Force
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
