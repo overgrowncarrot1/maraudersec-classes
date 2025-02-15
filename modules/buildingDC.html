@@ -10,31 +10,52 @@
 
     <div class="content">
         <h2>PowerShell Script</h2>
-        <p>We can build the DC by hand, or with a simple PowerShell script. For this, we will be using a PowerShell script.</p>
+        <p>We can build the DC by hand, or with a simple powershell script. For this we will be using a PowerShell script</p>
 
-        <div class="powershell-terminal">
-            <pre>
-                install-windowsfeature -name ad-domain-services -includemanagementtools
-                Import-Module ADDSDeployment
-                Install-ADDSForest `
-                -CreateDnsDelegation:$false `
-                -DatabasePath "C:\Windows\NTDS" `
-                -DomainMode "WinThreshold" `
-                -DomainName "maraudersec.local" `
-                -DomainNetbiosName "DC1" `
-                -ForestMode "WinThreshold" `
-                -InstallDns:$true `
-                -LogPath "C:\Windows\NTDS" `
-                -NoRebootOnCompletion:$false `
-                -SysvolPath "C:\Windows\SYSVOL" `
-                -Force:$true
-            </pre>
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+install-windowsfeature -name ad-domain-services -includemanagementtools
+Import-Module ADDSDeployment
+Install-ADDSForest `
+-CreatesDnsDelegation:$false `
+-DomainMode "WinThreshold" `
+-DomainName "maraudersec.local" `
+-DomainNetbiosName "DC1" `
+-ForestMode "WinThreshold" `
+-InstallDns:$true `
+-LogPath "C:\Windows\NTDS" `
+-NoRebootOnCompletion:$false `
+-SysvolPath "C:\Windows\SYSVOL" `
+-Force:$true
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
         </div>
 
-        <p>Once finished, the DC will reboot, and you will have a domain controller set up.</p>
-        
-    </div> <!-- End of content -->
+        <p>Once finished the DC will reboot and you will have a domain controller setup</p>
 
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
