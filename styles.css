@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: black;
     color: white;
-    font-size: 1.5vw; /* Reduced font size */
+    font-size: 2.5vw; /* Adjusted for smaller text */
     line-height: 1.6;
 }
 
@@ -22,12 +22,12 @@ body {
     color: green;
     transition: transform 0.3s ease;
     z-index: 10;
-    font-size: 1.5rem; /* Adjust sidebar text size */
+    font-size: 1.6rem; /* Sidebar text size adjusted */
 }
 
 .sidebar h2 {
     color: green;
-    font-size: 1.2rem; /* Smaller sidebar header size */
+    font-size: 1.2rem; /* Adjust header size for the sidebar */
 }
 
 .module-list {
@@ -41,7 +41,7 @@ body {
     padding: 10px;
     display: block;
     text-decoration: none;
-    font-size: 1.6rem; /* Adjust module titles to be smaller */
+    font-size: 1.6rem; /* Adjusted for smaller font size */
 }
 
 .module-title:hover {
@@ -61,7 +61,7 @@ body {
 .submenu li {
     cursor: pointer;
     color: green;
-    font-size: 1.4rem; /* Smaller submenu items font size */
+    font-size: 1.4rem; /* Adjust submenu items font size */
 }
 
 .submenu li:hover {
@@ -77,22 +77,21 @@ body {
     overflow-y: auto;
     position: relative;
     z-index: 5;
-    font-size: 1.6rem; /* Smaller content text size */
-    margin-left: 250px; /* Ensure content doesn't get hidden behind the sidebar */
+    font-size: 1.8rem; /* Adjust content text size */
 }
 
 h1 {
     color: green;
-    font-size: 3vw; /* Dynamic resizing for main headers */
+    font-size: 4vw; /* Smaller h1 size */
 }
 
 h2 {
     color: green;
-    font-size: 2.5vw; /* Dynamic resizing for h2 */
+    font-size: 3.5vw; /* Smaller h2 size */
 }
 
 h3 {
-    font-size: 2vw;
+    font-size: 2.5vw; /* Smaller h3 size */
 }
 
 button {
@@ -102,7 +101,7 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 1.5rem;
+    font-size: 1.6rem; /* Adjusted button text size */
 }
 
 button:hover {
