@@ -71,12 +71,13 @@ body {
 }
 
 .content {
-    flex-grow: 1;
     padding: 20px;
     box-sizing: border-box;
     background-color: black; /* Black background for content */
     color: white; /* White text for content */
     overflow-y: auto;
+    flex-grow: 1;
+    min-width: 0; /* Prevents the content area from causing overflow */
 }
 
 h1 {
