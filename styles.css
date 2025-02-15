@@ -8,11 +8,7 @@ body {
     line-height: 1.6; /* Improved readability */
 }
 
-.container {
-    display: flex;
-    height: 100vh;
-}
-
+/* Ensure the sidebar stays fixed when content is loaded */
 .sidebar {
     width: 250px;
     background-color: #333; /* Dark grey background for the sidebar */
@@ -20,11 +16,17 @@ body {
     box-sizing: border-box;
     color: green; /* Green text in the sidebar */
     transition: transform 0.3s ease;
+    position: relative; /* Make sure it stays fixed in place */
 }
 
-/* Ensure sidebar remains visible (no auto-hide behavior) unless explicitly triggered */
 .sidebar.hide {
     transform: translateX(-100%);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    justify-content: flex-start; /* Ensure the sidebar and content are aligned */
 }
 
 .sidebar h2 {
