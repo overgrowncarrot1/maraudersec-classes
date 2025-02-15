@@ -48,6 +48,22 @@ function loadModule(module) {
     updateNavigation();
 }
 
+// Special case: Fullscreen iframe for "Not so secure"
+    if (module.trim() === "Not so secure") {
+        moduleContent.innerHTML = `
+           <iframe id="module-iframe" src="modules/secure.html" style="border:none; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:1000;"></iframe>
+       `;
+        let iframe = document.getElementById("module-iframe");
+        iframe.onload = function () {
+            let iframeDocument = iframe.contentWindow.document;
+            let link = iframeDocument.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'styles.css'; // Ensure the correct path
+            iframeDocument.head.appendChild(link);
+        };
+        return; // Stop further execution
+    }
+
 // Event listener to handle image click for fullscreen
 function addImageClickListener() {
     const images = document.querySelectorAll(".content img");
