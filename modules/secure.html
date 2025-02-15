@@ -1,1 +1,89 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not so Secure</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
+
+    <div class="content">
+        <h2>PowerShell Script</h2>
+        <p>We will now do our beginning setup of making a "not so secure" DC. We will continue to use PowerShell scripts for ease of use.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+# Set execution policy to unrestricted (if needed)
+Set-ExecutionPolicy Unrestricted -Force
+
+# Define Domain Variables
+$DomainName = "maraudersec.local"
+$NetBIOSName = "MARAUDERSEC"
+$SafeModeAdminPassword = ConvertTo-SecureString "1qaz2wsx!QAZ@WSX" -AsPlainText -Force
+$DNSServer = "127.0.0.1"  # This will be the local DC
+$LogPath = "C:\Windows\NTDS"
+$SysvolPath = "C:\Windows\SYSVOL"
+
+# Set a Static IP Address (Ensure the correct InterfaceIndex)
+$InterfaceIndex = (Get-NetAdapter | Where-Object { $_.Status -eq "Up" }).InterfaceIndex
+Set-DnsClientServerAddress -InterfaceIndex $InterfaceIndex -ServerAddresses ($DNSServer, "8.8.8.8")
+
+# Install Active Directory Domain Services
+Write-Host "Installing Active Directory Domain Services..."
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+# Import ADDSDeployment Module
+Import-Module ADDSDeployment
+
+# Promote to a Domain Controller
+Write-Host "Promoting Server to Domain Controller..."
+Install-ADDSForest `
+    -DomainName $DomainName `
+    -DomainNetbiosName $NetBIOSName `
+    -ForestMode "WinThreshold" `
+    -DomainMode "WinThreshold" `
+    -InstallDns:$true `
+    -NoRebootOnCompletion:$false `
+    -LogPath $LogPath `
+    -SysvolPath $SysvolPath `
+    -SafeModeAdministratorPassword $SafeModeAdminPassword `
+    -CreateDnsDelegation:$false `
+    -Force:$true
+
+Write-Host "Domain Controller setup complete! Rebooting now..."
+Restart-Computer -Force
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>Once finished the DC will reboot and you will have a domain controller setup.</p>
+        <p>Sometimes PowerShell will seem like it has froze, hit enter within the window and that will "wake it up".</p>
+
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
