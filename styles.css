@@ -4,7 +4,7 @@ body {
     padding: 0;
     background-color: black;
     color: white; /* White text for body */
-    font-size: 18px; /* Larger base font size */
+    font-size: 20px; /* Larger base font size */
     line-height: 1.6; /* Improved readability */
 }
 
@@ -74,20 +74,30 @@ body {
     background-color: black; /* Black background for content */
     color: white; /* White text for content */
     overflow-y: auto;
+    font-size: 22px; /* Larger font size for content */
 }
 
-h1 {
+/* Increase font size for headers within content */
+.content h1 {
+    font-size: 40px; /* Larger heading */
     color: green;
-    font-size: 32px; /* Larger heading */
 }
 
-h2 {
+.content h2 {
+    font-size: 30px; /* Larger subheading font size */
     color: green;
-    font-size: 26px; /* Larger heading */
 }
 
-h3 {
-    font-size: 22px;
+.content h3 {
+    font-size: 24px;
+}
+
+.content p {
+    font-size: 22px; /* Increase font size for paragraphs */
+}
+
+.content code {
+    font-size: 20px; /* Larger font size for inline code */
 }
 
 button {
@@ -97,7 +107,7 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 16px; /* Slightly larger button text */
+    font-size: 18px; /* Slightly larger button text */
 }
 
 button:hover {
@@ -159,10 +169,13 @@ button:hover {
     margin-bottom: 20px; /* Adjust space between submodules */
 }
 
-/* Ensures images are spaced and aligned to the left */
+/* Ensures all images are the same size */
 img {
     display: block;
     margin: 20px 0; /* 20px space between images, aligned left */
     max-width: 100%; /* Prevents images from overflowing */
-    padding: 10px; /* Adds space around images */
+    height: auto; /* Maintains aspect ratio */
+    max-height: 400px; /* Limits the height of images */
+    width: 100%; /* Ensures all images take the same width */
+    object-fit: cover; /* Ensure images maintain aspect ratio while covering the space */
 }
