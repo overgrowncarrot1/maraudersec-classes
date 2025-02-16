@@ -16,7 +16,6 @@ body {
     display: flex;
     height: 100vh;
     position: relative;
-    flex-wrap: wrap; /* Allows for responsive behavior when screen size changes */
 }
 
 /* Sidebar Fixes */
@@ -29,9 +28,11 @@ body {
     transition: transform 0.3s ease;
     z-index: 10;
     font-size: 1.5rem;
-    overflow-y: auto; /* Prevents overflow */
+    overflow-y: auto;
     max-height: 100vh; /* Ensures scrolling */
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    position: fixed; /* Keeps sidebar fixed on the left */
+    top: 0; /* Stays at the top of the page */
+    bottom: 0; /* Stays at the bottom of the page */
 }
 
 .sidebar h2 {
@@ -95,9 +96,8 @@ body {
     flex-direction: column;
     justify-content: flex-start; /* Align content to the left */
     align-items: flex-start; /* Ensure text stays on the left */
-    margin-left: 250px; /* Space to the right of the sidebar */
-    width: calc(100% - 250px); /* Ensure content doesn't overflow or get cut off */
-    min-width: 0; /* Allow content to shrink but prevent overflow */
+    margin-left: 250px; /* Space for sidebar */
+    width: calc(100% - 250px); /* Ensure content width is adjusted to fit beside sidebar */
 }
 
 /* Header Styling */
@@ -211,27 +211,14 @@ img + img {
 /* Media Queries for Responsiveness */
 @media screen and (max-width: 1024px) {
     .container {
-        flex-direction: column; /* Stack sidebar and content vertically on smaller screens */
+        flex-direction: column;
     }
 
     .sidebar {
         width: 100%;
-        height: auto;
-        flex-shrink: 1; /* Allow sidebar to shrink on smaller screens */
+        position: static; /* Sidebar will no longer be fixed on smaller screens */
     }
 
     .content {
-        margin-left: 0; /* Remove left margin when sidebar is stacked above content */
-        width: 100%; /* Content takes up the full width on smaller screens */
-    }
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        font-size: 3vw; /* Adjust font size for smaller screens */
-    }
-
-    .content {
-        padding: 10px; /* Reduce padding for smaller screens */
-    }
-}
+        margin-left: 0;
+       
