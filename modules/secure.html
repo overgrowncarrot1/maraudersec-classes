@@ -155,6 +155,7 @@ Write-Host "Password policy updated successfully!"
 Write-Host "LDAP null access allowed and firewall configured."
 # List of passwords to choose from
 # Set the password policy to allow simple passwords
+# Set the password policy to allow simple passwords
 $Domain = "maraudersec.local"
 
 # Set the minimum password length and disable complexity requirements
@@ -191,9 +192,12 @@ foreach ($user in $users) {
                                -ChangePasswordAtLogon $false `
                                -Description $user.Description
 
+        # Get the user's DistinguishedName or SAMAccountName for future commands
+        $userIdentity = $newUser.SamAccountName
+
         # If this user has a password in the description, make them vulnerable to password change
         if ($user.Description -match "Password:") {
-            Set-ADUser -Identity $newUser -ChangePasswordAtLogon $true
+            Set-ADUser -Identity $userIdentity -ChangePasswordAtLogon $true
         }
 
         Write-Host "User $($user.Username) created with password $($user.Password) and description '$($user.Description)'"
@@ -201,6 +205,8 @@ foreach ($user in $users) {
         Write-Host "User $($user.Username) already exists. Skipping creation."
     }
 }
+
+
 
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
