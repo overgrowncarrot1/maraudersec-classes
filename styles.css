@@ -91,8 +91,10 @@ body {
     font-size: 1.6rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align to left */
+    justify-content: flex-start; /* Align content to the left */
     align-items: flex-start; /* Ensure text stays on the left */
+    margin-left: 250px; /* Space to the right of the sidebar */
+    max-width: calc(100% - 250px); /* Prevents content from overlapping the sidebar */
 }
 
 /* Header Styling */
