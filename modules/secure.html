@@ -404,6 +404,29 @@ Write-Host "Unquoted service path vulnerability created successfully."
 PS2EXE -Verbose "C:\Program Files\CompanyName\Some Service\unquoted.ps1" "C:\Program Files\CompanyName\Some Service\unquoted.exe"
 PS2EXE -Verbose "C:\Program Files\CompanyName\Some Service\unquoted.ps1" "C:\Program Files\CompanyName\Some Service\unquoted.exe"
 del 'C:\Program Files\CompanyName\Some Service\unquoted.ps1'
+$targetDir = "C:\Program Files\SomeApp"
+
+# Ensure the directory exists
+if (-not (Test-Path $targetDir)) {
+    New-Item -ItemType Directory -Path $targetDir -Force
+}
+
+# Grant "Everyone" full control over the directory
+$acl = Get-Acl $targetDir
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("Everyone", "FullControl", "ContainerInherit, ObjectInherit", "None", "Allow")
+$acl.SetAccessRule($rule)
+Set-Acl -Path $targetDir -AclObject $acl
+
+Write-Host "Directory created and permissions granted to Everyone."
+& "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /out:"C:\Program Files\SomeApp\Example.exe" "C:\Program Files\SomeApp\Example.cs"
+# Grant "Everyone" full control over the executable
+$acl = Get-Acl $exeOutputPath
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("Everyone", "FullControl", "Allow")
+$acl.SetAccessRule($rule)
+Set-Acl -Path $exeOutputPath -AclObject $acl
+
+Write-Host "Permissions updated: Everyone has full control over $exeOutputPath"
+                    
                     
                     
                 </pre>
@@ -411,13 +434,11 @@ del 'C:\Program Files\CompanyName\Some Service\unquoted.ps1'
             </div>
         </div>
 
-        <p>Once finished the DC will reboot and you will have a domain controller setup.</p>
-        <p>Sometimes PowerShell will seem like it has froze, hit enter within the window and that will "wake it up".</p>
-        <p>Once finished, teh machine will reboot and we will see this logon screen. We now know it is part of the MarauderSec domain, or whichever domain you picked.</p>
-        <div class="image-container">
-            <img src="../images/image_15.jpg" alt="Custom Install">
-        </div>        
-
+        <p>We did a lot of different things above, such as making SMB insecure along with LDAP.</p>
+        <p>We also created users with insecure passwords, created DACL to be used by users for privilege escalation.</p>
+        <p>Another thing we did was create unquoted service paths and insecure executables. Along with giving alice.wonderland differnet users rights that can be exploited.</p>
+        <p>For now we are done, until we make another machine and connect it to this domain controller for delegation purposes.</p>
+        
     </div>
 
     <script>
