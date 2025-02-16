@@ -325,9 +325,19 @@ Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
 
         <p>We can even make it better to see if Pre-Authentication is not Required. This will not be expalined yet as this is AsRepRoasting and another section within the course.</p>
 
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
 
-
-                # Function to check if a username is valid in the given domain
+# Function to check if a username is valid in the given domain
 function Check-ValidUser {
     param (
         [string]$domain,            # Domain to check against
@@ -393,7 +403,11 @@ $usernameListPath = Read-Host "Enter the path to the username list file"
 Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
 Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequirePreAuth | Select-Object Name, SamAccountName
         
-        
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+                    
         <div class="image-container">
             <img src="../images/image_2.jpg" alt="ISO Image">
         </div>
