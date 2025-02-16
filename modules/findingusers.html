@@ -408,6 +408,17 @@ Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequireP
             </div>
         </div>
     </div>
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
