@@ -29,56 +29,10 @@ body {
     z-index: 10;
     font-size: 1.5rem;
     overflow-y: auto;
-    max-height: 100vh; /* Ensures scrolling */
-    position: fixed; /* Keeps sidebar fixed on the left */
-    top: 0; /* Stays at the top of the page */
-    bottom: 0; /* Stays at the bottom of the page */
-}
-
-.sidebar h2 {
-    color: green;
-    font-size: 1.2rem;
-}
-
-.module-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.module-title {
-    color: green;
-    cursor: pointer;
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-    font-size: 1.6rem;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-.module-title:hover {
-    background-color: #444;
-}
-
-.submenu {
-    list-style-type: none;
-    padding-left: 20px;
-    display: none;
-}
-
-.submenu.active {
-    display: block;
-}
-
-.submenu li {
-    cursor: pointer;
-    color: green;
-    font-size: 1.4rem;
-}
-
-.submenu li:hover {
-    background-color: #444;
+    max-height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
 
 /* Content Fixes */
@@ -94,10 +48,10 @@ body {
     font-size: 1.6rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content to the left */
-    align-items: flex-start; /* Ensure text stays on the left */
-    margin-left: 250px; /* Space for sidebar */
-    width: calc(100% - 250px); /* Ensure content width is adjusted to fit beside sidebar */
+    justify-content: flex-start; 
+    align-items: flex-start;
+    margin-left: 250px; /* Ensure content is shifted to the right to make room for the sidebar */
+    width: calc(100% - 250px); /* Take up remaining space beside the sidebar */
 }
 
 /* Header Styling */
@@ -216,9 +170,21 @@ img + img {
 
     .sidebar {
         width: 100%;
-        position: static; /* Sidebar will no longer be fixed on smaller screens */
+        position: static;
     }
 
     .content {
         margin-left: 0;
-       
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 3vw;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}
