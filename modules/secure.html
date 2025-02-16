@@ -158,9 +158,11 @@ Write-Host "LDAP null access allowed and firewall configured."
 # Set the password policy to allow simple passwords
 $Domain = "maraudersec.local"
 
+# Set the password policy to allow simple passwords (remove complexity requirement)
+$Domain = "maraudersec.local"
+
 # Set the minimum password length and disable complexity requirements
-Set-ADDomain -Identity $Domain -MinPasswordLength 4
-Set-ADDefaultDomainPasswordPolicy -ComplexityEnabled $false
+Set-ADDefaultDomainPasswordPolicy -Identity $Domain -MinPasswordLength 4 -ComplexityEnabled $false
 
 # List of 10 usernames and passwords, with two users having their password in the description and set to change password
 $users = @(
@@ -205,7 +207,6 @@ foreach ($user in $users) {
         Write-Host "User $($user.Username) already exists. Skipping creation."
     }
 }
-
 
 
                 </pre>
