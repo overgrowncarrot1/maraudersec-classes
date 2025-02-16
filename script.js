@@ -14,7 +14,8 @@ function loadModule(module) {
     const fullscreenModules = {
         "Downloading and Installing Server 2022": "modules/install.html",
         "Building Domain Controller": "modules/buildingDC.html",
-        "Not so secure": "modules/secure.html"
+        "Not so secure": "modules/secure.html",
+        "Finding Users": "modules/findingusers.html"
     };
 
     // If the selected module is in the fullscreen list, load it inside the content area
