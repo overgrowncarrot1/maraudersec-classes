@@ -10,10 +10,10 @@
 <body>
 
     <div class="content">
-        <h2>PowerShell Script</h2>
+        <h2>We are Secure... aren't we</h2>
         <p>We will now do our beginning setup of making a "not so secure" DC. We will continue to use PowerShell scripts for ease of use.</p>
         <p>Some of the commands below may be repeats, this is to ensure that the DC is setup and that everything takes.</p>
-
+        <p>Ensure that your machine can reach the internet at this time, as a part of the script needs to download a PowerShell file, and some imports need to happen.</p>
         <div class="powershell-terminal-wrapper">
             <div class="powershell-terminal">
                 <div class="terminal-header">
@@ -254,7 +254,158 @@ foreach ($user in $usersGroupAssignment.GetEnumerator()) {
     Write-Host "Added $($user.Key) to $($user.Value) group."
 }
 
+Add-Type -AssemblyName "System.DirectoryServices"
 
+function Add-DACLAbuse {
+    param (
+        [string]$targetName,
+        [string]$targetType,
+        [string]$permission,
+        [string]$userName
+    )
+
+    Write-Host "Debug: targetName = $targetName, targetType = $targetType, permission = $permission, userName = $userName"
+
+    # Check if any of the parameters are null or empty
+    if (-not $targetName -or -not $targetType -or -not $permission) {
+        Write-Host "Error: Missing parameter(s)"
+        return
+    }
+
+    # Debugging output before processing permission
+    Write-Host "Target: $targetName, Type: $targetType, Permission: $permission"
+
+    # Ensure the SID is retrieved from the user
+    $user = Get-ADUser -Identity $userName
+    $sid = $user.SID
+
+    switch ($permission) {
+        "GenericAll" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::GenericAll,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "WriteOwner" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::WriteOwner,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "Owns" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::WriteOwner,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "WriteDACL" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::WriteDACL,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "GenericWrite" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::WriteProperty,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "ForceChangePassword" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::WriteOwner,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        "AddUserToGroup" {
+            Write-Host "AddUserToGroup requires special handling. Skipping for now."
+            return
+        }
+        "TargetedKerberos" {
+            Write-Host "TargetedKerberos requires special handling. Skipping for now."
+            return
+        }
+        "GetChanges" {
+            $accessRule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule(
+                $sid, 
+                [System.DirectoryServices.ActiveDirectoryRights]::GenericRead,
+                [System.Security.AccessControl.AccessControlType]::Allow
+            )
+        }
+        default {
+            Write-Host "Unknown permission: $permission"
+            return
+        }
+    }
+
+    Write-Host "Access rule created for $permission"
+}
+
+# Example of calling the function
+Add-DACLAbuse -targetName "HR" -targetType "group" -permission "GenericAll" -userName "bob.builder"
+Add-DACLAbuse -targetName "alice.wonderland" -targetType "user" -permission "GenericWrite" -userName "bob.builder"
+Add-DACLAbuse -targetName "Management" -targetType "group" -permission "WriteOwner" -userName "alice.wonderland"
+Add-DACLAbuse -targetName "john.doe" -targetType "user" -permission "Owns" -userName "alice.wonderland"
+Add-DACLAbuse -targetName "IT Admins" -targetType "group" -permission "WriteDACL" -userName "alice.wonderland"
+Add-DACLAbuse -targetName "krbtgt" -targetType "user" -permission "ForceChangePassword" -userName "bob.builder"
+Add-DACLAbuse -targetName "HR" -targetType "group" -permission "AddUserToGroup" -userName "bob.builder"
+Add-DACLAbuse -targetName "alice.wonderland" -targetType "user" -permission "TargetedKerberos" -userName "bob.builder"
+Add-DACLAbuse -targetName "john.doe" -targetType "user" -permission "GetChanges" -userName "alice.wonderland"
+
+net localgroup "backup operators" /add maraudersec.local\alice.wonderland
+net localgroup "Server Operators" /add maraudersec.local\alice.wonderland
+net localgroup "DNSAdmins" /add maraudersec.local\alice.wonderland
+net localgroup "Account Operators" /add maraudersec.local\alice.wonderland
+wget https://raw.githubusercontent.com/blakedrumm/SCOM-Scripts-and-SQL/refs/heads/master/Powershell/General%20Functions/Set-UserRights.ps1 -o a.ps1
+. ./a.ps1 -Username maraudersec.local\alice.wonderland -UserRight "SeBackupPrivilege", "SeRestorePrivilege", "SeDebugPrivilege", "SeTcbPrivilege", "SeTakeOwnershipPrivilege", "SeSecurityPrivilege", "SeShutdownPrivilege", "SeRemoteShutdownPrivilege", "SeSystemEnvironmentPrivilege", "SeLoadDriverPrivilege", "SeCreateSymbolicLinkPrivilege", "SeDelegateSessionUserImpersonatePrivilege", "SeEnableDelegationPrivilege", "SeImpersonatePrivilege" -AddRight
+del a.ps1
+                    
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+Install-Module -Name PS2EXE -Force -Scope CurrentUser
+# PowerShell Script to simulate unquoted service path vulnerability
+
+# Define path and filename
+$servicePath = "C:\Program Files\CompanyName\Some Service\unquoted.exe"
+$serviceExecutable = "C:\Program Files\CompanyName\Some Service\unquoted.ps1"
+
+# Create a folder path if it doesn't exist
+$folderPath = "C:\Program Files\CompanyName\Some Service"
+If (!(Test-Path -Path $folderPath)) {
+    New-Item -ItemType Directory -Force -Path $folderPath
+}
+
+# Create a simple payload executable (e.g., simple reverse shell or message box for demonstration)
+$payload = @'
+Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+public class MessageBox {
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int MessageBeep(int uType);
+}
+"@
+[MessageBox]::MessageBeep(0)
+'@
+
+# Save the payload as a .ps1 script to be executed as part of the unquoted vulnerability
+$payload | Out-File -FilePath $serviceExecutable -Encoding ascii
+
+# Simulate creating an unquoted service path vulnerability (write the unquoted path to registry)
+$regPath = "HKLM:\SYSTEM\CurrentControlSet\Services\UnquotedService"
+New-Item -Path $regPath -Force
+Set-ItemProperty -Path $regPath -Name "ImagePath" -Value $servicePath
+
+Write-Host "Unquoted service path vulnerability created successfully."
+PS2EXE -Verbose "C:\Program Files\CompanyName\Some Service\unquoted.ps1" "C:\Program Files\CompanyName\Some Service\unquoted.exe"
+PS2EXE -Verbose "C:\Program Files\CompanyName\Some Service\unquoted.ps1" "C:\Program Files\CompanyName\Some Service\unquoted.exe"
+del 'C:\Program Files\CompanyName\Some Service\unquoted.ps1'
+                    
+                    
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
