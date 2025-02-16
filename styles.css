@@ -8,12 +8,14 @@ body {
     line-height: 1.6;
 }
 
+/* Main container layout */
 .container {
     display: flex;
     height: 100vh;
     position: relative;
 }
 
+/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: #333;
@@ -68,7 +70,7 @@ body {
     background-color: #444;
 }
 
-/* Adjust content styles to align left */
+/* Adjust content styles to align left and use more screen space */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -81,6 +83,9 @@ body {
     font-size: 1.6rem;
     margin-left: 250px; /* Align content next to the sidebar */
     width: calc(100% - 250px); /* Ensures content doesn't overflow */
+    padding-left: 30px; /* Add some space on the left */
+    padding-right: 30px; /* Add some space on the right */
+    box-sizing: border-box; /* Ensure padding doesn't alter the width */
 }
 
 h1 {
@@ -257,4 +262,33 @@ img + img {
     max-height: 90%;
     border: none;
     border-radius: 0;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding-left: 10px; /* Adjust padding for smaller screens */
+        padding-right: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 3vw;
+    }
+
+    .content {
+        padding: 10px;
+    }
 }
