@@ -12,6 +12,7 @@
     <div class="content">
         <h2>PowerShell Script</h2>
         <p>We will now do our beginning setup of making a "not so secure" DC. We will continue to use PowerShell scripts for ease of use.</p>
+        <p>Some of the commands below may be repeats, this is to ensure that the DC is setup and that everything takes.</p>
 
         <div class="powershell-terminal-wrapper">
             <div class="powershell-terminal">
@@ -24,45 +25,172 @@
                     </div>
                 </div>
                 <pre>
-# Set execution policy to unrestricted (if needed)
-Set-ExecutionPolicy Unrestricted -Force
+Set-SmbClientConfiguration -RequireSecuritySignature 0 -EnableSecuritySignature 0 -Confirm -Force
+mkdir C:\Common
+echo "$password = ConvertTo-SecureString 'UberSecurePassword' -AsPlainText -Force`n$credential = New-Object System.Management.Automation.PSCredential ('administrator', $password)`nInvoke-Command -ComputerName . -Credential $credential -ScriptBlock { Restart-Service -Name 'DNS Server' }" > C:\Common\DNSrestart.ps1
+New-SmbShare -Name Common -Path C:\Common -FullAccess Everyone
+Enable-LocalUser -Name "Guest"
+$acl = Get-Acl C:\Common
+$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("Guest","FullControl","Allow")
+$acl.SetAccessRule($AccessRule)
+$acl | Set-Acl C:\Common
+Set-Itemproperty -path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name 'EveryoneIncludesAnonymous' -value '1'
+New-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters' -name "NullSessionShares" -PropertyType MultiString -value "C:\Common"
+# Import Active Directory module (Ensure RSAT tools are installed)
+Import-Module ActiveDirectory
 
-# Define Domain Variables
-$DomainName = "maraudersec.local"
-$NetBIOSName = "MARAUDERSEC"
-$SafeModeAdminPassword = ConvertTo-SecureString "1qaz2wsx!QAZ@WSX" -AsPlainText -Force
-$DNSServer = "127.0.0.1"  # This will be the local DC
-$LogPath = "C:\Windows\NTDS"
-$SysvolPath = "C:\Windows\SYSVOL"
+# Create the new domain user 'Alice.Wonderland' with the password 'P@ssw0rd!'
+New-ADUser -SamAccountName "Alice.Wonderland" `
+           -UserPrincipalName "Alice.Wonderland@domain.com" `
+           -Name "Alice Wonderland" `
+           -GivenName "Alice" `
+           -Surname "Wonderland" `
+           -DisplayName "Alice Wonderland" `
+           -PasswordNeverExpires $true `
+           -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) `
+           -Enabled $true `
+           -PassThru
 
-# Set a Static IP Address (Ensure the correct InterfaceIndex)
-$InterfaceIndex = (Get-NetAdapter | Where-Object { $_.Status -eq "Up" }).InterfaceIndex
-Set-DnsClientServerAddress -InterfaceIndex $InterfaceIndex -ServerAddresses ($DNSServer, "8.8.8.8")
+# Set Kerberos Pre-Authentication to Disabled for the user
+Set-ADUser -Identity "Alice.Wonderland" -KerberosPreAuthenticationDisabled $true
 
-# Install Active Directory Domain Services
-Write-Host "Installing Active Directory Domain Services..."
-Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+Write-Host "User Alice.Wonderland created and Kerberos pre-authentication disabled."
+# Import Active Directory module (Ensure RSAT tools are installed)
+Import-Module ActiveDirectory
 
-# Import ADDSDeployment Module
-Import-Module ADDSDeployment
+# Define the domain controller account
+$domainController = "DC01" # Replace with the name of your domain controller
 
-# Promote to a Domain Controller
-Write-Host "Promoting Server to Domain Controller..."
-Install-ADDSForest `
-    -DomainName $DomainName `
-    -DomainNetbiosName $NetBIOSName `
-    -ForestMode "WinThreshold" `
-    -DomainMode "WinThreshold" `
-    -InstallDns:$true `
-    -NoRebootOnCompletion:$false `
-    -LogPath $LogPath `
-    -SysvolPath $SysvolPath `
-    -SafeModeAdministratorPassword $SafeModeAdminPassword `
-    -CreateDnsDelegation:$false `
-    -Force:$true
+# Create a service account for the mssql service
+$serviceAccountName = "mssql_service"
+$servicePassword = "Password123!@#"
 
-Write-Host "Domain Controller setup complete! Rebooting now..."
-Restart-Computer -Force
+# Create the service account in Active Directory
+New-ADUser -SamAccountName $serviceAccountName `
+           -UserPrincipalName "$serviceAccountName@maraudersec.local" `
+           -Name "mssql service account" `
+           -GivenName "mssql" `
+           -Surname "service" `
+           -DisplayName "mssql service" `
+           -PasswordNeverExpires $true `
+           -AccountPassword (ConvertTo-SecureString $servicePassword -AsPlainText -Force) `
+           -Enabled $true `
+           -PassThru
+
+# Set SPN for the mssql service
+$spn = "mssql/$domainController"
+
+# Set the CIFS SPN for the service account
+Set-ADUser -Identity $serviceAccountName -ServicePrincipalNames $spn
+
+# Set the CIFS service principal name (ensure the domain controller's CIFS SPN is added)
+Set-ADUser -Identity $serviceAccountName -ServicePrincipalNames "cifs/$domainController"
+
+Write-Host "Service Principal Name (SPN) for mssql service has been set with CIFS permissions."
+# Allow all inbound and outbound connections by configuring the firewall
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True -DefaultInboundAction Allow -DefaultOutboundAction Allow
+
+# Disable Windows Defender real-time monitoring (antivirus protection)
+Set-MpPreference -DisableRealtimeMonitoring $true
+
+# Optionally, you can also disable Windows Defender completely, if needed
+# Set-MpPreference -DisableAntiSpyware $true
+netsh advfirewall set allprofiles state off
+
+Write-Host "Firewall configured to allow all connections and real-time monitoring disabled."
+$Dcname = Get-ADDomain | Select-Object -ExpandProperty DistinguishedName
+$Adsi = 'LDAP://CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,' + $Dcname
+$AnonADSI = [ADSI]$Adsi
+$AnonADSI.Put("dSHeuristics","0000002")
+$AnonADSI.SetInfo()
+$ADSI = [ADSI]('LDAP://CN=Users,' + $Dcname)
+$Anon = New-Object System.Security.Principal.NTAccount("ANONYMOUS LOGON")
+$SID = $Anon.Translate([System.Security.Principal.SecurityIdentifier])
+$adRights = [System.DirectoryServices.ActiveDirectoryRights] "GenericRead"
+$type = [System.Security.AccessControl.AccessControlType] "Allow"
+$inheritanceType = [System.DirectoryServices.ActiveDirectorySecurityInheritance] "All"
+$ace = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $SID,$adRights,$type,$inheritanceType
+$ADSI.PSBase.ObjectSecurity.ModifyAccessRule([System.Security.AccessControl.AccessControlModification]::Add,$ace,[ref]$false)
+$ADSI.PSBase.CommitChanges()
+# Allow anonymous binding to LDAP (null access)
+Set-ADDomainController -Identity "DC01" -LdapBindAnonymous $true
+
+# Modify LDAP Server to allow null access for anonymous users
+$domainController = "DC01.maraudersec.local"
+$nullAccess = "LDAP://$domainController"
+$ldapConnection = New-Object DirectoryServices.DirectorySearcher
+$ldapConnection.SearchRoot = New-Object DirectoryServices.DirectorySearcher
+$ldapConnection.Filter = "(objectClass=*)"
+$ldapConnection.Properties.PropertyNames | ForEach-Object {
+    Write-Host "Access granted for: $_"
+}
+
+# Set up a firewall rule to allow LDAP on port 389 for null access
+New-NetFirewallRule -DisplayName "Allow LDAP Null Access" -Direction Inbound -Protocol TCP -LocalPort 389 -Action Allow
+New-NetFirewallRule -DisplayName "Allow LDAP Null Access" -Direction Outbound -Protocol TCP -LocalPort 389 -Action Allow
+
+Write-Host "LDAP null access allowed and firewall configured."
+# List of passwords to choose from
+$passwordList = @(
+    "123456", "12345", "123456789", "password", "iloveyou", "princess", "1234567", "rockyou", "12345678", "abc123",
+    "nicole", "daniel", "babygirl", "monkey", "lovely", "jessica", "654321", "michael", "ashley", "qwerty", "111111",
+    "iloveu", "000000", "michelle", "tigger", "sunshine", "chocolate", "password1", "soccer", "anthony", "friends",
+    "butterfly", "purple", "angel", "jordan", "liverpool", "justin", "loveme", "fuckyou", "123123", "football", "secret",
+    "andrea", "carlos", "jennifer", "joshua", "bubbles", "1234567890", "superman", "hannah", "amanda", "loveyou",
+    "pretty", "basketball", "andrew", "angels", "tweety", "flower", "playboy", "hello", "elizabeth", "hottie", "tinkerbell",
+    "charlie", "samantha", "barbie", "chelsea", "lovers", "teamo", "jasmine", "brandon", "666666", "shadow", "melissa",
+    "eminem", "matthew", "robert", "danielle", "forever", "family", "jonathan", "987654321", "computer", "whatever",
+    "dragon", "vanessa", "cookie", "naruto", "summer", "sweety", "spongebob", "joseph", "junior", "softball", "taylor",
+    "yellow", "daniela", "lauren", "mickey", "princesa"
+)
+
+# Create 10 fake users with first.last format
+for ($i = 1; $i -le 10; $i++) {
+    $firstName = "User" + $i
+    $lastName = "Last" + $i
+    $username = "$firstName.$lastName"
+    
+    # Select a random password from the list provided
+    $password = $passwordList | Get-Random
+    
+    # Create the user with the random password from the list
+    New-ADUser -SamAccountName $username -UserPrincipalName "$username@maraudersec.local" `
+               -GivenName $firstName -Surname $lastName `
+               -Name "$firstName $lastName" `
+               -DisplayName "$firstName $lastName" `
+               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
+               -PasswordNeverExpires $true -Enabled $true -PassThru
+    Write-Host "Created user: $username with password: $password"
+}
+
+# Exclude Alice.Wonderland (since they are ASREPRoastable)
+$specialUsers = @(
+    @{UserName="Bob.Builder"; Description="RockYou123!"},
+    @{UserName="Charlie.Brown"; Description="P@ssw0rd!456"}
+)
+
+foreach ($user in $specialUsers) {
+    $username = $user.UserName
+    $password = $user.Description
+
+    # Create special user with description as password
+    New-ADUser -SamAccountName $username -UserPrincipalName "$username@maraudersec.local" `
+               -GivenName $username.Split('.')[0] -Surname $username.Split('.')[1] `
+               -Name $username `
+               -DisplayName $username `
+               -Description $password `
+               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
+               -PasswordNeverExpires $true -Enabled $true -PassThru
+    Write-Host "Created special user: $username with password: $password"
+}
+
+# Mark 2 users to require a password change (status_password_must_change)
+$usersToChangePassword = @("Bob.Builder", "Charlie.Brown")
+foreach ($user in $usersToChangePassword) {
+    Set-ADUser -Identity $user -ChangePasswordAtLogon $true
+    Write-Host "Marked user $user to change password at next logon."
+}
+
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
