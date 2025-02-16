@@ -154,80 +154,52 @@ Write-Host "Password policy updated successfully!"
 
 Write-Host "LDAP null access allowed and firewall configured."
 # List of passwords to choose from
-$passwordList = @(
-    "123456", "12345", "123456789", "password", "iloveyou", "princess", "1234567", "rockyou", "12345678", "abc123",
-    "nicole", "daniel", "babygirl", "monkey", "lovely", "jessica", "654321", "michael", "ashley", "qwerty", "111111",
-    "iloveu", "000000", "michelle", "tigger", "sunshine", "chocolate", "password1", "soccer", "anthony", "friends",
-    "butterfly", "purple", "angel", "jordan", "liverpool", "justin", "loveme", "fuckyou", "123123", "football", "secret",
-    "andrea", "carlos", "jennifer", "joshua", "bubbles", "1234567890", "superman", "hannah", "amanda", "loveyou",
-    "pretty", "basketball", "andrew", "angels", "tweety", "flower", "playboy", "hello", "elizabeth", "hottie", "tinkerbell",
-    "charlie", "samantha", "barbie", "chelsea", "lovers", "teamo", "jasmine", "brandon", "666666", "shadow", "melissa",
-    "eminem", "matthew", "robert", "danielle", "forever", "family", "jonathan", "987654321", "computer", "whatever",
-    "dragon", "vanessa", "cookie", "naruto", "summer", "sweety", "spongebob", "joseph", "junior", "softball", "taylor",
-    "yellow", "daniela", "lauren", "mickey", "princesa"
-)
 # Set the password policy to allow simple passwords
 $Domain = "maraudersec.local"
 
 # Set the minimum password length and disable complexity requirements
-Set-ADDefaultDomainPasswordPolicy -DomainName $Domain -MinPasswordLength 4 -ComplexityEnabled $false
+Set-ADDomain -Identity $Domain -MinPasswordLength 4
+Set-ADDefaultDomainPasswordPolicy -ComplexityEnabled $false
 
-# List of 10 usernames and passwords
+# List of 10 usernames and passwords, with two users having their password in the description and set to change password
 $users = @(
-    @{Username="john.doe"; Password="1234"},
-    @{Username="jane.smith"; Password="password"},
-    @{Username="michael.brown"; Password="qwerty"},
-    @{Username="susan.johnson"; Password="iloveyou"},
-    @{Username="robert.miller"; Password="12345"},
-    @{Username="patricia.taylor"; Password="letmein"},
-    @{Username="james.moore"; Password="monkey"},
-    @{Username="mary.jackson"; Password="123456"},
-    @{Username="david.white"; Password="welcome"},
-    @{Username="linda.harris"; Password="football"}
+    @{Username="john.doe"; Password="1234"; Description="Password: 1234"},
+    @{Username="jane.smith"; Password="password"; Description="Password: password"},
+    @{Username="michael.brown"; Password="qwerty"; Description="Password: qwerty"},
+    @{Username="susan.johnson"; Password="iloveyou"; Description="Password: iloveyou"},
+    @{Username="robert.miller"; Password="12345"; Description="Password: 12345"},
+    @{Username="patricia.taylor"; Password="letmein"; Description="Password: letmein"},
+    @{Username="james.moore"; Password="monkey"; Description="Password: monkey"},
+    @{Username="mary.jackson"; Password="123456"; Description="Password: 123456"},
+    @{Username="david.white"; Password="welcome"; Description="Password: welcome"},
+    @{Username="linda.harris"; Password="football"; Description="Password: football"}
 )
 
 # Create each user
 foreach ($user in $users) {
-    New-ADUser -SamAccountName $user.Username `
-               -UserPrincipalName "$($user.Username)@$Domain" `
-               -Name $user.Username `
-               -GivenName ($user.Username.Split(".")[0]) `
-               -Surname ($user.Username.Split(".")[1]) `
-               -AccountPassword (ConvertTo-SecureString -AsPlainText $user.Password -Force) `
-               -Enabled $true `
-               -PassThru `
-               -ChangePasswordAtLogon $false `
-               -Description "Password: $($user.Password)" `
-               -DomainController $Domain
-    Write-Host "User $($user.Username) created with password $($user.Password)"
-}
+    # Check if the user already exists
+    if (-not (Get-ADUser -Filter {SamAccountName -eq $user.Username})) {
+        # Create the user with the specified password
+        $newUser = New-ADUser -SamAccountName $user.Username `
+                               -UserPrincipalName "$($user.Username)@$Domain" `
+                               -Name $user.Username `
+                               -GivenName ($user.Username.Split(".")[0]) `
+                               -Surname ($user.Username.Split(".")[1]) `
+                               -AccountPassword (ConvertTo-SecureString -AsPlainText $user.Password -Force) `
+                               -Enabled $true `
+                               -PassThru `
+                               -ChangePasswordAtLogon $false `
+                               -Description $user.Description
 
-# Create special users with passwords in the description
-$specialUsers = @(
-    @{UserName="Bob.Builder"; Description="123456"},
-    @{UserName="Charlie.Brown"; Description="password"}
-)
+        # If this user has a password in the description, make them vulnerable to password change
+        if ($user.Description -match "Password:") {
+            Set-ADUser -Identity $newUser -ChangePasswordAtLogon $true
+        }
 
-foreach ($user in $specialUsers) {
-    $username = $user.UserName
-    $password = $user.Description
-
-    # Create special user with description as password
-    New-ADUser -SamAccountName $username -UserPrincipalName "$username@maraudersec.local" `
-               -GivenName $username.Split('.')[0] -Surname $username.Split('.')[1] `
-               -Name $username `
-               -DisplayName $username `
-               -Description $password `
-               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
-               -PasswordNeverExpires $true -Enabled $true -PassThru
-    Write-Host "Created special user: $username with password: $password"
-}
-
-# Mark 2 users to require a password change (status_password_must_change)
-$usersToChangePassword = @("Bob.Builder", "Charlie.Brown")
-foreach ($user in $usersToChangePassword) {
-    Set-ADUser -Identity $user -ChangePasswordAtLogon $true
-    Write-Host "Marked user $user to change password at next logon."
+        Write-Host "User $($user.Username) created with password $($user.Password) and description '$($user.Description)'"
+    } else {
+        Write-Host "User $($user.Username) already exists. Skipping creation."
+    }
 }
 
                 </pre>
