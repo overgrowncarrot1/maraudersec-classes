@@ -68,6 +68,7 @@ body {
     background-color: #444;
 }
 
+/* Updated content styles */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -78,7 +79,7 @@ body {
     position: relative;
     z-index: 5;
     font-size: 1.6rem;
-    margin-left: 250px;
+    margin-left: 250px; /* This ensures content aligns next to the sidebar */
 }
 
 h1 {
@@ -128,8 +129,28 @@ button:hover {
     position: relative;
 }
 
+/* Kali Terminal */
+.kali-terminal-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 80%;
+    margin: 20px auto;
+}
+
+.kali-terminal {
+    padding: 15px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: #1a1a1a; /* Darker background for Kali */
+}
+
 /* Terminal Header */
-.powershell-terminal .terminal-header {
+.powershell-terminal .terminal-header, .kali-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
@@ -190,7 +211,7 @@ button:hover {
     background-color: #005f8a;
 }
 
-.powershell-terminal pre {
+.powershell-terminal pre, .kali-terminal pre {
     margin: 0;
     white-space: pre-wrap;
     font-size: 1.3rem;
