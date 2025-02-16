@@ -188,7 +188,9 @@ foreach ($user in $users) {
                     </div>
                 </div>
                 <pre>   
-            
+
+            mkdir C:\temp
+            cd C:\temp
             wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt -o usernames.txt
 
                 </pre>
@@ -215,7 +217,116 @@ foreach ($user in $users) {
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
+
+        <p>Now we can utilize kerbrute.exe and and our username list and enumerate valid usernames within the maraudersec.local domain:</p>
+                
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+
+            .\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
                     
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>Continuing on, we can actually build out own kerbrute style script utilizing PowerShell.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+        
+        # Function to check if a username is valid in the given domain
+function Check-ValidUser {
+    param (
+        [string]$domain,            # Domain to check against
+        [string]$username           # Username to check
+    )
+
+    # Try to get the user from Active Directory
+    try {
+        $user = Get-ADUser -Identity $username -Server $domain -ErrorAction Stop
+        return $true
+    } catch {
+        # If user not found, return false
+        return $false
+    }
+}
+
+# Function to check a list of usernames for validity in the domain
+function Invoke-UserEnum {
+    param (
+        [string]$domain,              # The domain to check usernames against
+        [string]$usernameListPath      # Path to the file containing the list of usernames
+    )
+
+    # Check if username list exists
+    if (-Not (Test-Path $usernameListPath)) {
+        Write-Host "Username list file not found. Please check the path." -ForegroundColor Red
+        return
+    }
+
+    # Read the list of usernames from the file
+    $usernames = Get-Content -Path $usernameListPath
+
+    # Prepare an output file to store valid users
+    $outputFile = "valid_users.txt"
+    if (Test-Path $outputFile) {
+        Remove-Item $outputFile  # Clear previous output if exists
+    }
+
+    # Iterate over each username and check validity
+    foreach ($username in $usernames) {
+        Write-Host "Checking username: $username"
+
+        # Check if the username is valid in the domain
+        $isValid = Check-ValidUser -domain $domain -username $username
+
+        if ($isValid) {
+            Write-Host "Valid username found: $username" -ForegroundColor Green
+            # Append valid username to the output file
+            Add-Content -Path $outputFile -Value $username
+        } else {
+            Write-Host "Invalid username: $username" -ForegroundColor Red
+        }
+    }
+
+    Write-Host "User enumeration complete. Valid users are saved in $outputFile."
+}
+
+# Ask for domain and username list path input
+$domain = Read-Host "Enter the domain (e.g., yourdomain.local)"
+$usernameListPath = Read-Host "Enter the path to the username list file"
+
+# Call the function with provided inputs
+Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>We can even make it better to see if Pre-Authentication is not Required. This will not be expalined yet as this is AsRepRoasting and another section within the course.</p>
+
+        
+        
         <div class="image-container">
             <img src="../images/image_2.jpg" alt="ISO Image">
         </div>
