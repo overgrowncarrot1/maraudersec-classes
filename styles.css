@@ -16,6 +16,7 @@ body {
     display: flex;
     height: 100vh;
     position: relative;
+    flex-wrap: wrap; /* Allows for responsive behavior when screen size changes */
 }
 
 /* Sidebar Fixes */
@@ -30,6 +31,7 @@ body {
     font-size: 1.5rem;
     overflow-y: auto; /* Prevents overflow */
     max-height: 100vh; /* Ensures scrolling */
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
 }
 
 .sidebar h2 {
@@ -94,7 +96,8 @@ body {
     justify-content: flex-start; /* Align content to the left */
     align-items: flex-start; /* Ensure text stays on the left */
     margin-left: 250px; /* Space to the right of the sidebar */
-    max-width: calc(100% - 250px); /* Prevents content from overlapping the sidebar */
+    width: calc(100% - 250px); /* Ensure content doesn't overflow or get cut off */
+    min-width: 0; /* Allow content to shrink but prevent overflow */
 }
 
 /* Header Styling */
@@ -203,4 +206,32 @@ img + img {
     max-height: 90%;
     border: none;
     border-radius: 0;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-direction: column; /* Stack sidebar and content vertically on smaller screens */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-shrink: 1; /* Allow sidebar to shrink on smaller screens */
+    }
+
+    .content {
+        margin-left: 0; /* Remove left margin when sidebar is stacked above content */
+        width: 100%; /* Content takes up the full width on smaller screens */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+    }
+
+    .content {
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
 }
