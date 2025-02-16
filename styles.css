@@ -131,7 +131,7 @@ button:hover {
 }
 
 .powershell-terminal {
-    padding: 5px 15px; /* Reduced padding on top and bottom */
+    padding: 8px 15px; /* Reduced padding on top and bottom */
     font-family: 'Consolas', 'Courier New', monospace;
     white-space: pre-wrap;
     border-radius: 5px;
