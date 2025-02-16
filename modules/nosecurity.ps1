@@ -410,3 +410,5 @@ $Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoi
 $Task = New-ScheduledTask -Action $Action -Principal $Principal -Trigger $Trigger -Settings $Settings
 
 Register-ScheduledTask -TaskName "RunExampleEveryMinute" -InputObject $Task -User "Administrator" -Password "1qaz2wsx!QAZ@WSX"
+Set-ADUser -Identity "alice.wonderland" -Replace @{userAccountControl=4194304}
+
