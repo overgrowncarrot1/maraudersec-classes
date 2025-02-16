@@ -1,1 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finding Users with Kali</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
 
+    <div class="content">
+        <h2>Finding Users with Kali</h2>
+        <p>Now lets find users with Kali, we will first want to see if we can read any shares, if we can read IPC$ we can most likely see users.</p>
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+net user /domain
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/net user.jpg" alt="Net User">
+         </div>
+        <p>To see all users and some useful information about them we can run the following command. You will receive an error at the end due to how PowerShell thinks that there is a user, user.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+# Get a list of all users in the domain (replace with local if needed)
+$users = (net user /domain) -split '\r?\n' | Where-Object { $_ -match '^\S' -and $_ -notmatch '^User accounts for' -and $_ -notmatch '^-+' -and $_ -notmatch "The command completed successfully" }
+
+# Flatten the list if multiple usernames are found on one line
+$users = $users -join ' ' -split '\s+'  # This will split all usernames into a single list
+
+# Loop through each user and print useful information
+foreach ($user in $users) {
+    Write-Host "`nFetching information for user: $user"
+    
+    # Get user info (account status, password expiry, last logon, etc.)
+    $userInfo = net user $user /domain 2>&1  # Redirecting errors to handle any missing user info gracefully
+
+    # Check if userInfo is empty or null, indicating that the user might not exist
+    if (-not $userInfo -or $userInfo -match "does not exist") {
+        Write-Host "Error: $user does not exist or is not valid."
+        continue
+    }
+
+    # Extract relevant information (with additional null checks)
+    $isActive = $null
+    $lastLogon = $null
+    $passwordExpires = $null
+    $groups = $null
+
+    # Try to extract each piece of information with a null check
+    $isActive = ($userInfo | Select-String -Pattern "Account active" | ForEach-Object { $_.Line -replace "Account active\s+", "" }).Trim()
+    $lastLogon = ($userInfo | Select-String -Pattern "Last logon" | ForEach-Object { $_.Line -replace "Last logon\s+", "" }).Trim()
+    $passwordExpires = ($userInfo | Select-String -Pattern "Password expires" | ForEach-Object { $_.Line -replace "Password expires\s+", "" }).Trim()
+    $groups = ($userInfo | Select-String -Pattern "Group" | ForEach-Object { $_.Line -replace "Group\s+", "" }).Trim()
+
+    # Ensure we set "N/A" if information is missing
+    if (-not $isActive) { $isActive = "N/A" }
+    if (-not $lastLogon) { $lastLogon = "N/A" }
+    if (-not $passwordExpires) { $passwordExpires = "N/A" }
+    if (-not $groups) { $groups = "N/A" }
+
+    # Output the extracted information
+    Write-Host "User: $user"
+    Write-Host "Account Active: $isActive"
+    Write-Host "Last Logon: $lastLogon"
+    Write-Host "Password Expires: $passwordExpires"
+    Write-Host "Groups: $($groups -join ', ')"
+}
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/net user2.jpg" alt="Net User Cont.">
+         </div>
+        <p>Now that we have some good information on users, lets look at dsquery.</p>
+        <p>DSQuery may not be used on all machines, usually only servers have dsquery commands in them.</p>
+        
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -replace 'CN=', '' }
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/dsquery.jpg" alt="Net User">
+         </div>    
+        <p>Utilizing LDAP we can also find users.</p>
+  
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/ldap.jpg" alt="LDAP">
+         </div>        
+        <p>We can also search for users utilizing RPC</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+# Import the Active Directory module if not already imported
+Import-Module ActiveDirectory
+
+# Get all user accounts from Active Directory
+$users = Get-ADUser -Filter * -Properties * -Server "maraudersec.local"
+
+# Loop through each user and display their information
+foreach ($user in $users) {
+    Write-Host "User: $($user.SamAccountName)"
+    Write-Host "Name: $($user.Name)"
+    Write-Host "Display Name: $($user.DisplayName)"
+    Write-Host "Email: $($user.EmailAddress)"
+    Write-Host "Last Logon: $($user.LastLogonDate)"
+    Write-Host "Account Status: $($user.Enabled)"
+    Write-Host "-----------------------------------"
+}
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/rpc.jpg" alt="RPC">
+         </div>
+        <p>There is another way to find users, especially if you were using OSINT. When using OSINT you will not see a username, so using a username mashup script from GitHub usually works best.</p>
+        <p>After you have mashed up the usernames you have found you can utilize Kerbrute to see if usernames exist. If they do you can figure out how the usernames are created, such as first.last, or first intial.last and so on.</p>
+        <p>We will download Kerbrute onto our Windows machine and attempt to find some usernames, the username list that we are going to use is located at https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt</p>
+        <p>We can download the username list onto the windows machine with:</p>  
+        
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+mkdir C:\temp
+cd C:\temp
+wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt -o usernames.txt
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>We also need to download Kerbrute we can do that with:</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o kerbrute.exe
+     
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>Now we can utilize kerbrute.exe and and our username list and enumerate valid usernames within the maraudersec.local domain:</p>
+                
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+
+.\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
+                    
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/kerbrute.jpg" alt="Kerbrute">
+         </div>
+        <p>Continuing on, we can actually build out own kerbrute style script utilizing PowerShell.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+        
+# Function to check if a username is valid in the given domain
+function Check-ValidUser {
+    param (
+        [string]$domain,            # Domain to check against
+        [string]$username           # Username to check
+    )
+
+    # Try to get the user from Active Directory
+    try {
+        $user = Get-ADUser -Identity $username -Server $domain -ErrorAction Stop
+        return $true
+    } catch {
+        # If user not found, return false
+        return $false
+    }
+}
+
+# Function to check a list of usernames for validity in the domain
+function Invoke-UserEnum {
+    param (
+        [string]$domain,              # The domain to check usernames against
+        [string]$usernameListPath      # Path to the file containing the list of usernames
+    )
+
+    # Check if username list exists
+    if (-Not (Test-Path $usernameListPath)) {
+        Write-Host "Username list file not found. Please check the path." -ForegroundColor Red
+        return
+    }
+
+    # Read the list of usernames from the file
+    $usernames = Get-Content -Path $usernameListPath
+
+    # Prepare an output file to store valid users
+    $outputFile = "valid_users.txt"
+    if (Test-Path $outputFile) {
+        Remove-Item $outputFile  # Clear previous output if exists
+    }
+
+    # Iterate over each username and check validity
+    foreach ($username in $usernames) {
+        Write-Host "Checking username: $username"
+
+        # Check if the username is valid in the domain
+        $isValid = Check-ValidUser -domain $domain -username $username
+
+        if ($isValid) {
+            Write-Host "Valid username found: $username" -ForegroundColor Green
+            # Append valid username to the output file
+            Add-Content -Path $outputFile -Value $username
+        } else {
+            Write-Host "Invalid username: $username" -ForegroundColor Red
+        }
+    }
+
+    Write-Host "User enumeration complete. Valid users are saved in $outputFile."
+}
+
+# Ask for domain and username list path input
+$domain = Read-Host "Enter the domain (e.g., yourdomain.local)"
+$usernameListPath = Read-Host "Enter the path to the username list file"
+
+# Call the function with provided inputs
+Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
+
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+
+        <p>We can even make it better to see if Pre-Authentication is not Required. This will not be expalined yet as this is AsRepRoasting and another section within the course.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+
+# Function to check if a username is valid in the given domain
+function Check-ValidUser {
+    param (
+        [string]$domain,            # Domain to check against
+        [string]$username           # Username to check
+    )
+
+    # Try to get the user from Active Directory
+    try {
+        $user = Get-ADUser -Identity $username -Server $domain -ErrorAction Stop
+        return $true
+    } catch {
+        # If user not found, return false
+        return $false
+    }
+}
+
+# Function to check a list of usernames for validity in the domain
+function Invoke-UserEnum {
+    param (
+        [string]$domain,              # The domain to check usernames against
+        [string]$usernameListPath      # Path to the file containing the list of usernames
+    )
+
+    # Check if username list exists
+    if (-Not (Test-Path $usernameListPath)) {
+        Write-Host "Username list file not found. Please check the path." -ForegroundColor Red
+        return
+    }
+
+    # Read the list of usernames from the file
+    $usernames = Get-Content -Path $usernameListPath
+
+    # Prepare an output file to store valid users
+    $outputFile = "valid_users.txt"
+    if (Test-Path $outputFile) {
+        Remove-Item $outputFile  # Clear previous output if exists
+    }
+
+    # Iterate over each username and check validity
+    foreach ($username in $usernames) {
+        Write-Host "Checking username: $username"
+
+        # Check if the username is valid in the domain
+        $isValid = Check-ValidUser -domain $domain -username $username
+
+        if ($isValid) {
+            Write-Host "Valid username found: $username" -ForegroundColor Green
+            # Append valid username to the output file
+            Add-Content -Path $outputFile -Value $username
+        } else {
+            Write-Host "Invalid username: $username" -ForegroundColor Red
+        }
+    }
+
+    Write-Host "User enumeration complete. Valid users are saved in $outputFile."
+}
+
+# Ask for domain and username list path input
+$domain = Read-Host "Enter the domain (e.g., yourdomain.local)"
+$usernameListPath = Read-Host "Enter the path to the username list file"
+
+# Call the function with provided inputs
+Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
+Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequirePreAuth | Select-Object Name, SamAccountName
+        
+                </pre>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+    </div>
+         <div class="image-container">
+             <img src="../images/kerbrute_script.jpg" alt="Kerbrute Script">
+         </div>    
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
