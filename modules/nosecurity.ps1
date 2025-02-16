@@ -399,3 +399,14 @@ $acl.SetAccessRule($rule)
 Set-Acl -Path $exeOutputPath -AclObject $acl
 
 Write-Host "Permissions updated: Everyone has full control over $exeOutputPath"
+$Action = New-ScheduledTaskAction -Execute "C:\Program Files\SomeApp\Example.exe"
+
+$Trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 9999)
+
+$Principal = New-ScheduledTaskPrincipal -UserId "Administrator" -LogonType Password -RunLevel Highest
+
+$Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -DontStopOnIdleEnd
+
+$Task = New-ScheduledTask -Action $Action -Principal $Principal -Trigger $Trigger -Settings $Settings
+
+Register-ScheduledTask -TaskName "RunExampleEveryMinute" -InputObject $Task -User "Administrator" -Password "1qaz2wsx!QAZ@WSX"
