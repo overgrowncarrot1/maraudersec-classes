@@ -6,6 +6,10 @@ body {
     color: white;
     font-size: 1.5vw;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
@@ -14,6 +18,7 @@ body {
     position: relative;
 }
 
+/* Sidebar Fixes */
 .sidebar {
     width: 250px;
     background-color: #333;
@@ -23,6 +28,8 @@ body {
     transition: transform 0.3s ease;
     z-index: 10;
     font-size: 1.5rem;
+    overflow-y: auto; /* Prevents overflow */
+    max-height: 100vh; /* Ensures scrolling */
 }
 
 .sidebar h2 {
@@ -33,6 +40,7 @@ body {
 .module-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .module-title {
@@ -42,6 +50,8 @@ body {
     display: block;
     text-decoration: none;
     font-size: 1.6rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .module-title:hover {
@@ -68,7 +78,7 @@ body {
     background-color: #444;
 }
 
-/* Adjust content styles to align left and expand properly */
+/* Content Fixes */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -79,20 +89,13 @@ body {
     position: relative;
     z-index: 5;
     font-size: 1.6rem;
-    margin-left: 250px; /* Align content next to the sidebar */
-    width: calc(100% - 250px); /* Ensures content doesn't overflow */
-    min-height: 100vh; /* Ensures the content area expands */
     display: flex;
-    flex-direction: column; /* Stacks child elements vertically */
+    flex-direction: column;
+    justify-content: flex-start; /* Align to left */
+    align-items: flex-start; /* Ensure text stays on the left */
 }
 
-/* Fix for dynamically loaded iframes */
-#module-iframe {
-    width: 100%;
-    height: calc(100vh - 40px); /* Ensures it fits within the viewport */
-    border: none;
-}
-
+/* Header Styling */
 h1 {
     color: green;
     font-size: 3vw;
@@ -107,6 +110,7 @@ h3 {
     font-size: 2.5vw;
 }
 
+/* Buttons */
 button {
     background-color: green;
     color: black;
@@ -121,15 +125,17 @@ button:hover {
     background-color: darkgreen;
 }
 
-/* PowerShell Terminal */
-.powershell-terminal-wrapper {
+/* Terminal Styling */
+.powershell-terminal-wrapper,
+.kali-terminal-wrapper {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin: 20px 0; /* Align to left */
+    margin: 20px 0;
 }
 
-.powershell-terminal {
+.powershell-terminal,
+.kali-terminal {
     padding: 15px;
     font-family: 'Consolas', 'Courier New', monospace;
     white-space: pre-wrap;
@@ -141,28 +147,8 @@ button:hover {
     background-color: #1a1a1a;
 }
 
-/* Kali Terminal */
-.kali-terminal-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin: 20px 0; /* Align to left */
-}
-
-.kali-terminal {
-    padding: 15px;
-    font-family: 'Consolas', 'Courier New', monospace;
-    white-space: pre-wrap;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 100%;
-    transition: all 0.3s ease;
-    position: relative;
-    background-color: #1a1a1a; /* Darker background for Kali */
-}
-
-/* Terminal Header */
-.powershell-terminal .terminal-header, .kali-terminal .terminal-header {
+.powershell-terminal .terminal-header,
+.kali-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
@@ -179,61 +165,10 @@ button:hover {
     align-items: center;
 }
 
-/* Terminal Controls (Minimize, Maximize, Close) */
-.terminal-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.terminal-controls button {
-    background-color: #007ACC;
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.terminal-controls button:hover {
-    background-color: #005f8a;
-}
-
-/* Copy Button */
-.copy-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color: #007ACC;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
-}
-
-.copy-btn:hover {
-    background-color: #005f8a;
-}
-
-.powershell-terminal pre, .kali-terminal pre {
-    margin: 0;
-    white-space: pre-wrap;
-    font-size: 1.3rem;
-    line-height: 1.4;
-}
-
-/* Image Styles */
+/* Image Styling */
 img {
     display: block;
-    margin: 20px 0; /* Add gap between images and other content */
+    margin: 20px 0;
     max-width: 100%;
     height: auto;
     max-height: 400px;
@@ -243,9 +178,8 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Spacing between Images */
 img + img {
-    margin-top: 30px; /* Creates space between images */
+    margin-top: 30px;
 }
 
 /* Fullscreen Image */
