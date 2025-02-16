@@ -129,6 +129,29 @@ $ldapConnection.Properties.PropertyNames | ForEach-Object {
 New-NetFirewallRule -DisplayName "Allow LDAP Null Access" -Direction Inbound -Protocol TCP -LocalPort 389 -Action Allow
 New-NetFirewallRule -DisplayName "Allow LDAP Null Access" -Direction Outbound -Protocol TCP -LocalPort 389 -Action Allow
 
+# Import the Active Directory module (if not already imported)
+Import-Module ActiveDirectory
+
+# Disable password complexity
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -ComplexityEnabled $false
+
+# Set the minimum password length to 6 characters (you can change this value)
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -MinPasswordLength 6
+
+# Set the maximum password age to 90 days (you can change this value)
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -MaxPasswordAge (New-TimeSpan -Days 90)
+
+# Set the minimum password age to 0 days (users can change password immediately)
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -MinPasswordAge (New-TimeSpan -Days 0)
+
+# Set the number of passwords to remember (set to 0 to disable history requirement)
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -PasswordHistoryCount 0
+
+# Disable account lockout policy (if desired, not recommended for production environments)
+Set-ADDefaultDomainPasswordPolicy -Identity "maraudersec.local" -LockoutThreshold 0
+
+Write-Host "Password policy updated successfully!"
+
 Write-Host "LDAP null access allowed and firewall configured."
 # List of passwords to choose from
 $passwordList = @(
@@ -143,30 +166,46 @@ $passwordList = @(
     "dragon", "vanessa", "cookie", "naruto", "summer", "sweety", "spongebob", "joseph", "junior", "softball", "taylor",
     "yellow", "daniela", "lauren", "mickey", "princesa"
 )
+# Set the password policy to allow simple passwords
+$Domain = "maraudersec.local"
 
-# Create 10 fake users with first.last format
-for ($i = 1; $i -le 10; $i++) {
-    $firstName = "User" + $i
-    $lastName = "Last" + $i
-    $username = "$firstName.$lastName"
-    
-    # Select a random password from the list provided
-    $password = $passwordList | Get-Random
-    
-    # Create the user with the random password from the list
-    New-ADUser -SamAccountName $username -UserPrincipalName "$username@maraudersec.local" `
-               -GivenName $firstName -Surname $lastName `
-               -Name "$firstName $lastName" `
-               -DisplayName "$firstName $lastName" `
-               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
-               -PasswordNeverExpires $true -Enabled $true -PassThru
-    Write-Host "Created user: $username with password: $password"
+# Set the minimum password length and disable complexity requirements
+Set-ADDefaultDomainPasswordPolicy -DomainName $Domain -MinPasswordLength 4 -ComplexityEnabled $false
+
+# List of 10 usernames and passwords
+$users = @(
+    @{Username="john.doe"; Password="1234"},
+    @{Username="jane.smith"; Password="password"},
+    @{Username="michael.brown"; Password="qwerty"},
+    @{Username="susan.johnson"; Password="iloveyou"},
+    @{Username="robert.miller"; Password="12345"},
+    @{Username="patricia.taylor"; Password="letmein"},
+    @{Username="james.moore"; Password="monkey"},
+    @{Username="mary.jackson"; Password="123456"},
+    @{Username="david.white"; Password="welcome"},
+    @{Username="linda.harris"; Password="football"}
+)
+
+# Create each user
+foreach ($user in $users) {
+    New-ADUser -SamAccountName $user.Username `
+               -UserPrincipalName "$($user.Username)@$Domain" `
+               -Name $user.Username `
+               -GivenName ($user.Username.Split(".")[0]) `
+               -Surname ($user.Username.Split(".")[1]) `
+               -AccountPassword (ConvertTo-SecureString -AsPlainText $user.Password -Force) `
+               -Enabled $true `
+               -PassThru `
+               -ChangePasswordAtLogon $false `
+               -Description "Password: $($user.Password)" `
+               -DomainController $Domain
+    Write-Host "User $($user.Username) created with password $($user.Password)"
 }
 
-# Exclude Alice.Wonderland (since they are ASREPRoastable)
+# Create special users with passwords in the description
 $specialUsers = @(
-    @{UserName="Bob.Builder"; Description="RockYou123!"},
-    @{UserName="Charlie.Brown"; Description="P@ssw0rd!456"}
+    @{UserName="Bob.Builder"; Description="123456"},
+    @{UserName="Charlie.Brown"; Description="password"}
 )
 
 foreach ($user in $specialUsers) {
