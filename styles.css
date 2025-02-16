@@ -68,7 +68,7 @@ body {
     background-color: #444;
 }
 
-/* Updated content styles */
+/* Adjust content styles to align left */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -79,7 +79,8 @@ body {
     position: relative;
     z-index: 5;
     font-size: 1.6rem;
-    margin-left: 250px; /* This ensures content aligns next to the sidebar */
+    margin-left: 250px; /* Align content next to the sidebar */
+    width: calc(100% - 250px); /* Ensures content doesn't overflow */
 }
 
 h1 {
@@ -114,8 +115,8 @@ button:hover {
 .powershell-terminal-wrapper {
     position: relative;
     width: 100%;
-    max-width: 80%;
-    margin: 20px auto;
+    max-width: 100%;
+    margin: 20px 0; /* Align to left */
 }
 
 .powershell-terminal {
@@ -127,14 +128,15 @@ button:hover {
     max-width: 100%;
     transition: all 0.3s ease;
     position: relative;
+    background-color: #1a1a1a;
 }
 
 /* Kali Terminal */
 .kali-terminal-wrapper {
     position: relative;
     width: 100%;
-    max-width: 80%;
-    margin: 20px auto;
+    max-width: 100%;
+    margin: 20px 0; /* Align to left */
 }
 
 .kali-terminal {
