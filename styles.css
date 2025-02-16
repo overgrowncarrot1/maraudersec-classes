@@ -68,7 +68,7 @@ body {
     background-color: #444;
 }
 
-/* Adjust content styles to align left */
+/* Adjust content styles to align left and expand properly */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -81,6 +81,16 @@ body {
     font-size: 1.6rem;
     margin-left: 250px; /* Align content next to the sidebar */
     width: calc(100% - 250px); /* Ensures content doesn't overflow */
+    min-height: 100vh; /* Ensures the content area expands */
+    display: flex;
+    flex-direction: column; /* Stacks child elements vertically */
+}
+
+/* Fix for dynamically loaded iframes */
+#module-iframe {
+    width: 100%;
+    height: calc(100vh - 40px); /* Ensures it fits within the viewport */
+    border: none;
 }
 
 h1 {
