@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <pre>   
-        net user /domain
+net user /domain
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
@@ -189,9 +189,9 @@ foreach ($user in $users) {
                 </div>
                 <pre>   
 
-            mkdir C:\temp
-            cd C:\temp
-            wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt -o usernames.txt
+mkdir C:\temp
+cd C:\temp
+wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt -o usernames.txt
 
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
@@ -211,7 +211,7 @@ foreach ($user in $users) {
                     </div>
                 </div>
                 <pre>
-        wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o kerbrute.exe
+wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o kerbrute.exe
      
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
@@ -232,7 +232,7 @@ foreach ($user in $users) {
                 </div>
                 <pre>
 
-            .\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
+.\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
                     
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
@@ -253,7 +253,7 @@ foreach ($user in $users) {
                 </div>
                 <pre>
         
-        # Function to check if a username is valid in the given domain
+# Function to check if a username is valid in the given domain
 function Check-ValidUser {
     param (
         [string]$domain,            # Domain to check against
