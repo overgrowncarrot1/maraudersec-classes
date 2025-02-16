@@ -1,0 +1,5 @@
+net user /domain
+dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -replace 'CN=', '' }
+Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
+
+
