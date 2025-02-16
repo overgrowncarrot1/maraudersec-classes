@@ -15,11 +15,19 @@
 
         <h2>.Net Framework</h2>
         <p>If you have access to a machine there are multiple ways to find users on a domain, one of those ways is using the .net framework. This will work on both machines and servers.</p>
-        
-        <div class="image-container">
-            <img src="../images/image_9.jpg" alt="Booting from ISO">
-            <img src="../images/image_5.jpg" alt="ISO Image">
-        </div>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+        net user /domain
 
         <p>Notice above that I picked the Server Eval ISO file, and told the system to use that image file. This will boot much like when you load an ISO into a desktop and then boot from USB.</p>
 
