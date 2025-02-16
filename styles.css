@@ -6,10 +6,6 @@ body {
     color: white;
     font-size: 1.5vw;
     line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
 }
 
 .container {
@@ -18,7 +14,6 @@ body {
     position: relative;
 }
 
-/* Sidebar Fixes */
 .sidebar {
     width: 250px;
     background-color: #333;
@@ -28,14 +23,52 @@ body {
     transition: transform 0.3s ease;
     z-index: 10;
     font-size: 1.5rem;
-    overflow-y: auto;
-    max-height: 100vh;
-    position: fixed;
-    top: 0;
-    bottom: 0;
 }
 
-/* Content Fixes */
+.sidebar h2 {
+    color: green;
+    font-size: 1.2rem;
+}
+
+.module-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.module-title {
+    color: green;
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.module-title:hover {
+    background-color: #444;
+}
+
+.submenu {
+    list-style-type: none;
+    padding-left: 20px;
+    display: none;
+}
+
+.submenu.active {
+    display: block;
+}
+
+.submenu li {
+    cursor: pointer;
+    color: green;
+    font-size: 1.4rem;
+}
+
+.submenu li:hover {
+    background-color: #444;
+}
+
+/* Adjust content styles to align left */
 .content {
     flex-grow: 1;
     padding: 20px;
@@ -46,15 +79,10 @@ body {
     position: relative;
     z-index: 5;
     font-size: 1.6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    align-items: flex-start;
-    margin-left: 250px; /* Ensure content is shifted to the right to make room for the sidebar */
-    width: calc(100% - 250px); /* Take up remaining space beside the sidebar */
+    margin-left: 250px; /* Align content next to the sidebar */
+    width: calc(100% - 250px); /* Ensures content doesn't overflow */
 }
 
-/* Header Styling */
 h1 {
     color: green;
     font-size: 3vw;
@@ -69,7 +97,6 @@ h3 {
     font-size: 2.5vw;
 }
 
-/* Buttons */
 button {
     background-color: green;
     color: black;
@@ -84,17 +111,15 @@ button:hover {
     background-color: darkgreen;
 }
 
-/* Terminal Styling */
-.powershell-terminal-wrapper,
-.kali-terminal-wrapper {
+/* PowerShell Terminal */
+.powershell-terminal-wrapper {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin: 20px 0;
+    margin: 20px 0; /* Align to left */
 }
 
-.powershell-terminal,
-.kali-terminal {
+.powershell-terminal {
     padding: 15px;
     font-family: 'Consolas', 'Courier New', monospace;
     white-space: pre-wrap;
@@ -106,8 +131,28 @@ button:hover {
     background-color: #1a1a1a;
 }
 
-.powershell-terminal .terminal-header,
-.kali-terminal .terminal-header {
+/* Kali Terminal */
+.kali-terminal-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 20px 0; /* Align to left */
+}
+
+.kali-terminal {
+    padding: 15px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: #1a1a1a; /* Darker background for Kali */
+}
+
+/* Terminal Header */
+.powershell-terminal .terminal-header, .kali-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
@@ -124,10 +169,61 @@ button:hover {
     align-items: center;
 }
 
-/* Image Styling */
+/* Terminal Controls (Minimize, Maximize, Close) */
+.terminal-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.terminal-controls button {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.terminal-controls button:hover {
+    background-color: #005f8a;
+}
+
+/* Copy Button */
+.copy-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
+}
+
+.copy-btn:hover {
+    background-color: #005f8a;
+}
+
+.powershell-terminal pre, .kali-terminal pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+/* Image Styles */
 img {
     display: block;
-    margin: 20px 0;
+    margin: 20px 0; /* Add gap between images and other content */
     max-width: 100%;
     height: auto;
     max-height: 400px;
@@ -137,8 +233,9 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Spacing between Images */
 img + img {
-    margin-top: 30px;
+    margin-top: 30px; /* Creates space between images */
 }
 
 /* Fullscreen Image */
@@ -160,31 +257,4 @@ img + img {
     max-height: 90%;
     border: none;
     border-radius: 0;
-}
-
-/* Media Queries for Responsiveness */
-@media screen and (max-width: 1024px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        position: static;
-    }
-
-    .content {
-        margin-left: 0;
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        font-size: 3vw;
-    }
-
-    .content {
-        padding: 10px;
-    }
 }
