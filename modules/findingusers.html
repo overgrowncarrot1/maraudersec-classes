@@ -31,7 +31,9 @@ net user /domain
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-
+         <div class="image-container">
+             <img src="../images/net user.jpg" alt="Net User">
+         </div>
         <p>To see all users and some useful information about them we can run the following command. You will receive an error at the end due to how PowerShell thinks that there is a user, user.</p>
 
         <div class="powershell-terminal-wrapper">
@@ -95,7 +97,9 @@ foreach ($user in $users) {
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-
+         <div class="image-container">
+             <img src="../images/net user2.jpg" alt="Net User Cont.">
+         </div>
         <p>Now that we have some good information on users, lets look at dsquery.</p>
         <p>DSQuery may not be used on all machines, usually only servers have dsquery commands in them.</p>
         
@@ -117,7 +121,9 @@ dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -re
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-    
+         <div class="image-container">
+             <img src="../images/dsquery.jpg" alt="Net User">
+         </div>    
         <p>Utilizing LDAP we can also find users.</p>
   
         <div class="powershell-terminal-wrapper">
@@ -137,7 +143,9 @@ Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-        
+         <div class="image-container">
+             <img src="../images/ldap.jpg" alt="LDAP">
+         </div>        
         <p>We can also search for users utilizing RPC</p>
 
         <div class="powershell-terminal-wrapper">
@@ -171,7 +179,9 @@ foreach ($user in $users) {
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-
+         <div class="image-container">
+             <img src="../images/rpc.jpg" alt="RPC">
+         </div>
         <p>There is another way to find users, especially if you were using OSINT. When using OSINT you will not see a username, so using a username mashup script from GitHub usually works best.</p>
         <p>After you have mashed up the usernames you have found you can utilize Kerbrute to see if usernames exist. If they do you can figure out how the usernames are created, such as first.last, or first intial.last and so on.</p>
         <p>We will download Kerbrute onto our Windows machine and attempt to find some usernames, the username list that we are going to use is located at https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt</p>
@@ -238,7 +248,9 @@ wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_window
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-
+         <div class="image-container">
+             <img src="../images/kerbrute.jpg" alt="Kerbrute">
+         </div>
         <p>Continuing on, we can actually build out own kerbrute style script utilizing PowerShell.</p>
 
         <div class="powershell-terminal-wrapper">
@@ -408,6 +420,9 @@ Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequireP
             </div>
         </div>
     </div>
+         <div class="image-container">
+             <img src="../images/kerbrute_script.jpg" alt="Kerbrute Script">
+         </div>    
     <script>
         function copyToClipboard() {
             var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
