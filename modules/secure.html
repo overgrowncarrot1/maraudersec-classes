@@ -178,6 +178,9 @@ $users = @(
     @{Username = "linda.harris"; Password = "football"}
 )
 
+# Select two users to set the password in their description and require a password change
+$usersToUpdate = @("john.doe", "jane.smith")
+
 # Loop through each user
 foreach ($user in $users) {
     # Check if user already exists in Active Directory
@@ -185,6 +188,16 @@ foreach ($user in $users) {
         # Query the user by SamAccountName (Username)
         $adUser = Get-ADUser -Filter {SamAccountName -eq $user.Username} -ErrorAction Stop
         Write-Host "User $($user.Username) exists."
+        
+        # If the user is in the list of users to update, modify their description and set the "password must change"
+        if ($usersToUpdate -contains $user.Username) {
+            # Set the password in the description
+            Set-ADUser -Identity $adUser -Description $user.Password
+            
+            # Set the flag for the user to change password at next logon
+            Set-ADUser -Identity $adUser -ChangePasswordAtLogon $true
+            Write-Host "User $($user.Username) updated with password in description and set to change password at next logon."
+        }
     }
     catch {
         Write-Host "User $($user.Username) does not exist."
@@ -196,6 +209,7 @@ foreach ($user in $users) {
         Write-Host "User $($user.Username) created with password $($user.Password)."
     }
 }
+
 
 
                 </pre>
