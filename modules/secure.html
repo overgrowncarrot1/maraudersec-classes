@@ -209,7 +209,50 @@ foreach ($user in $users) {
         Write-Host "User $($user.Username) created with password $($user.Password)."
     }
 }
+# Define the groups to create
+$groups = @("IT Helpdesk", "IT Admins", "HR", "Management", "Floor")
 
+# Create groups if they do not exist
+foreach ($group in $groups) {
+    if (-not (Get-ADGroup -Filter {Name -eq $group})) {
+        Write-Host "Creating group: $group"
+        New-ADGroup -Name $group -GroupScope Global -PassThru
+    }
+    else {
+        Write-Host "Group $group already exists."
+    }
+}
+
+# Add Alice.Wonderland to the 'Floor' group
+Add-ADGroupMember -Identity "Floor" -Members "Alice.Wonderland"
+Write-Host "Added Alice.Wonderland to Floor group."
+
+# Group assignments
+$usersGroupAssignment = @{
+    "Administrator" = "IT Admins"
+    "Alice.Wonderland" = "Floor"
+    "Bob.Builder" = "Floor"
+    "Charlie.Brown" = "HR"
+    "david.white" = "HR"
+    "Guest" = "HR"
+    "james.moore" = "Management"
+    "jane.smith" = "Management"
+    "john.doe" = "Management"
+    "krbtgt" = "Floor"
+    "linda.harris" = "IT Helpdesk"
+    "mary.jackson" = "IT Helpdesk"
+    "michael.brown" = "Floor"
+    "mssql_service" = "Domain Admins"  # Add mssql_service to Domain Admins
+    "patricia.taylor" = "Floor"
+    "robert.miller" = "Floor"
+    "susan.johnson" = "Floor"
+}
+
+# Assign users to their respective groups
+foreach ($user in $usersGroupAssignment.GetEnumerator()) {
+    Add-ADGroupMember -Identity $user.Value -Members $user.Key
+    Write-Host "Added $($user.Key) to $($user.Value) group."
+}
 
 
                 </pre>
