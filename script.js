@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     addImageClickListener(); // Add the listener for image clicks
+    addCopyButtons(); // Add copy buttons to terminal windows
 });
 
 // Function to load modules into the main content area
@@ -30,7 +31,7 @@ function loadModule(module) {
 function loadIframeModule(src) {
     let moduleContent = document.getElementById("module-content");
     moduleContent.innerHTML = `
-        <iframe id="module-iframe" src="${src}" style="border:none; width:100%; height:80vh; margin-top:20px;"></iframe>
+        <iframe id="module-iframe" src="${src}" style="border:none; width:calc(100% - 250px); height:80vh; margin-top:20px; float:left;"></iframe>
     `;
 
     let iframe = document.getElementById("module-iframe");
@@ -75,10 +76,6 @@ function toggleMenu(element) {
 }
 
 // Function to add copy buttons to code terminals
-document.addEventListener("DOMContentLoaded", function () {
-    addCopyButtons();
-});
-
 function addCopyButtons() {
     document.querySelectorAll(".powershell-terminal, .kali-terminal").forEach(terminal => {
         let copyButton = document.createElement("button");
