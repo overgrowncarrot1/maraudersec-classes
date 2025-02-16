@@ -15,7 +15,7 @@ function loadModule(module) {
         "Downloading and Installing Server 2022": "modules/install.html",
         "Building Domain Controller": "modules/buildingDC.html",
         "Not so secure": "modules/secure.html",
-        "Finding Users": "modules/findingusers.html"
+        "Using Windows": "modules/findingusers.html"
     };
 
     // If the selected module is in the fullscreen list, load it inside the content area
