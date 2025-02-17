@@ -123,45 +123,7 @@ button:hover {
 }
 
 /* Kali Zsh Terminal */
-.kali-terminal-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin: 20px 0;
-}
-
-.kali-terminal {
-    padding: 15px;
-    font-family: 'Monospace', 'Courier New', monospace;
-    color: #39ff14;
-    white-space: pre-wrap;
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-    max-width: 100%;
-    transition: all 0.3s ease;
-    position: relative;
-    background-color: black;
-}
-
-/* Kali Terminal Header */
-.kali-terminal .terminal-header,
-.powershell-terminal .terminal-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #202020;
-    color: #39ff14;
-    padding: 5px 10px;
-    font-weight: bold;
-    font-size: 1.3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px 5px 0 0;
-}
-
-/* PowerShell Terminal */
+.kali-terminal-wrapper,
 .powershell-terminal-wrapper {
     position: relative;
     width: 100%;
@@ -169,35 +131,60 @@ button:hover {
     margin: 20px 0;
 }
 
+/* Terminal */
+.kali-terminal,
 .powershell-terminal {
-    padding: 15px;
-    font-family: 'Consolas', 'Courier New', monospace;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
     white-space: pre-wrap;
+    word-wrap: break-word; /* Ensures text stays inside the terminal */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 122, 204, 0.5);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
     max-width: 100%;
+    min-height: 200px;
     transition: all 0.3s ease;
     position: relative;
-    background-color: #012456;
-    color: #ffffff;
-}
-
-/* Terminal Control Buttons */
-.terminal-controls {
+    background-color: black;
+    color: #39ff14;
     display: flex;
-    gap: 5px;
+    flex-direction: column;
 }
 
-.terminal-controls span {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+/* PowerShell Terminal Colors */
+.powershell-terminal {
+    background-color: #012456;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 122, 204, 0.5);
 }
 
-.terminal-controls .close { background-color: red; }
-.terminal-controls .minimize { background-color: yellow; }
-.terminal-controls .maximize { background-color: green; }
+/* Terminal Header */
+.terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #202020;
+    color: #39ff14;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px; /* Fixes header positioning */
+}
+
+/* Terminal Content */
+.terminal-content {
+    margin-top: 35px; /* Prevents overlap with header */
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
 
 /* Image Styles */
 img {
@@ -238,6 +225,7 @@ img + img {
     border-radius: 0;
 }
 
+/* Responsive Fixes */
 @media screen and (max-width: 1024px) {
     .container {
         flex-direction: column;
@@ -259,6 +247,11 @@ img + img {
         font-size: 3vw;
     }
     .content {
+        padding: 10px;
+    }
+    .kali-terminal,
+    .powershell-terminal {
+        font-size: 1rem;
         padding: 10px;
     }
 }
