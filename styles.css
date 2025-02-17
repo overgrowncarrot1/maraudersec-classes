@@ -162,13 +162,13 @@ button:hover {
     background-color: #1a1a1a; /* Darker background for Kali */
 }
 
-/* Terminal Header */
+/* PowerShell Terminal Header */
 .powershell-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    background-color: #007ACC;
+    background-color: #007ACC; /* Change background to blue */
     color: #fff;
     padding: 5px;
     text-align: center;
@@ -180,6 +180,7 @@ button:hover {
     align-items: center;
 }
 
+/* Kali Terminal Header (remains unchanged) */
 .kali-terminal .terminal-header {
     position: absolute;
     top: 0;
