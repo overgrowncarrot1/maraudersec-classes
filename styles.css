@@ -139,7 +139,7 @@ button:hover {
     max-width: 100%;
     transition: all 0.3s ease;
     position: relative;
-    background-color: grey;
+    background-color: #1a1a1a;
 }
 
 /* Kali Terminal */
