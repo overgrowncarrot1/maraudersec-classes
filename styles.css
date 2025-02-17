@@ -168,7 +168,7 @@ button:hover {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #007ACC; /* Change background to blue */
+    background-color: blue; /* Change background to blue */
     color: #fff;
     padding: 5px;
     text-align: center;
