@@ -16,6 +16,7 @@ function loadModule(module) {
         "Building Domain Controller": "modules/buildingDC.html",
         "Not so secure": "modules/secure.html",
         "Using Windows": "modules/findingusers.html"
+        "Using Linux": "modules/findinguserslinux.html"
     };
 
     // If the selected module is in the fullscreen list, load it inside the content area
