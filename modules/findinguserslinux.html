@@ -141,6 +141,29 @@ kerbrute -users /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt 
           <div class="image-container">
              <img src="../images/kerbrute_linux.jpg" alt="Kerbrute">
          </div>
+        <p>Remember we can also download the username list that has been provided and user kerbrute</p>
+
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+                    
+wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs/heads/main/tools/usernames.txt
+kerbrute -users usernames.txt -domain maraudersec.local -dc-ip $DC
+                   
+                </pre>
+            </div>
+        </div>
+
+
+        
          <p>As shown above there are many different ways to obtain information if null access is allowed on a system in just one area, such as SMB or LDAP, or even RPC.</p>
          <p>Once we have a username and password we can enumerate even more users, and also can use ldapdomaindump. For this machine, ldapdomaindump does not allow for null access, however that is something else that should always be tried.</p>
     <script>
