@@ -1,123 +1,300 @@
-/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #181818;
-    color: #fff;
+    font-family: 'Courier New', monospace;
     margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-size: 1.5vw;
+    line-height: 1.6;
+}
+
+/* Main container layout */
+.container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    color: green;
+    transition: transform 0.3s ease;
+    z-index: 10;
+    font-size: 1.5rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.sidebar h2 {
+    color: green;
+    font-size: 1.2rem;
+}
+
+.module-list {
+    list-style-type: none;
     padding: 0;
 }
 
-/* Container */
-.content {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Terminal Wrapper */
-.powershell-terminal-wrapper {
-    width: 100%;
-    margin: 20px 0;
-    background-color: #1d1f21; /* Dark background for terminal */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-/* Terminal */
-.powershell-terminal {
-    font-family: "Courier New", monospace;
-    background-color: #2b2d31;
-    color: #00ff00; /* PowerShell-like green */
+.module-title {
+    color: green;
+    cursor: pointer;
     padding: 10px;
+    display: block;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.module-title:hover {
+    background-color: #444;
+}
+
+.submenu {
+    list-style-type: none;
+    padding-left: 20px;
+    display: none;
+}
+
+.submenu.active {
+    display: block;
+}
+
+.submenu li {
+    cursor: pointer;
+    color: green;
+    font-size: 1.4rem;
+}
+
+.submenu li:hover {
+    background-color: #444;
+}
+
+/* Adjust content styles to align left and use more screen space */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    overflow-y: auto;
     position: relative;
-    height: auto; /* Adjust height to prevent overflow */
-    overflow-y: auto; /* Scrollable content */
-    border: 1px solid #444; /* Subtle border */
-    border-radius: 8px;
-    white-space: pre-wrap; /* Ensure long commands don't get cut off */
-    word-wrap: break-word; /* Prevents text from overflowing */
+    z-index: 5;
+    font-size: 1.6rem;
+    margin-left: 250px; /* Align content next to the sidebar */
+    width: calc(100% - 250px); /* Ensures content doesn't overflow */
+    padding-left: 30px; /* Add some space on the left */
+    padding-right: 30px; /* Add some space on the right */
+    box-sizing: border-box; /* Ensure padding doesn't alter the width */
+}
+
+h1 {
+    color: green;
+    font-size: 3vw;
+}
+
+h2 {
+    color: green;
+    font-size: 2.5vw;
+}
+
+h3 {
+    font-size: 2.5vw;
+}
+
+button {
+    background-color: green;
+    color: black;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+button:hover {
+    background-color: darkgreen;
+}
+
+/* PowerShell Terminal */
+.powershell-terminal-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 20px 0; /* Align to left */
+}
+
+.powershell-terminal {
+    padding: 15px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 122, 204, 0.5);
+    max-width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: #1a1a1a;
+}
+
+/* Kali Terminal */
+.kali-terminal-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 20px 0; /* Align to left */
+}
+
+.kali-terminal {
+    padding: 15px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: #1a1a1a; /* Darker background for Kali */
 }
 
 /* Terminal Header */
-.terminal-header {
+.powershell-terminal .terminal-header, .kali-terminal .terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #007ACC;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: move;
     display: flex;
     justify-content: space-between;
-    background-color: #212121;
-    padding: 5px 10px;
-    color: #fff;
-    font-weight: bold;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    align-items: center;
 }
 
-/* Controls (Minimize, Maximize, Close Buttons) */
+/* Terminal Controls (Minimize, Maximize, Close) */
 .terminal-controls {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .terminal-controls button {
-    background-color: #444;
-    color: #fff;
+    background-color: #007ACC;
+    color: white;
     border: none;
     padding: 5px;
-    font-size: 14px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .terminal-controls button:hover {
-    background-color: #888;
+    background-color: #005f8a;
 }
 
 /* Copy Button */
 .copy-btn {
-    padding: 6px 12px;
-    background-color: #333;
-    color: #fff;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #007ACC;
+    color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-    font-size: 14px;
+    font-size: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
 }
 
 .copy-btn:hover {
-    background-color: #555;
+    background-color: #005f8a;
 }
 
-/* Optional: Button positioning if needed */
-.copy-btn {
-    margin-top: 10px;
+.powershell-terminal pre, .kali-terminal pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 1.3rem;
+    line-height: 1.4;
 }
 
-.copy-btn:focus {
-    outline: none;
+/* Image Styles */
+img {
+    display: block;
+    margin: 20px 0; /* Add gap between images and other content */
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    border: 4px solid #555;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Heading Styles */
-h2 {
-    font-size: 2em;
-    margin-bottom: 10px;
+/* Spacing between Images */
+img + img {
+    margin-top: 30px; /* Creates space between images */
 }
 
-/* Specific Styling for Links */
-a {
-    color: #00ff00;
-    text-decoration: none;
+/* Fullscreen Image */
+.fullscreen-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-a:hover {
-    text-decoration: underline;
+.fullscreen-img img {
+    max-width: 90%;
+    max-height: 90%;
+    border: none;
+    border-radius: 0;
 }
 
-/* Other specific styles */
-button, .copy-btn {
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 16px;
+/* Media queries for responsiveness */
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding-left: 10px; /* Adjust padding for smaller screens */
+        padding-right: 10px;
+    }
 }
 
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 3vw;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}
