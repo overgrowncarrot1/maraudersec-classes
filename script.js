@@ -86,7 +86,9 @@ function addCopyButtons() {
         terminal.appendChild(copyButton);
 
         copyButton.addEventListener("click", function () {
+            // Target the <pre> tag inside the specific terminal window
             let codeText = terminal.querySelector("pre").innerText;
+            
             navigator.clipboard.writeText(codeText).then(() => {
                 copyButton.innerText = "Copied!";
                 setTimeout(() => {
