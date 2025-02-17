@@ -79,22 +79,34 @@ function toggleMenu(element) {
 
 // Function to add copy buttons to code terminals
 function addCopyButtons() {
+    // Listen for click events on terminal containers
     document.querySelectorAll(".powershell-terminal, .kali-terminal").forEach(terminal => {
         let copyButton = document.createElement("button");
         copyButton.innerText = "Copy";
         copyButton.classList.add("copy-code-btn");
         terminal.appendChild(copyButton);
 
+        // Add click event listener for the copy button inside the terminal
         copyButton.addEventListener("click", function (event) {
-            let terminalParent = event.target.closest(".powershell-terminal, .kali-terminal"); // Get the correct terminal container
-            let preTag = terminalParent.querySelector("pre"); // Find the <pre> tag inside this terminal
-
-            if (!preTag) return; // Ensure there's a <pre> block
-            let codeText = preTag.innerText.trim(); // Trim unnecessary spaces
+            // Get the correct terminal by checking the button's closest terminal container
+            let terminalParent = event.target.closest(".powershell-terminal, .kali-terminal");
             
+            // Make sure we are inside a terminal
+            if (!terminalParent) return;
+
+            // Find the <pre> tag inside the terminal where the code is located
+            let preTag = terminalParent.querySelector("pre");
+            if (!preTag) return; // Ensure there's a <pre> block to copy from
+
+            // Get the code text and trim unnecessary spaces
+            let codeText = preTag.innerText.trim();
+
+            // Use the Clipboard API to copy the text from the terminal
             navigator.clipboard.writeText(codeText).then(() => {
                 copyButton.innerText = "Copied!";
                 copyButton.classList.add("copied");
+
+                // Reset the button text after 2 seconds
                 setTimeout(() => {
                     copyButton.innerText = "Copy";
                     copyButton.classList.remove("copied");
