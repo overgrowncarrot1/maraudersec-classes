@@ -86,8 +86,8 @@ function addCopyButtons() {
         terminal.appendChild(copyButton);
 
         copyButton.addEventListener("click", function (event) {
-            let terminalParent = event.target.parentElement; // Get the correct terminal container
-            let preTag = terminalParent.querySelector("pre");
+            let terminalParent = event.target.closest(".powershell-terminal, .kali-terminal"); // Get the correct terminal container
+            let preTag = terminalParent.querySelector("pre"); // Find the <pre> tag inside this terminal
 
             if (!preTag) return; // Ensure there's a <pre> block
             let codeText = preTag.innerText.trim(); // Trim unnecessary spaces
