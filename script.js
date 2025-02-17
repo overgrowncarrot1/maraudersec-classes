@@ -80,33 +80,35 @@ function toggleMenu(element) {
 // Function to add copy buttons to code terminals
 function addCopyButtons() {
     // Listen for click events on terminal containers
-    document.querySelectorAll(".powershell-terminal, .kali-terminal").forEach(terminal => {
-        let copyButton = document.createElement("button");
-        copyButton.innerText = "Copy";
-        copyButton.classList.add("copy-code-btn");
-        terminal.appendChild(copyButton);
+    document.querySelectorAll(".kali-terminal").forEach(terminal => {
+        // Create the copy button if it doesn't exist
+        let copyButton = terminal.querySelector(".copy-btn");
 
-        // Add click event listener for the copy button inside the terminal
+        // If the button doesn't exist, create and append it
+        if (!copyButton) {
+            copyButton = document.createElement("button");
+            copyButton.classList.add("copy-btn");
+            copyButton.innerText = "Copy";
+            terminal.appendChild(copyButton);
+        }
+
+        // Add click event listener for copy functionality
         copyButton.addEventListener("click", function (event) {
-            // Get the correct terminal by checking the button's closest terminal container
-            let terminalParent = event.target.closest(".powershell-terminal, .kali-terminal");
-            
-            // Make sure we are inside a terminal
-            if (!terminalParent) return;
+            let terminalParent = event.target.closest(".kali-terminal"); // Get the terminal container
+            let preTag = terminalParent.querySelector("pre"); // Find the <pre> tag inside this terminal
 
-            // Find the <pre> tag inside the terminal where the code is located
-            let preTag = terminalParent.querySelector("pre");
-            if (!preTag) return; // Ensure there's a <pre> block to copy from
+            if (!preTag) return; // Ensure there's a <pre> block
+            let codeText = preTag.innerText.trim(); // Trim unnecessary spaces
 
-            // Get the code text and trim unnecessary spaces
-            let codeText = preTag.innerText.trim();
+            // Check if codeText is empty
+            if (!codeText) {
+                alert("No code to copy!");
+                return;
+            }
 
-            // Use the Clipboard API to copy the text from the terminal
             navigator.clipboard.writeText(codeText).then(() => {
                 copyButton.innerText = "Copied!";
                 copyButton.classList.add("copied");
-
-                // Reset the button text after 2 seconds
                 setTimeout(() => {
                     copyButton.innerText = "Copy";
                     copyButton.classList.remove("copied");
