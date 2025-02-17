@@ -27,7 +27,6 @@
 nxc smb $DC -u 'anonymous' -p '' --shares
 nxc smb $DC -u 'anonymous' -p '' --rid-brute | grep -ia sidtypeuser
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
          <div class="image-container">
@@ -52,7 +51,6 @@ nxc smb $DC -u 'anonymous' -p '' --rid-brute | grep -ia sidtypeuser
 nxc ldap $DC -u '' -p '' --users
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
          <div class="image-container">
@@ -78,7 +76,6 @@ ldapsearch -x -H ldap://$DC  -b "DC=maraudersec,DC=local" '(objectclass=person)'
 ldapsearch -x -H ldap://$DC  -b "DC=maraudersec,DC=local" '(objectclass=person)' | grep -ia desc
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
          <div class="image-container">
@@ -101,7 +98,6 @@ ldapsearch -x -H ldap://$DC  -b "DC=maraudersec,DC=local" '(objectclass=person)'
 ldapsearch -x -H ldap://$DC  -b "DC=maraudersec,DC=local" '(objectclass=person)' | grep -ia samaccountname | cut -d ':' -f 2 | sed 's/ //g' > usernames.txt; cat usernames.txt
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
         <p>Although we are not able to retrieve null RPC access on this DC, to do so we could try the following</p>
@@ -120,7 +116,6 @@ ldapsearch -x -H ldap://$DC  -b "DC=maraudersec,DC=local" '(objectclass=person)'
 rpcclient -U "" -N $DC
 enumdomusers
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
 
@@ -141,7 +136,6 @@ enumdomusers
 kerbrute -users /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt -domain maraudersec.local -dc-ip $DC
 
                 </pre>
-                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
           <div class="image-container">
