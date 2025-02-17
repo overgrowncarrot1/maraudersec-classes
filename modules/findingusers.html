@@ -419,10 +419,13 @@ Get-ADUser -Filter {DoesNotRequirePreAuth -eq $true} -Properties DoesNotRequireP
                 <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
         </div>
-    </div>
-         <div class="image-container">
+        <div class="image-container">
              <img src="../images/kerbrute_script.jpg" alt="Kerbrute Script">
          </div>    
+    </div>
+    
+
+    
     <script>
         function copyToClipboard() {
             var terminalContent = document.querySelector('.powershell-terminal pre').textContent;
