@@ -163,7 +163,7 @@ button:hover {
 }
 
 /* Terminal Header */
-.powershell-terminal .terminal-header .kali-terminal .terminal-header {
+.powershell-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
