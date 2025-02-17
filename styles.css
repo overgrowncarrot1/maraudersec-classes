@@ -144,20 +144,21 @@ button:hover {
 }
 
 /* Kali Terminal Header */
-.kali-terminal .terminal-header {
-    position: absolute;
+.kali-terminal .terminal-header,
+.powershell-terminal .terminal-header {
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
     background-color: #202020;
     color: #39ff14;
-    padding: 8px;
-    text-align: center;
+    padding: 5px 10px;
     font-weight: bold;
     font-size: 1.3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 5px 5px 0 0;
 }
 
 /* PowerShell Terminal */
@@ -180,6 +181,23 @@ button:hover {
     background-color: #012456;
     color: #ffffff;
 }
+
+/* Terminal Control Buttons */
+.terminal-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.terminal-controls span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-controls .close { background-color: red; }
+.terminal-controls .minimize { background-color: yellow; }
+.terminal-controls .maximize { background-color: green; }
 
 /* Image Styles */
 img {
