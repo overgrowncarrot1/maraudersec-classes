@@ -15,7 +15,7 @@ function loadModule(module) {
         "Downloading and Installing Server 2022": "modules/install.html",
         "Building Domain Controller": "modules/buildingDC.html",
         "Not so secure": "modules/secure.html",
-        "Using Windows": "modules/findingusers.html"
+        "Using Windows": "modules/findingusers.html",
         "Using Linux": "modules/findinguserslinux.html"
     };
 
