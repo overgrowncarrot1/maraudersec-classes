@@ -205,7 +205,7 @@ button:hover {
 }
 
 .terminal-controls button {
-    background-color: #007ACC;
+    background-color: grey;
     color: white;
     border: none;
     padding: 5px;
