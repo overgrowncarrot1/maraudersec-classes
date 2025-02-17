@@ -85,14 +85,19 @@ function addCopyButtons() {
         copyButton.classList.add("copy-code-btn");
         terminal.appendChild(copyButton);
 
-        copyButton.addEventListener("click", function () {
-            // Target the <pre> tag inside the specific terminal window
-            let codeText = terminal.querySelector("pre").innerText;
+        copyButton.addEventListener("click", function (event) {
+            let terminalParent = event.target.parentElement; // Get the correct terminal container
+            let preTag = terminalParent.querySelector("pre");
+
+            if (!preTag) return; // Ensure there's a <pre> block
+            let codeText = preTag.innerText.trim(); // Trim unnecessary spaces
             
             navigator.clipboard.writeText(codeText).then(() => {
                 copyButton.innerText = "Copied!";
+                copyButton.classList.add("copied");
                 setTimeout(() => {
                     copyButton.innerText = "Copy";
+                    copyButton.classList.remove("copied");
                 }, 2000);
             }).catch(err => {
                 console.error("Failed to copy text: ", err);
