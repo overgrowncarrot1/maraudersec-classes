@@ -163,12 +163,29 @@ button:hover {
 }
 
 /* Terminal Header */
-.powershell-terminal .terminal-header, .kali-terminal .terminal-header {
+.powershell-terminal .terminal-header .kali-terminal .terminal-header {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     background-color: #007ACC;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kali-terminal .terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: green;
     color: #fff;
     padding: 5px;
     text-align: center;
