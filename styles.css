@@ -160,14 +160,6 @@ button:hover {
     align-items: center;
 }
 
-/* Fake Zsh Prompt */
-.kali-terminal pre::before {
-    content: "\000A┌──(root㉿kali)-[~]\A\000A└─$ ";
-    color: #39ff14;
-    font-weight: bold;
-    display: block;
-}
-
 /* PowerShell Terminal */
 .powershell-terminal-wrapper {
     position: relative;
