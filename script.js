@@ -18,7 +18,9 @@ function loadModule(module) {
         "Using Windows": "modules/findingusers.html",
         "Using Linux": "modules/findinguserslinux.html",
         "AsRepRoasting": "modules/asrep.html",
-        "Kerberoasting": "modules/kerberoasting.html"
+        "Kerberoasting": "modules/kerberoasting.html",
+        "Brute Force": "modules/brute.html",
+        "Status Password Must Change": "modules/status.html"
     };
 
     // If the selected module is in the fullscreen list, load it inside the content area
