@@ -16,7 +16,7 @@ function loadModule(module) {
         "Building Domain Controller": "modules/buildingDC.html",
         "Not so secure": "modules/secure.html",
         "Using Windows": "modules/findingusers.html",
-        "Using Linux": "modules/findinguserslinux.html"
+        "Using Linux": "modules/findinguserslinux.html",
         "AsRepRoasting": "modules/asrep.html"
     };
 
