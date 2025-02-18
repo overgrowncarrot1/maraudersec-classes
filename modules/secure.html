@@ -440,6 +440,8 @@ $Task = New-ScheduledTask -Action $Action -Principal $Principal -Trigger $Trigge
 Register-ScheduledTask -TaskName "RunExampleEveryMinute" -InputObject $Task -User "Administrator" -Password "1qaz2wsx!QAZ@WSX"
 Set-ADUser -Identity "alice.wonderland" -Replace @{userAccountControl=4194304}
 setspn -A maraudersec.local/mssql_service:1433 maraudersec.local\mssql_service
+Set-ADUser -Identity "bob.builder" -PasswordNeverExpires $false -ChangePasswordAtLogon $true
+Set-ADUser -Identity "charlie.brown" -PasswordNeverExpires $false -ChangePasswordAtLogon $true                    
 
                     
                     
