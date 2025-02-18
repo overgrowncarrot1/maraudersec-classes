@@ -17,7 +17,8 @@ function loadModule(module) {
         "Not so secure": "modules/secure.html",
         "Using Windows": "modules/findingusers.html",
         "Using Linux": "modules/findinguserslinux.html",
-        "AsRepRoasting": "modules/asrep.html"
+        "AsRepRoasting": "modules/asrep.html",
+        "Kerberoasting": "modules/kerberoasting.html"
     };
 
     // If the selected module is in the fullscreen list, load it inside the content area
