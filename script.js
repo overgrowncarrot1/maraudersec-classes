@@ -19,7 +19,6 @@ function loadModule(module) {
         "Using Linux": "modules/findinguserslinux.html",
         "AsRepRoasting": "modules/asrep.html",
         "Kerberoasting": "modules/kerberoasting.html",
-        "Brute Force": "modules/brute.html",
         "Status Password Must Change": "modules/status.html"
     };
 
